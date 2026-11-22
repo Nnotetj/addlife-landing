@@ -3,291 +3,358 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADDLIFE — สุขภาพที่ดีที่สุด ไม่ใช่แค่ไม่ป่วย</title>
-<meta name="description" content="ADDLIFE ช่วยคุณออกแบบแผนตรวจสุขภาพและดูแลตัวเองแบบเฉพาะบุคคล ตั้งแต่ตรวจสุขภาพตามวัย ไปจนถึงโปรแกรม Anti-Aging และ Longevity">
-<meta property="og:title" content="ADDLIFE — ออกแบบแผนสุขภาพของคุณ">
-<meta property="og:description" content="ตอบไม่กี่คำถาม แล้วรับแผนตรวจสุขภาพที่ออกแบบมาสำหรับคุณโดยเฉพาะ">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#ffffff">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'%3E%3Crect width='9' height='9' rx='2' fill='%23e0b28b'/%3E%3Crect x='12' width='9' height='9' rx='2' fill='%239acaed'/%3E%3Crect y='12' width='9' height='9' rx='2' fill='%23cdea9a'/%3E%3Crect x='12' y='12' width='9' height='9' rx='2' fill='%23f59185'/%3E%3C/svg%3E">
+<title>ADDLIFE Ultimate — ตรวจสุขภาพเชิงลึกครบทุกระบบ</title>
+<meta name="description" content="โปรแกรมตรวจสุขภาพระดับ Ultimate จาก ADDLIFE ตรวจสมอง หัวใจ หลอดเลือด และแล็บเชิงลึกด้าน Longevity ในวันเดียว พร้อมแพทย์สรุปผลและวางแผนดูแลต่อ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#fff; --tile:#f5f5f7; --ink:#1d1d1f; --mut:#6e6e73; --line:#d2d2d7; --hair:#e8e8ed;
-  --blue:#0071e3; --blue-h:#0058b0; --link:#0066cc;
+  /* ADDLIFE brand — minimal, trustworthy (matches plan.html) */
+  --bg:#ffffff;
+  --tile:#f5f5f7;
+  --ink:#1d1d1f;
+  --mut:#6e6e73;
+  --line:#e8e8ed;
+  --card:#ffffff;
+  --pri:#0071e3;
+  --pri-d:#0058b0;
+  --pri-l:#e8f2fd;
+  --acc:#b07a4f;
+  --peach:#f5f5f7;
   --tan:#e0b28b; --sky:#9acaed; --green:#cdea9a; --salmon:#f59185;
-  --ease:cubic-bezier(.22,1,.36,1);
+  --ok-bg:#eaf6d9; --ok-ink:#2f6b12;
+  --warn-bg:#fde8e6; --warn-ink:#a1281c;
+  --r:20px;
+  --r-lg:24px;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --shadow-h:0 2px 4px rgba(0,0,0,.05),0 14px 36px rgba(0,0,0,.09);
+  --max:1040px;
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Sukhumvit Set",Inter,"Noto Sans Thai",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;font:400 17px/1.65 var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-::selection{background:#b4d5fe}
-:focus-visible{outline:3px solid rgba(0,113,227,.6);outline-offset:3px;border-radius:10px}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);font-weight:400;line-height:1.75;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
 h1,h2,h3,p{margin:0}
-h1,h2,h3{font-weight:600;text-wrap:balance;line-height:1.2}
-a{color:var(--link);text-decoration:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-section{padding:110px 0}
-.eyebrow{font-size:.85rem;font-weight:600;color:var(--mut);letter-spacing:.02em;margin-bottom:12px}
-.h2{font-size:clamp(1.9rem,4.2vw,3rem);letter-spacing:-.01em}
-.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--mut);margin-top:18px;max-width:640px}
-.center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+h1,h2,h3{line-height:1.3;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+a{color:var(--pri)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+section{padding:96px 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 48px}
+.kicker{display:inline-block;font-size:.85rem;font-weight:600;color:var(--pri-d);background:var(--pri-l);border-radius:999px;padding:4px 14px;margin-bottom:14px}
+.h2{font-size:clamp(1.7rem,3.6vw,2.4rem)}
+.sub{color:var(--mut);margin-top:12px;font-size:1.05rem}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 24px;font-weight:500;font-size:1rem;transition:background .2s,transform .2s var(--ease)}
-.btn:hover{text-decoration:none;transform:translateY(-1px)}
-.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-h)}
-.btn-g{color:var(--link)}.btn-g:hover{text-decoration:underline;text-underline-offset:3px}
-.btn svg{width:1em;height:1em;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:13px 28px;font-weight:600;font-size:1rem;text-decoration:none;border:2px solid transparent;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-pri{background:var(--pri);color:#fff;box-shadow:none}
+.btn-pri:hover{background:var(--pri-d)}
+.btn-ghost{color:var(--pri-d);border-color:var(--pri)}
+.btn-ghost:hover{background:var(--pri-l)}
+.btn-block{width:100%}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hair)}
-.nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
-.logo{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.04em;color:var(--ink);font-size:.95rem}
-.sq{display:grid;grid-template-columns:9px 9px;gap:3px}
-.sq i{width:9px;height:9px;border-radius:2px}
-.sq i:nth-child(1){background:var(--tan)}.sq i:nth-child(2){background:var(--sky)}.sq i:nth-child(3){background:var(--green)}.sq i:nth-child(4){background:var(--salmon)}
-.links{display:flex;gap:4px;margin:0 auto;font-size:.82rem}
-.links a{color:var(--mut);padding:6px 11px;border-radius:999px}
-.links a:hover{color:var(--ink)}
-.nav .btn{padding:7px 15px;font-size:.82rem}
-@media(max-width:760px){.links{display:none}.nav .btn{margin-left:auto}}
+.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;letter-spacing:.06em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{display:grid;grid-template-columns:9px 9px;gap:3px}
+.logo i b{width:9px;height:9px;border-radius:2px}
+.logo i b:nth-child(1){background:var(--tan)}.logo i b:nth-child(2){background:var(--sky)}.logo i b:nth-child(3){background:var(--green)}.logo i b:nth-child(4){background:var(--salmon)}
+.nav .btn{padding:8px 18px;font-size:.9rem}
 
 /* hero */
-.hero{padding:96px 0 80px;text-align:center;overflow:hidden}
-.hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);letter-spacing:-.02em;line-height:1.12}
-.hero h1 span{background:linear-gradient(90deg,#c98a5a,#4a9fd8 45%,#7fb83e 70%,#e8675a);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .lead{margin:22px auto 0;font-size:clamp(1.1rem,1.9vw,1.35rem)}
-.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:720px;margin:70px auto 0}
-.tiles div{aspect-ratio:1;border-radius:28px;display:flex;align-items:flex-end;padding:18px;font-weight:600;font-size:.95rem;color:rgba(0,0,0,.72);text-align:left;opacity:0;transform:translateY(24px);animation:rise .9s var(--ease) forwards}
-.tiles div:nth-child(1){background:var(--tan)}
-.tiles div:nth-child(2){background:var(--sky);animation-delay:.08s}
-.tiles div:nth-child(3){background:var(--green);animation-delay:.16s}
-.tiles div:nth-child(4){background:var(--salmon);animation-delay:.24s}
-@keyframes rise{to{opacity:1;transform:none}}
-@media(max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.hero{padding:80px 0 96px;background:linear-gradient(180deg,var(--tile),var(--bg) 85%)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.1rem,4.8vw,3.3rem);font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.hero h1 em{font-style:normal;color:var(--pri)}
+.hero .lead{color:var(--mut);font-size:1.12rem;margin-top:18px;max-width:520px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hero .note{font-size:.85rem;color:var(--mut);margin-top:14px}
+.mock{position:relative;display:flex;justify-content:center}
+.mock::before{content:"";position:absolute;inset:6% 2%;background:linear-gradient(135deg,var(--tan),var(--sky) 40%,var(--green) 70%,var(--salmon));opacity:.55;border-radius:36px;transform:rotate(-6deg)}
+.report{position:relative;width:300px;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow-h);padding:26px 24px;transform:rotate(4deg)}
+.report .top{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--mut)}
+.report .badge{background:var(--ink);color:#fff;border-radius:999px;padding:2px 10px;font-weight:600}
+.report h3{font-size:1.4rem;margin:14px 0 2px}
+.report .who{font-size:.8rem;color:var(--mut)}
+.report ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.report li{display:flex;align-items:center;justify-content:space-between;font-size:.85rem;border-top:1px dashed var(--line);padding-top:10px}
+.report li b{font-weight:600;font-size:.72rem;border-radius:999px;padding:1px 9px}
+.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.watch{background:var(--warn-bg);color:var(--warn-ink)}
+.report .foot{margin-top:18px;font-size:.75rem;color:var(--mut);background:var(--tile);border-radius:12px;padding:10px 12px}
 
-/* continuum */
-.gray{background:var(--tile)}
-.cont{margin-top:56px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.zone{background:#fff;border-radius:22px;padding:22px 18px;position:relative;overflow:hidden}
-.zone::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--c)}
-.zone .sc{font-size:.75rem;color:var(--mut);font-weight:600}
-.zone h3{font-size:1.02rem;margin:6px 0 4px}
-.zone .st{font-size:.85rem;color:var(--mut)}
-.zone ul{margin:14px 0 0;padding:0;list-style:none;font-size:.85rem;display:grid;gap:6px}
-.zone li::before{content:"·";margin-right:6px;color:var(--mut)}
-.zone.you{outline:2px solid var(--blue)}
-.zone.you .tag{position:absolute;top:16px;right:14px;font-size:.68rem;background:var(--blue);color:#fff;border-radius:999px;padding:2px 8px}
-.arrow{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:.85rem;color:var(--mut)}
-.arrow i{flex:1;height:2px;background:linear-gradient(90deg,#e8675a,#e0b28b,#c7c7cc,#9acaed,#7fb83e);border-radius:2px}
-@media(max-width:900px){.cont{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.cont{grid-template-columns:1fr}}
+/* problem */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pcard{background:var(--tile);border-radius:var(--r);padding:30px 26px;box-shadow:none;transition:transform .2s ease}
+.pcard:hover{transform:translateY(-3px)}
+.pcard .emo{font-size:2rem;line-height:1}
+.pcard h3{font-size:1.12rem;margin:16px 0 8px}
+.pcard p{color:var(--mut);font-size:.95rem}
 
-/* range */
-.range{margin-top:56px;display:grid;grid-template-columns:1fr 1.4fr 2fr 1.4fr 1fr;border-radius:20px;overflow:hidden;font-size:.82rem;font-weight:600;text-align:center}
-.range div{padding:18px 8px}
-.r-a{background:#fbd5cf}.r-f{background:#fbe6c8}.r-o{background:var(--green)}
-.range-note{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
-.range-note div{background:var(--tile);border-radius:20px;padding:22px}
-.range-note b{display:block;margin-bottom:6px}
-.range-note p{font-size:.92rem;color:var(--mut)}
-@media(max-width:760px){.range{grid-template-columns:1fr;text-align:left}.range div{padding:12px 16px}.range-note{grid-template-columns:1fr}}
+/* solution */
+.solution{background:var(--ink);color:#fff}
+.solution .kicker{background:rgba(255,255,255,.12);color:#e8e8ed}
+.solution .sub{color:#a1a1a6}
+.steps{counter-reset:step}
+.scard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:30px 26px}
+.scard::before{counter-increment:step;content:counter(step,decimal-leading-zero);display:block;font-size:2.2rem;font-weight:800;color:var(--sky);line-height:1;margin-bottom:16px}
+.scard h3{font-size:1.15rem;margin-bottom:8px}
+.scard p{color:#c7c7cc;font-size:.95rem}
 
-/* steps */
-.steps{margin-top:56px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s}
-.step{background:#fff;border-radius:22px;padding:26px 20px}
-.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;font-weight:600;font-size:.9rem;margin-bottom:16px}
-.step h3{font-size:1.05rem}
-.step p{font-size:.9rem;color:var(--mut);margin-top:6px}
-@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.steps{grid-template-columns:1fr}}
+/* reviews */
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px;display:flex;flex-direction:column;gap:16px}
+.stars{color:var(--acc);letter-spacing:2px}
+.rcard blockquote{margin:0;font-size:.97rem;flex:1}
+.person{display:flex;align-items:center;gap:12px}
+.ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--pri-l);color:var(--pri-d)}
+.person b{display:block;font-weight:600;font-size:.95rem}
+.person small{color:var(--mut);font-size:.82rem}
+.disclaim{text-align:center;color:var(--mut);font-size:.82rem;margin-top:24px}
 
-/* programs */
-.tabs{display:inline-flex;background:var(--tile);border-radius:999px;padding:4px;margin-top:40px}
-.tabs button{border:0;background:none;font:inherit;font-size:.9rem;padding:9px 20px;border-radius:999px;color:var(--mut);cursor:pointer}
-.tabs button[aria-selected=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:32px;text-align:left}
-.card{border:1px solid var(--hair);border-radius:22px;padding:24px;transition:border-color .2s,transform .3s var(--ease)}
-.card:hover{border-color:var(--line);transform:translateY(-2px)}
-.card .k{font-size:.78rem;color:var(--mut);font-weight:600}
-.card h3{font-size:1.15rem;margin:4px 0 8px}
-.card p{font-size:.9rem;color:var(--mut)}
-.card .dot{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:8px}
-[hidden]{display:none!important}
+/* get */
+.get{background:var(--peach)}
+.getlist{list-style:none;padding:0;margin:0 auto;max-width:860px;display:grid;grid-template-columns:1fr 1fr;gap:16px 28px}
+.getlist li{display:flex;gap:14px;background:#fff;border-radius:16px;padding:18px 20px}
+.getlist li::before{content:"✓";flex:none;width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.9rem;margin-top:2px}
+.getlist b{display:block;font-weight:600}
+.getlist span{color:var(--mut);font-size:.92rem}
 
-/* pillars */
-.pillars{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:44px}
-.pillars span{background:#fff;border-radius:999px;padding:12px 20px;font-size:.95rem;font-weight:500}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+.plan{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px 26px;display:flex;flex-direction:column}
+.plan.feat{border:2px solid var(--pri);transform:translateY(-14px);box-shadow:var(--shadow-h)}
+.plan .tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.8rem;font-weight:700;border-radius:999px;padding:3px 14px;white-space:nowrap}
+.plan h3{font-size:1.3rem}
+.plan .for{color:var(--mut);font-size:.9rem;margin-top:4px;min-height:3.1em}
+.price{margin:20px 0 4px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.price b{font-size:2rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.price s{color:var(--mut);font-size:.9rem}
+.price-f{font-size:.85rem;color:var(--mut)}
+.plan ul{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:8px;font-size:.93rem;flex:1}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"✓";color:var(--pri);font-weight:700}
+.plan .time{font-size:.82rem;color:var(--mut);margin-bottom:14px}
+.price-note{text-align:center;color:var(--mut);font-size:.85rem;margin-top:30px}
 
-/* final cta */
-.final{text-align:center;padding:120px 0}
-.final .box{background:var(--ink);color:#fff;border-radius:36px;padding:72px 28px;position:relative;overflow:hidden}
-.final .box::after{content:"";position:absolute;inset:auto -10% -60% -10%;height:120%;background:radial-gradient(closest-side,rgba(154,202,237,.35),transparent);pointer-events:none}
-.final .h2{color:#fff}
-.final .lead{color:#a1a1a6;margin-left:auto;margin-right:auto}
-.final .btn-p{position:relative;z-index:1}
+/* guarantee */
+.guar{padding-top:0}
+.gbox{max-width:760px;margin:0 auto;background:var(--tile);border:0;border-radius:var(--r-lg);padding:34px 32px;display:flex;gap:24px;align-items:center}
+.seal{flex:none;width:92px;height:92px;border-radius:50%;background:var(--pri-l);color:var(--pri-d);display:grid;place-items:center;text-align:center;font-weight:800;line-height:1.1;font-size:1.6rem}
+.seal small{display:block;font-size:.7rem;font-weight:600}
+.gbox h3{font-size:1.2rem;margin-bottom:6px}
+.gbox p{color:var(--mut);font-size:.95rem}
 
-footer{border-top:1px solid var(--hair);padding:36px 0 48px;font-size:.78rem;color:var(--mut)}
-footer .wrap{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
-footer p{max-width:620px}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;font-size:.85rem;color:var(--mut)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer p.med{max-width:620px;font-size:.78rem}
 
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.tiles div{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media (max-width:820px){
+  section{padding:72px 0}
+  .hero .wrap,.grid3,.getlist,.plans{grid-template-columns:1fr}
+  .mock{display:none}
+  .plan.feat{transform:none}
+  .plan .for{min-height:0}
+  .gbox{flex-direction:column;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="ADDLIFE หน้าแรก"><span class="sq"><i></i><i></i><i></i><i></i></span>ADDLIFE</a>
-    <nav class="links" aria-label="เมนู">
-      <a href="#why">แนวคิด</a>
-      <a href="#how">ขั้นตอน</a>
-      <a href="#programs">โปรแกรม</a>
-      <a href="#care">การดูแล</a>
-    </nav>
-    <a class="btn btn-p" href="plan.html">ออกแบบแผนของคุณ</a>
+    <a class="logo" href="#top"><i aria-hidden="true"><b></b><b></b><b></b><b></b></i>ADDLIFE</a>
+    <a class="btn btn-pri" href="#pricing">ดูแพ็กเกจ</a>
   </div>
 </header>
 
 <main id="top">
 
+  <!-- 1. HERO -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Optimal Longevity · ออกแบบแผนสุขภาพเฉพาะบุคคล</p>
-      <h1>สุขภาพที่ดีที่สุด<br><span>ไม่ใช่แค่ไม่ป่วย</span></h1>
-      <p class="lead">ตอบไม่กี่คำถามเกี่ยวกับตัวคุณและเรื่องที่กังวล แล้วรับแผนตรวจสุขภาพและการดูแลที่ออกแบบมาให้คุณโดยเฉพาะ</p>
-      <div class="cta">
-        <a class="btn btn-p" href="plan.html">เริ่มออกแบบแผน
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-g" href="#how">ดูว่าทำงานอย่างไร ›</a>
+      <div>
+        <span class="kicker">ADDLIFE Ultimate Health Check-Up</span>
+        <h1>ตรวจลึก<em>ครบทุกระบบ</em><br>ในวันเดียว แล้วรู้ว่าต้องดูแลอะไรต่อ</h1>
+        <p class="lead">ตั้งแต่ MRI สมอง แคลเซียมเกาะหลอดเลือดหัวใจ ไปจนถึงแล็บเชิงลึกด้าน Longevity อ่านผลแบบ Functional เพื่อหาสัญญาณที่ซ่อนอยู่ใน "ค่าปกติ" พร้อมแพทย์สรุปผลและวางแผนดูแลให้คุณ</p>
+        <div class="ctas">
+          <a class="btn btn-pri" href="#pricing">เลือกแพ็กเกจของคุณ</a>
+          <a class="btn btn-ghost" href="#problem">ใช่โปรแกรมสำหรับฉันไหม?</a>
+        </div>
+        <p class="note">ใช้เวลาตรวจประมาณ 4–4.5 ชั่วโมง · ราคาแตกต่างกันเล็กน้อยระหว่างชายและหญิง</p>
       </div>
-      <div class="tiles" aria-hidden="true">
-        <div>ตรวจ</div><div>เข้าใจ</div><div>ดูแล</div><div>ติดตาม</div>
+      <div class="mock" aria-hidden="true">
+        <div class="report">
+          <div class="top"><span>Health Report</span><span class="badge">Ultimate</span></div>
+          <h3>แผนสุขภาพของคุณ</h3>
+          <p class="who">สรุปผลโดยแพทย์ · ADDLIFE</p>
+          <ul>
+            <li>สมองและหลอดเลือดสมอง <b class="ok">เหมาะสม</b></li>
+            <li>แคลเซียมหลอดเลือดหัวใจ <b class="ok">เหมาะสม</b></li>
+            <li>ไขมันกลางช่องท้อง <b class="watch">ควรจับตา</b></li>
+            <li>ฮอร์โมนและวิตามิน <b class="watch">ควรจับตา</b></li>
+            <li>มวลกระดูก (DEXA) <b class="ok">เหมาะสม</b></li>
+          </ul>
+          <p class="foot">ขั้นต่อไป: ปรับโภชนาการ + ตรวจติดตามใน 6 เดือน</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="gray" id="why">
+  <!-- 2. PROBLEM -->
+  <section id="problem">
     <div class="wrap">
-      <div class="center reveal">
-        <p class="eyebrow">สุขภาพเป็นเส้นต่อเนื่อง ไม่ใช่แค่ "ป่วย" หรือ "ไม่ป่วย"</p>
-        <h2 class="h2">คนส่วนใหญ่อยู่ในคอมฟอร์ตโซน<br>ที่ดูเหมือนสุขภาพดี</h2>
-        <p class="lead">ไม่มีอาการไม่ได้แปลว่าร่างกายทำงานได้เต็มที่ เป้าหมายของ ADDLIFE คือพาคุณขยับไปทางขวา สู่สุขภาวะระดับสูง</p>
+      <div class="sec-head">
+        <span class="kicker">เคยเป็นแบบนี้ไหม?</span>
+        <h2 class="h2">ตรวจสุขภาพทุกปี แต่ยังไม่มั่นใจ</h2>
       </div>
-      <div class="cont reveal">
-        <div class="zone" style="--c:#e8675a"><p class="sc">0–1</p><h3>เสียชีวิตก่อนวัยอันควร</h3><p class="st">โรค</p>
-          <ul><li>ใช้ยาหลายขนาน</li><li>คุณภาพชีวิตต่ำ</li><li>ร่างกายทำงานได้จำกัด</li></ul></div>
-        <div class="zone" style="--c:var(--tan)"><p class="sc">2–3</p><h3>โรคกำลังก่อตัว</h3><p class="st">สุขภาพไม่ดี</p>
-          <ul><li>มีอาการ</li><li>รักษาด้วยยา</li><li>เริ่มสูญเสียการทำงานปกติ</li></ul></div>
-        <div class="zone you" style="--c:#c7c7cc"><span class="tag">คนส่วนใหญ่</span><p class="sc">4–5</p><h3>คอมฟอร์ตโซน</h3><p class="st">สุขภาพดีลวง</p>
-          <ul><li>ไม่มีอาการ</li><li>โภชนาการไม่สม่ำเสมอ</li><li>ออกกำลังกายนาน ๆ ครั้ง</li></ul></div>
-        <div class="zone" style="--c:var(--sky)"><p class="sc">6–7</p><h3>สุขภาวะกำลังพัฒนา</h3><p class="st">สุขภาพดี</p>
-          <ul><li>ออกกำลังกายสม่ำเสมอ</li><li>โภชนาการดี</li><li>เรียนรู้เรื่องสุขภาวะ</li></ul></div>
-        <div class="zone" style="--c:#7fb83e"><p class="sc">8–10</p><h3>สุขภาวะระดับสูง</h3><p class="st">ดีที่สุด</p>
-          <ul><li>ร่างกายทำงาน 100%</li><li>พัฒนาอย่างต่อเนื่อง</li><li>ไลฟ์สไตล์เพื่อสุขภาวะ</li></ul></div>
+      <div class="grid3">
+        <div class="pcard"><div class="emo">📄</div><h3>ผลตรวจ "ปกติ" แต่รู้สึกไม่ปกติ</h3><p>เหนื่อยง่าย นอนไม่เต็มอิ่ม โฟกัสไม่ได้ แต่ผลตรวจประจำปีบอกว่าทุกอย่างอยู่ในเกณฑ์</p></div>
+        <div class="pcard"><div class="emo">🫀</div><h3>กังวลโรคที่ไม่มีอาการ</h3><p>หัวใจ หลอดเลือดสมอง มะเร็ง หรืออัลไซเมอร์ อยากรู้ความเสี่ยงล่วงหน้า แต่การตรวจทั่วไปยังไปไม่ถึง</p></div>
+        <div class="pcard"><div class="emo">🧩</div><h3>ตรวจหลายที่ ผลกระจัดกระจาย</h3><p>ต้องนัดหลายแผนก หลายวัน แล้วยังไม่มีใครช่วยสรุปภาพรวมว่าควรดูแลตัวเองอย่างไรต่อ</p></div>
       </div>
-      <div class="arrow reveal"><span>โรค</span><i></i><span>สุขภาวะสูงสุด</span></div>
     </div>
   </section>
 
+  <!-- 3. SOLUTION -->
+  <section class="solution">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">วิธีของ ADDLIFE</span>
+        <h2 class="h2">ตรวจครบ อ่านผลลึก แล้ววางแผนต่อ</h2>
+        <p class="sub">ไม่ใช่แค่ดูว่าป่วยหรือไม่ป่วย แต่ดูว่าร่างกายทำงานได้ดีที่สุดแล้วหรือยัง</p>
+      </div>
+      <div class="grid3 steps">
+        <div class="scard"><h3>ตรวจครบในวันเดียว</h3><p>ตรวจร่างกายโดยแพทย์ ภาพถ่ายทางการแพทย์ (MRI/MRA, CT, อัลตราซาวด์, DEXA) และแล็บ จบในนัดเดียว</p></div>
+        <div class="scard"><h3>อ่านผลแบบ Functional</h3><p>นอกจากค่าที่ผิดปกติชัดเจน เรายังดูค่าที่อยู่ปลายขอบของช่วงปกติ ซึ่งอาจเป็นสัญญาณแรกของปัญหา</p></div>
+        <div class="scard"><h3>พบแพทย์ วางแผนดูแล</h3><p>แพทย์สรุปผลเป็นภาพรวม พร้อมแนวทางดูแลต่อ เช่น โภชนาการ การออกกำลังกาย และการตรวจติดตาม</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. REVIEWS -->
   <section>
     <div class="wrap">
-      <div class="center reveal">
-        <p class="eyebrow">อ่านผลแล็บแบบ Functional</p>
-        <h2 class="h2">"ปกติ" กับ "ดีที่สุด"<br>ไม่ใช่เรื่องเดียวกัน</h2>
-        <p class="lead">ค่าที่อยู่ปลายขอบของช่วงปกติอาจเป็นสัญญาณแรกว่าร่างกายเริ่มทำงานได้ไม่เต็มที่ เรามองหาช่วงที่เหมาะสมที่สุดสำหรับคุณ</p>
+      <div class="sec-head">
+        <span class="kicker">เสียงจากผู้รับบริการ</span>
+        <h2 class="h2">ประสบการณ์ตรวจกับ ADDLIFE</h2>
       </div>
-      <div class="range reveal" role="img" aria-label="ช่วงค่าผลตรวจ 5 ระดับ จากต่ำผิดปกติถึงสูงผิดปกติ โดยมีช่วงการทำงานที่เหมาะสมอยู่ตรงกลาง">
-        <div class="r-a">ต่ำผิดปกติ</div><div class="r-f">ต่ำเชิงการทำงาน</div><div class="r-o">ช่วงการทำงานที่เหมาะสม</div><div class="r-f">สูงเชิงการทำงาน</div><div class="r-a">สูงผิดปกติ</div>
+      <!-- TODO: เปลี่ยนเป็นรีวิวจริงจากลูกค้า (ขออนุญาตก่อนเผยแพร่) -->
+      <div class="grid3">
+        <div class="rcard">
+          <div class="stars" aria-label="5 ดาว">★★★★★</div>
+          <blockquote>"ชอบที่จบในวันเดียว ไม่ต้องลางานหลายรอบ และหมออธิบายผลเป็นภาพรวมให้เข้าใจง่ายว่าควรเริ่มดูแลเรื่องไหนก่อน"</blockquote>
+          <div class="person"><div class="ava">ก</div><div><b>คุณกมล</b><small>ผู้บริหาร · 52 ปี</small></div></div>
+        </div>
+        <div class="rcard">
+          <div class="stars" aria-label="5 ดาว">★★★★★</div>
+          <blockquote>"เคยตรวจประจำปีแล้วบอกปกติทุกอย่าง แต่ที่นี่ชี้ให้เห็นค่าที่ควรจับตา ทำให้รู้ว่าต้องปรับอาหารและการนอนตรงไหน"</blockquote>
+          <div class="person"><div class="ava">ธ</div><div><b>คุณธนา</b><small>เจ้าของธุรกิจ · 45 ปี</small></div></div>
+        </div>
+        <div class="rcard">
+          <div class="stars" aria-label="5 ดาว">★★★★☆</div>
+          <blockquote>"มีประวัติครอบครัวเป็นโรคหัวใจ เลยอยากตรวจให้ละเอียด ได้คำแนะนำชัดเจนว่าควรตรวจติดตามเมื่อไหร่"</blockquote>
+          <div class="person"><div class="ava">ศ</div><div><b>คุณศิริพร</b><small>แพทย์แผนไทย · 58 ปี</small></div></div>
+        </div>
       </div>
-      <div class="range-note reveal">
-        <div><b>ผิดปกติ</b><p>ผลตรวจผิดปกติชัดเจน ต้องพบแพทย์เพื่อวินิจฉัยและรักษา</p></div>
-        <div><b>เชิงการทำงาน</b><p>แล็บรายงานว่า "ปกติ" แต่ค่าอยู่ปลายขอบของช่วง เป็นสัญญาณที่ควรจับตา</p></div>
-        <div><b>เหมาะสม</b><p>เป้าหมายของ Optimal Longevity คือร่างกายทำงานได้ดีที่สุด ไม่ใช่แค่ไม่ป่วย</p></div>
-      </div>
+      <p class="disclaim">รีวิวเป็นตัวอย่างประกอบหน้าเว็บ ผลลัพธ์ขึ้นอยู่กับแต่ละบุคคล</p>
     </div>
   </section>
 
-  <section class="gray" id="how">
+  <!-- 5. WHAT YOU GET -->
+  <section class="get">
     <div class="wrap">
-      <div class="center reveal">
-        <p class="eyebrow">5 ขั้นตอน ใช้เวลาไม่กี่นาที</p>
-        <h2 class="h2">ออกแบบแผนที่เป็นของคุณ</h2>
+      <div class="sec-head">
+        <span class="kicker">สิ่งที่คุณจะได้รับ</span>
+        <h2 class="h2">ทุกแพ็กเกจ Ultimate มีสิ่งเหล่านี้</h2>
       </div>
-      <div class="steps reveal">
-        <div class="step"><h3>ตัวคุณ</h3><p>บอกเพศและช่วงอายุ เพื่อเลือกการตรวจที่เหมาะกับวัย</p></div>
-        <div class="step"><h3>เรื่องที่กังวล</h3><p>เลือกอาการที่รู้สึกได้ หรือความเสี่ยงที่อยู่ในใจ เช่น หัวใจ สมอง มะเร็ง</p></div>
-        <div class="step"><h3>ตรวจ</h3><p>รับโปรแกรมตรวจสุขภาพที่แนะนำตามวัยและเรื่องที่คุณเลือก</p></div>
-        <div class="step"><h3>เจาะลึก</h3><p>เพิ่มแล็บเชิงลึกด้าน Anti-Aging เฉพาะจุดที่อยากรู้</p></div>
-        <div class="step"><h3>ดูแล</h3><p>เลือกแนวทางดูแลต่อเนื่อง และดูสรุปแผนทั้งหมดในที่เดียว</p></div>
-      </div>
-      <div class="cta reveal"><a class="btn btn-p" href="plan.html">ลองออกแบบแผนเลย</a></div>
+      <ul class="getlist">
+        <li><div><b>ตรวจร่างกายโดยแพทย์</b><span>รวมตรวจตา วัดสายตา ความดันลูกตา และการได้ยิน</span></div></li>
+        <li><div><b>MRI/MRA สมอง และหลอดเลือดที่คอ</b><span>ดูเนื้อสมองและหลอดเลือดที่ไปเลี้ยงสมอง</span></div></li>
+        <li><div><b>CT Calcium Score</b><span>วัดปริมาณแคลเซียมเกาะหลอดเลือดหัวใจ</span></div></li>
+        <li><div><b>Low Dose CT, Echo และ Fibroscan</b><span>ตรวจเนื้อปอด การทำงานของหัวใจ และไขมันสะสมในตับ</span></div></li>
+        <li><div><b>DEXA และ CT ไขมันช่องท้อง</b><span>มวลกระดูก มวลกล้ามเนื้อ และไขมันกลางช่องท้อง</span></div></li>
+        <li><div><b>พบนักกายภาพบำบัดและนักกำหนดอาหาร</b><span>พร้อมแพทย์สรุปผลและแนวทางดูแลต่อ</span></div></li>
+      </ul>
     </div>
   </section>
 
-  <section id="programs">
-    <div class="wrap center">
-      <div class="reveal">
-        <p class="eyebrow">โปรแกรม</p>
-        <h2 class="h2">ตั้งแต่ตรวจพื้นฐาน<br>จนถึงครบทุกระบบ</h2>
-        <p class="lead">เริ่มจากตรวจสุขภาพตามวัย แล้วต่อยอดด้วยการตรวจเชิง Anti-Aging ได้ตามต้องการ</p>
-      </div>
-      <div class="tabs reveal" role="tablist" aria-label="ประเภทโปรแกรม">
-        <button role="tab" aria-selected="true" aria-controls="p-hc" id="t-hc">ตรวจสุขภาพตามวัย</button>
-        <button role="tab" aria-selected="false" aria-controls="p-aa" id="t-aa" tabindex="-1">Anti-Aging</button>
-      </div>
-      <div class="grid" id="p-hc" role="tabpanel" aria-labelledby="t-hc">
-        <div class="card"><p class="k">อายุน้อยกว่า 30 ปี</p><h3><span class="dot" style="--c:var(--green)"></span>Basic</h3><p>ตรวจพื้นฐาน: เลือด ปัสสาวะ อุจจาระ เอกซเรย์ปอด และคลื่นไฟฟ้าหัวใจ</p></div>
-        <div class="card"><p class="k">อายุ 30–40 ปี</p><h3><span class="dot" style="--c:var(--sky)"></span>Standard</h3><p>Basic + ความยืดหยุ่นหลอดเลือด และอัลตราซาวด์ช่องท้อง</p></div>
-        <div class="card"><p class="k">อายุ 40–50 ปี</p><h3><span class="dot" style="--c:var(--tan)"></span>Executive</h3><p>Standard + ไทรอยด์ สารบ่งชี้มะเร็ง ตา หู และเดินสายพาน (EST)</p></div>
-        <div class="card"><p class="k">อายุมากกว่า 50 ปี</p><h3><span class="dot" style="--c:var(--salmon)"></span>Comprehensive</h3><p>Executive + ฮอร์โมนเพศ หลอดเลือดที่คอ นักกายภาพบำบัด และนักกำหนดอาหาร</p></div>
-        <div class="card"><p class="k">เจาะลึก</p><h3>Premium</h3><p>เจาะลึกหัวใจ ปอด ตับ: Low Dose CT, Echo, Fibroscan, DEXA และความเสี่ยงหลอดเลือด</p></div>
-        <div class="card"><p class="k">ครบที่สุด</p><h3>Ultimate</h3><p>Premium + MRI/MRA สมอง, CT Calcium Score, ไขมันช่องท้อง และไวรัสตับอักเสบ</p></div>
-      </div>
-      <div class="grid" id="p-aa" role="tabpanel" aria-labelledby="t-aa" hidden>
-        <div class="card"><p class="k">จุดเริ่มต้น</p><h3>Compact</h3><p>ฮอร์โมนหลัก วิตามิน สารต้านอนุมูลอิสระ หลอดเลือด และมวลกระดูก</p></div>
-        <div class="card"><p class="k">ภาพรวมที่ครบขึ้น</p><h3>Optimal</h3><p>ฮอร์โมนเต็มชุด น้ำตาล ความเสี่ยงหัวใจ สมดุลอนุมูลอิสระ และสารบ่งชี้มะเร็ง</p></div>
-        <div class="card"><p class="k">Optimal +</p><h3>Optimal Prime</h3><p>เพิ่มการทำงานของตับ ไต และการตรวจโลหะหนักสะสม</p></div>
-        <div class="card"><p class="k">แล็บเชิงลึก</p><h3>Premium</h3><p>พลังงานระดับเซลล์ เทโลเมียร์ NAD+ สมอง ภูมิแพ้อาหารแฝง และภูมิคุ้มกัน</p></div>
-        <div class="card"><p class="k">Premium +</p><h3>Premium Prime</h3><p>เพิ่มการทำงานของตับ ไต และโลหะหนักสะสม</p></div>
-        <div class="card"><p class="k">ครบทุกระบบ</p><h3>Ultimate</h3><p>เพิ่ม Pace of Aging, จุลินทรีย์ลำไส้, กรดไขมันจำเป็น, คัดกรองมะเร็ง และคัดกรองอัลไซเมอร์</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="gray" id="care">
-    <div class="wrap center">
-      <div class="reveal">
-        <p class="eyebrow">หลังผลตรวจ</p>
-        <h2 class="h2">ดูแลต่อเนื่องตามผลของคุณ</h2>
-        <p class="lead">เมื่อรู้ว่าร่างกายต้องการอะไร แพทย์และผู้เชี่ยวชาญจะช่วยเลือกแนวทางดูแลที่เหมาะกับคุณ</p>
-      </div>
-      <div class="pillars reveal">
-        <span>วิตามินเฉพาะบุคคล</span>
-        <span>ฮอร์โมนทดแทนชีวภาพ</span>
-        <span>IV Therapy ตามภาวะสุขภาพ</span>
-        <span>การบำบัดจุลินทรีย์ลำไส้</span>
-        <span>คีเลชันและดีท็อกซ์</span>
-        <span>เทโลเมียร์และเทโลเมอเรส</span>
-        <span>การบำบัดฟื้นฟูด้วยสเต็มเซลล์</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="final">
+  <!-- 6. PRICING -->
+  <section id="pricing">
     <div class="wrap">
-      <div class="box reveal">
-        <h2 class="h2">เริ่มจากรู้จักร่างกายตัวเอง</h2>
-        <p class="lead">ออกแบบแผนสุขภาพของคุณได้ฟรี ใช้เวลาไม่กี่นาที</p>
-        <div class="cta"><a class="btn btn-p" href="plan.html">ออกแบบแผนของคุณ
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="sec-head">
+        <span class="kicker">แพ็กเกจ</span>
+        <h2 class="h2">เลือกความลึกที่เหมาะกับคุณ</h2>
+        <p class="sub">ราคาแสดงเป็นราคาสำหรับผู้ชาย / ผู้หญิง</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <h3>Ultimate</h3>
+          <p class="for">ตรวจครบทุกระบบหลัก ทั้งสมอง หัวใจ ปอด ตับ และกระดูก</p>
+          <div class="price"><b>49,900 ฿</b><s>85,995</s></div>
+          <p class="price-f">ผู้หญิง 52,900 ฿ (ปกติ 94,635)</p>
+          <ul>
+            <li>MRI/MRA สมอง + หลอดเลือดที่คอ</li>
+            <li>CT Calcium Score และ CT ไขมันช่องท้อง</li>
+            <li>Low Dose CT, Echo, Fibroscan</li>
+            <li>DEXA และไวรัสตับอักเสบ</li>
+            <li>แพทย์สรุปผลและวางแผนดูแล</li>
+          </ul>
+          <p class="time">ใช้เวลาประมาณ 4–4.5 ชั่วโมง</p>
+          <!-- TODO: เปลี่ยน href เป็นลิงก์ชำระเงินของแพ็กเกจ Ultimate -->
+          <a class="btn btn-ghost btn-block" href="#">ซื้อแพ็กเกจ Ultimate</a>
+        </div>
+
+        <div class="plan feat">
+          <span class="tag">คุ้มที่สุด</span>
+          <h3>Ultimate Plus</h3>
+          <p class="for">Ultimate + เจาะลึกความเสี่ยงหัวใจและอัลไซเมอร์</p>
+          <div class="price"><b>66,300 ฿</b><s>116,395</s></div>
+          <p class="price-f">ผู้หญิง 69,300 ฿ (ปกติ 125,035)</p>
+          <ul>
+            <li>ทุกอย่างใน Ultimate</li>
+            <li>TMAO สารบ่งชี้ความเสี่ยงหัวใจและหลอดเลือด</li>
+            <li>คัดกรองความเสี่ยงอัลไซเมอร์</li>
+            <li>แพทย์สรุปผลและวางแผนดูแล</li>
+          </ul>
+          <p class="time">ใช้เวลาประมาณ 4–4.5 ชั่วโมง</p>
+          <!-- TODO: เปลี่ยน href เป็นลิงก์ชำระเงินของแพ็กเกจ Ultimate Plus -->
+          <a class="btn btn-pri btn-block" href="#">ซื้อแพ็กเกจ Ultimate Plus</a>
+        </div>
+
+        <div class="plan">
+          <h3>Ultimate Vitality</h3>
+          <p class="for">ครบที่สุด: ตรวจสุขภาพ + แล็บ Anti-Aging เชิงลึกทั้งหมด</p>
+          <div class="price"><b>308,900 ฿</b><s>353,118</s></div>
+          <p class="price-f">ผู้หญิง 311,900 ฿ (ปกติ 364,643)</p>
+          <ul>
+            <li>ทุกอย่างใน Ultimate Plus</li>
+            <li>ฮอร์โมนเต็มชุด วิตามิน แร่ธาตุ สมดุลอนุมูลอิสระ</li>
+            <li>Pace of Aging, NAD+, จุลินทรีย์ลำไส้</li>
+            <li>Food IgG 222, โลหะหนัก, คัดกรองมะเร็ง</li>
+            <li>วิเคราะห์ท่าทางและระบบประสาทอัตโนมัติ</li>
+          </ul>
+          <p class="time">ใช้เวลาประมาณ 4.5 ชั่วโมง</p>
+          <!-- TODO: เปลี่ยน href เป็นลิงก์ชำระเงินของแพ็กเกจ Ultimate Vitality -->
+          <a class="btn btn-ghost btn-block" href="#">ซื้อแพ็กเกจ Ultimate Vitality</a>
+        </div>
+      </div>
+      <p class="price-note">อยากเทียบรายการตรวจทั้งหมดก่อนตัดสินใจ? <a href="plan.html">ลองออกแบบแผนของคุณ</a></p>
+    </div>
+  </section>
+
+  <!-- 7. GUARANTEE -->
+  <section class="guar">
+    <div class="wrap">
+      <!-- TODO: ตรวจสอบเงื่อนไขการคืนเงินให้ตรงกับนโยบายจริงของคลินิกก่อนเผยแพร่ -->
+      <div class="gbox">
+        <div class="seal">14<small>วัน</small></div>
+        <div>
+          <h3>รับประกันความพอใจ 14 วัน</h3>
+          <p>หากเปลี่ยนใจภายใน 14 วันหลังชำระเงิน และยังไม่ได้เข้ารับการตรวจ ติดต่อทีมงานเพื่อขอคืนเงินเต็มจำนวนได้ ไม่ต้องให้เหตุผล</p>
+        </div>
       </div>
     </div>
   </section>
@@ -296,23 +363,10 @@ footer p{max-width:620px}
 
 <footer>
   <div class="wrap">
-    <a class="logo" href="#top"><span class="sq"><i></i><i></i><i></i><i></i></span>ADDLIFE</a>
-    <p>ข้อมูลบนเว็บไซต์นี้มีไว้เพื่อให้ความรู้และช่วยวางแผนการตรวจสุขภาพเท่านั้น ไม่ใช่การวินิจฉัยหรือการรักษา โปรดปรึกษาแพทย์ก่อนตัดสินใจเรื่องสุขภาพ</p>
-    <p>© <span id="yr">2026</span> ADDLIFE</p>
+    <p>© 2026 ADDLIFE สงวนลิขสิทธิ์</p>
+    <p class="med">ข้อมูลบนหน้านี้เป็นข้อมูลทั่วไป ไม่ใช่การวินิจฉัยหรือการรักษา การตรวจบางรายการอาจไม่เหมาะกับทุกคน โปรดปรึกษาแพทย์ก่อนเข้ารับบริการ</p>
   </div>
 </footer>
 
-<script>
-document.getElementById('yr').textContent=new Date().getFullYear();
-// tabs
-const tabs=[...document.querySelectorAll('[role=tab]')];
-function sel(t){tabs.forEach(b=>{const on=b===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=!on;});}
-tabs.forEach((t,i)=>{t.addEventListener('click',()=>sel(t));
-  t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];sel(n);n.focus();}});});
-// reveal on scroll
-const els=document.querySelectorAll('.reveal');
-if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});els.forEach(el=>io.observe(el));}
-else els.forEach(el=>el.classList.add('in'));
-</script>
 </body>
 </html>
