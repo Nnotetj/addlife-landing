@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ADDLIFE — ออกแบบแผนสุขภาพของคุณ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff; --tile:#f5f5f7; --ink:#1d1d1f; --mut:#6e6e73; --line:#d2d2d7; --hair:#e8e8ed;
+  --blue:#0071e3; --blue-h:#0058b0; --link:#0066cc; --plus:#1a7431;
+  --tan:#e0b28b; --sky:#9acaed; --green:#cdea9a; --salmon:#f59185;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Sukhumvit Set",Inter,"Noto Sans Thai",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scrollbar-color:#c7c7cc transparent;-webkit-text-size-adjust:100%}
+body{margin:0;font:400 17px/1.6 var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+::selection{background:#b4d5fe}
+:focus-visible{outline:3px solid rgba(0,113,227,.6);outline-offset:3px;border-radius:10px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3,h4{font-weight:600;text-wrap:balance}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+svg.i{width:1em;height:1em;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hair)}
+.nav .wrap{display:flex;align-items:center;gap:14px;height:52px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.04em;color:var(--ink);font-size:.95rem}
+.logo:hover{text-decoration:none}
+.sq{display:grid;grid-template-columns:9px 9px;gap:3px}
+.sq i{width:9px;height:9px;border-radius:2px}
+.sq i:nth-child(1){background:var(--tan)}.sq i:nth-child(2){background:var(--sky)}.sq i:nth-child(3){background:var(--green)}.sq i:nth-child(4){background:var(--salmon)}
+.crumbs{display:flex;gap:2px;margin:0 auto;padding:0;list-style:none;font-size:.8rem}
+.crumbs a{display:block;padding:6px 11px;border-radius:999px;color:var(--mut)}
+.crumbs a:hover{text-decoration:none;color:var(--ink)}
+.crumbs a[aria-current]{color:var(--ink);font-weight:600;background:var(--tile)}
+.crumbs a.done{color:var(--ink)}
+.lang{border:0;background:none;font-size:.8rem;color:var(--mut);padding:6px 8px;border-radius:8px}
+.lang:hover{color:var(--ink)}
+.bag{display:flex;align-items:center;gap:7px;border:0;background:var(--ink);color:#fff;border-radius:999px;padding:0 14px;height:32px;font-size:.82rem;font-weight:600;transition:transform .3s var(--ease)}
+.bag:active{transform:scale(.96)}
+.bag b{display:grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#fff;color:var(--ink);font-size:.72rem;font-variant-numeric:tabular-nums}
+.bag.bump{animation:bump .5s var(--ease)}
+@keyframes bump{40%{transform:scale(1.14)}}
+.prog{height:3px;background:transparent}
+.prog i{display:block;height:100%;background:var(--blue);border-radius:0 3px 3px 0;transition:width .6s var(--ease)}
+
+/* ---------- step frame ---------- */
+main.wrap{padding:44px 22px 150px;min-height:80vh}
+.stepin{animation:stepin .6s var(--ease)}
+.stepin.back{animation-name:stepback}
+@keyframes stepin{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes stepback{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.18;letter-spacing:-.012em;max-width:24ch}
+h1 span{color:var(--mut);display:block}
+.intro{color:var(--mut);font-size:1.12rem;max-width:56ch;margin-top:14px}
+.block{margin-top:48px}
+.block>h2{font-size:1.55rem;line-height:1.25;letter-spacing:-.008em;margin-bottom:6px}
+.block>h2 span{color:var(--mut)}
+.hint{color:var(--mut);font-size:.96rem;max-width:64ch;margin-bottom:18px}
+.tile{background:var(--tile);border-radius:28px;padding:32px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ref{font-size:.76rem;color:var(--mut);margin-top:14px;line-height:1.45}
+
+/* select tiles (Apple-style options) */
+.sel{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid #86868b;border-radius:14px;padding:16px 18px;min-height:64px;font-weight:600;line-height:1.35;transition:border-color .25s,box-shadow .25s,transform .3s var(--ease)}
+.sel:hover{border-color:var(--ink)}
+.sel:active{transform:scale(.985)}
+.sel[aria-pressed=true]{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.sel small{display:block;font-weight:400;color:var(--mut);font-size:.86rem;margin-top:2px}
+.sel .tick{margin-left:auto;flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:#fff;font-size:.8rem;transition:background .25s,border-color .25s,transform .4s var(--ease)}
+.sel[aria-pressed=true] .tick{background:var(--blue);border-color:var(--blue);transform:scale(1.08)}
+.sel .tick svg{opacity:0}.sel[aria-pressed=true] .tick svg{opacity:1}
+
+/* step 1 */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.who .sel{flex-direction:column;align-items:flex-start;padding:22px;min-height:0;font-size:1.25rem;border-radius:20px}
+.who svg{width:76px;height:150px;margin-bottom:10px}
+.who .tick{position:absolute;right:18px;top:18px}.who .sel{position:relative}
+.score{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.score output{font-size:clamp(4.5rem,12vw,6rem);font-weight:700;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;min-width:1.2ch}
+.score h3{font-size:1.5rem;line-height:1.25}
+.score h3 small{display:block;font-weight:400;color:var(--mut);font-size:1rem}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;touch-action:pan-y;background:none;margin:18px 0 0;cursor:grab}
+input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:5px;background:linear-gradient(90deg,#f59185,#e0b28b 35%,#cdea9a 65%,#9acaed)}
+input[type=range]::-moz-range-track{height:10px;border-radius:5px;background:linear-gradient(90deg,#f59185,#e0b28b 35%,#cdea9a 65%,#9acaed)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-12px;border-radius:50%;background:#fff;border:.5px solid rgba(0,0,0,.08);box-shadow:0 3px 10px rgba(0,0,0,.22),0 1px 2px rgba(0,0,0,.12)}
+input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:#fff;border:.5px solid rgba(0,0,0,.08);box-shadow:0 3px 10px rgba(0,0,0,.22)}
+.ticks{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut);padding:0 12px;font-variant-numeric:tabular-nums}
+.pts{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.pts li{background:#fff;border-radius:999px;padding:5px 14px;font-size:.92rem}
+.callout{margin-top:16px;font-size:.98rem;color:var(--ink);background:#fff;border-radius:16px;padding:14px 18px}
+.bands{display:grid;grid-template-columns:1fr 1.2fr 2fr 1.2fr 1fr;gap:4px;margin-top:6px}
+.bands button{border:0;border-radius:12px;padding:16px 4px;font-size:.8rem;font-weight:600;line-height:1.25;background:var(--salmon);color:#3b1410;opacity:.5;transition:opacity .3s,transform .4s var(--ease)}
+.bands button:nth-child(2),.bands button:nth-child(4){background:var(--tan);color:#3b2410}.bands button:nth-child(3){background:var(--green);color:#1f3305}
+.bands button[aria-pressed=true]{opacity:1;transform:translateY(-6px)}
+.brace{margin:8px calc(100%/6.4) 0;border-top:1.5px solid var(--mut);text-align:center;font-size:.8rem;color:var(--mut);padding-top:5px}
+
+/* step 2 */
+.pick{display:grid;grid-template-columns:minmax(0,460px) minmax(0,1fr);gap:16px;align-items:start}
+.map{position:sticky;top:72px;padding:18px 10px}
+.map svg{width:100%;height:auto;display:block}
+.fig{fill:#cfdfee}.limb{fill:none;stroke:#cfdfee;stroke-linecap:round;stroke-linejoin:round}.hair{fill:#3a4a5c}
+.zone{cursor:pointer}
+.zone .lead-l{fill:none;stroke:#b6bcc6;stroke-width:1.2}
+.zone .dot{fill:#fff;stroke:var(--blue);stroke-width:3;transition:fill .25s}
+.zone .ring{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+.zone .hitz{fill:transparent}
+.zone .pill{fill:#fff;stroke:transparent;stroke-width:1.5;transition:fill .25s,stroke .25s}
+.zone text{font:600 14.5px var(--font);fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.zone:hover .pill{stroke:var(--ink)}
+.zone.on .pill{fill:var(--blue)}.zone.on text{fill:#fff}.zone.on .dot{fill:var(--blue)}.zone.on .lead-l{stroke:var(--blue)}
+.zone.on .ring{animation:ring 1.8s var(--ease) infinite}
+@keyframes ring{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}
+.zone:focus-visible{outline:none}.zone:focus-visible .pill{stroke:var(--ink);stroke-width:3}
+.opts{display:grid;gap:10px}
+.opts h3{font-size:.9rem;color:var(--mut);font-weight:600;margin:14px 0 0}.opts h3:first-child{margin-top:0}
+.grp{margin-top:40px}.grp>h2{font-size:1.35rem}.grp .hint{margin-bottom:14px}
+.flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+.flow h3{font-size:1.05rem;margin-bottom:10px}
+.flow ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.flow li{background:#fff;border-radius:999px;padding:4px 13px;font-size:.9rem;transition:background .35s,color .35s,transform .5s var(--ease)}
+.flow li.hot{background:var(--ink);color:#fff;transform:scale(1.04)}
+.flow h4{font-size:.86rem;color:var(--mut);font-weight:500;margin:12px 0 6px}
+
+/* step 3 */
+.levels{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.levels .sel{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 12px 14px;min-height:92px;font-size:.92rem}
+.levels .sel b{font-size:1.5rem;font-weight:600;line-height:1.1;color:var(--mut);font-variant-numeric:tabular-nums}
+.levels .sel[aria-pressed=true] b{color:var(--blue)}
+.levels .sel em{font-style:normal;font-size:.72rem;font-weight:600;color:var(--blue);margin-top:auto}
+.lv{margin-top:16px}
+.lv h3{font-size:1.75rem;line-height:1.2;letter-spacing:-.01em}
+.lv>p{color:var(--mut);margin-top:6px;max-width:60ch}
+.g{display:grid;grid-template-columns:240px minmax(0,1fr);gap:2px 24px;padding:13px 0;border-top:1px solid var(--line)}
+.g:first-of-type{margin-top:22px}
+.g h4{font-size:.98rem}
+.g p{color:#424245;font-size:.97rem}
+.g ins{text-decoration:none;font-weight:600;color:var(--plus)}
+.pillb{display:inline-block;font-size:.72rem;font-weight:600;border-radius:999px;padding:1px 9px;margin-left:8px;background:#e3efff;color:#004a99;vertical-align:middle;white-space:nowrap}
+.more{margin-top:4px}
+.more>summary{color:var(--link);padding:14px 0;border-top:1px solid var(--line)}
+
+/* prices & program picker */
+.pr{white-space:nowrap;font-variant-numeric:tabular-nums}
+.pr s{color:var(--mut);font-weight:400;font-size:.88em;margin-right:2px}
+.pr b{font-weight:600;color:var(--ink)}
+.prl{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:10px}
+.prl .pr b{font-size:1.5rem;letter-spacing:-.01em}
+.prl>span:not(.pr){font-size:.86rem;color:var(--mut)}
+.card .prl{margin-top:2px}.card .prl .pr b{font-size:1.15rem}
+.card h3 small .pr b{color:var(--ink)}
+.ages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fam{margin-bottom:22px}
+.fam .sel{font-size:1.08rem;border-radius:18px;padding:18px 20px}
+.levels.v4{grid-template-columns:repeat(4,1fr)}
+.levels .sel small{font-size:.76rem;margin-top:3px}
+.swipe{display:none;align-items:center;gap:4px;font-size:.84rem;font-weight:600;color:var(--blue);margin:0 0 8px}
+.swipe svg{animation:nudge 1.6s var(--ease) infinite}
+@keyframes nudge{50%{transform:translateX(5px)}}
+.lvt{font-size:1.05rem;margin:18px 0 8px}.lvt span{color:var(--mut);font-weight:400;font-size:.92rem;margin-left:6px}
+.lvh{display:flex;gap:16px 24px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.lvh>div{flex:1 1 320px;min-width:0}.lvh>div>p:not(.prl){color:var(--mut);margin-top:6px;max-width:60ch}
+.lvh .btn{flex:none}.lvh .btn.soft{background:#fff}
+.lvh+.g{margin-top:22px}
+.g .it{display:block;padding:2px 0}.g .it i{font-style:normal;color:var(--mut);font-size:.9em}
+.prep{margin-top:16px;background:var(--tile);padding:16px 20px;border-radius:18px}.prep ul{padding-left:18px;margin-top:6px}
+.sub .row{display:flex;align-items:flex-start;gap:10px;border-top:1px solid var(--line)}
+.sub .row details,.sub .row .rw{flex:1 1 auto;min-width:0;border:0}
+.sub .row summary span:first-child,.sub .rw span:first-child{flex:1 1 auto;min-width:0}
+.sub .row summary{gap:10px}
+.sub .rw{display:flex;align-items:center;gap:10px;min-height:44px;padding:11px 0;font-weight:600;font-size:.95rem;color:var(--ink)}
+.sub .row .add{width:32px;height:32px;font-size:.9rem;margin-top:8px}
+.ivp{display:flex;flex-direction:column;gap:2px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font-size:.88rem!important;color:var(--mut)!important}
+.ivp span{display:flex;justify-content:space-between;gap:10px}
+.total{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:20px;padding:16px 18px;background:var(--tile);border-radius:16px;font-weight:600}
+.total small{display:block;font-weight:400;color:var(--mut);font-size:.82rem}.total b{font-size:1.35rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sh-body li .lp{margin-left:auto;text-align:right;font-size:.92rem}.sh-body li .lp+.x{margin-left:0}
+
+/* cards (steps 3–5) */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chips button{border:0;background:var(--tile);border-radius:999px;padding:0 16px;height:38px;font-size:.92rem;font-weight:500;white-space:nowrap;transition:background .25s,color .25s}
+.chips button:hover{background:var(--hair)}
+.chips button[aria-pressed=true]{background:var(--ink);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--tile);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:8px;transition:background .3s,box-shadow .3s}
+.card.added{background:#fff;box-shadow:inset 0 0 0 2px var(--blue)}
+.card header{display:flex;align-items:flex-start;gap:12px;justify-content:space-between}
+.card h3{font-size:1.14rem;line-height:1.3}
+.card h3 small{display:block;font-size:.86rem;font-weight:400;color:var(--mut);margin-top:3px}
+.card p{font-size:.95rem;color:#424245}
+.card ul{margin:0;padding-left:18px;font-size:.93rem;color:#424245}
+.card .pillb{margin:0;align-self:flex-start}
+.add{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:#e3e3e8;color:var(--ink);display:grid;place-items:center;font-size:1.05rem;transition:background .25s,color .25s,transform .45s var(--ease)}
+.add:hover{background:#d5d5db}
+.add:active{transform:scale(.88)}
+.add .i-check{display:none}
+.add[aria-pressed=true]{background:var(--blue);color:#fff;transform:rotate(360deg)}
+.add[aria-pressed=true] .i-plus{display:none}.add[aria-pressed=true] .i-check{display:block}
+details summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;min-height:44px;font-weight:500;color:var(--link);font-size:.95rem}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"";width:7px;height:7px;border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .35s var(--ease)}
+details[open] summary::after{transform:translateY(2px) rotate(225deg)}
+details .body{padding-top:12px;font-size:.94rem;color:#424245}
+details .body p{margin-bottom:8px}
+.kv b{color:var(--ink);font-weight:600}
+.note{background:#fff;border-radius:14px;padding:12px 16px;font-size:.9rem;margin-top:6px}
+.note ul{margin:4px 0 0}
+.cols{columns:2 200px;column-gap:20px;font-size:.9rem}
+.cols div{break-inside:avoid;margin-bottom:10px}
+.symp{list-style:none;padding:0!important;margin:4px 0 10px}
+.symp label{display:flex;gap:10px;align-items:flex-start;padding:9px 0;cursor:pointer}
+.symp input{width:22px;height:22px;margin-top:2px;accent-color:var(--blue);flex:none}
+.sub details{border-top:1px solid var(--line)}
+.sub details summary{color:var(--ink);font-weight:600;padding:11px 0;justify-content:space-between}
+.sub details .body{padding:0 0 12px}
+.rowbtn{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;border:0;background:var(--blue);color:#fff;font-weight:500;transition:background .25s,transform .3s var(--ease)}
+.btn:hover{background:var(--blue-h);text-decoration:none}.btn:active{transform:scale(.97)}
+.btn.soft{background:var(--tile);color:var(--link)}.btn.soft:hover{background:var(--hair)}
+.empty{color:var(--mut);padding:30px 0}
+
+/* dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:15;background:rgba(255,255,255,.86);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom)}
+.dock .wrap{display:flex;align-items:center;gap:14px;height:72px}
+.dock .back{border:0;background:none;color:var(--link);font-weight:500;padding:10px 6px;display:flex;align-items:center;gap:4px}
+.dock .back[disabled]{visibility:hidden}
+.dock p{margin:0 auto;font-size:.86rem;color:var(--mut);text-align:center;line-height:1.3}
+.dock p b{display:block;color:var(--ink);font-weight:600;font-size:.95rem}
+.dock .btn{min-width:132px}
+
+/* sheet */
+dialog{border:0;padding:0;background:#fff;color:var(--ink);width:min(680px,100%);max-width:100%;max-height:min(86vh,900px);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.28),0 4px 16px rgba(0,0,0,.12);overflow:hidden}
+dialog[open]{display:flex;flex-direction:column;animation:sheet .55s var(--ease)}
+dialog::backdrop{background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+@keyframes sheet{from{opacity:0;transform:translateY(60px) scale(.98)}to{opacity:1;transform:none}}
+.sh-head,.sh-foot{flex:none}
+.sh-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px 14px;border-bottom:1px solid var(--hair)}
+.sh-head h2{font-size:1.5rem}
+.x{width:40px;height:40px;border-radius:50%;border:0;background:var(--tile);display:grid;place-items:center;font-size:.95rem;color:var(--mut)}
+.x:hover{background:var(--hair);color:var(--ink)}
+.sh-body{overflow:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch;padding:8px 26px 22px}
+.sh-body h3{font-size:.86rem;font-weight:600;color:var(--mut);margin:20px 0 4px}
+.sh-body ul{list-style:none;padding:0;margin:0}
+.sh-body li{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--hair);font-weight:500}
+.sh-body li small{display:block;font-weight:400;color:var(--mut);font-size:.86rem}
+.sh-body li .x{margin-left:auto;width:40px;height:40px;font-size:.82rem;flex:none}
+.sh-foot{padding:16px 26px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--hair);display:flex;gap:10px;flex-wrap:wrap}
+.sh-msg{flex:1 1 100%;font-size:.88rem;color:var(--ink);background:var(--tile);border-radius:12px;padding:10px 14px}.sh-msg:empty{display:none}
+dialog.nomodal{position:fixed;inset:auto 0 0 0;margin:0 auto;z-index:60}
+#printout{display:none}
+.disc{font-size:.8rem;color:var(--mut);margin-top:18px;line-height:1.5}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (max-width:900px){
+  .crumbs{display:none}.logo{margin-right:auto}
+  .pick{grid-template-columns:1fr}.map{position:static;max-width:480px;margin:0 auto;width:100%;order:2}
+  .grid2,.cards,.cards.c3,.flow{grid-template-columns:1fr}
+  .ages{grid-template-columns:1fr 1fr}
+  .levels.v4{display:flex}
+  .lvt{margin-bottom:4px}
+  .levels{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:2px 22px 10px;scrollbar-width:none}
+  .levels .sel{flex:none;width:38vw;max-width:160px;scroll-snap-align:start;scroll-margin-left:22px}
+  .swipe{display:flex}
+  .g{grid-template-columns:1fr}
+  .tile{padding:24px 20px;border-radius:24px}
+  main.wrap{padding-top:30px}
+}
+@media (max-width:600px){
+  dialog{position:fixed;inset:auto 0 0 0;margin:0;border-radius:24px 24px 0 0;width:100%;max-width:100%;max-height:86vh;max-height:86dvh}
+  .sh-foot .btn{flex:1 1 auto}
+  .add{width:44px;height:44px}.sub .row .add{width:40px;height:40px;margin-top:4px}
+  .sub .row summary,.sub .rw{flex-wrap:wrap;gap:0 10px}
+  .lang{min-width:44px;min-height:44px}.bag{height:40px}
+  .chips button{height:44px}
+  .dock p span{display:none}.dock .btn{min-width:116px}
+  .who .sel{font-size:1.05rem;padding:16px}
+}
+@media print{
+  body>*:not(#printout){display:none!important}
+  #printout{display:block;padding:0 4mm;font-size:11pt}
+  #printout h1{font-size:20pt;max-width:none;margin-bottom:6pt}
+  #printout h3{font-size:9pt;font-weight:600;color:#555;margin:14pt 0 2pt;text-transform:none}
+  #printout ul{list-style:none;padding:0;margin:0}
+  #printout li{padding:6pt 0;border-bottom:.5pt solid #ccc;font-weight:500;break-inside:avoid}
+  #printout li small{display:block;font-weight:400;color:#555;font-size:9.5pt}
+  #printout .x,#printout a{display:none}
+  #printout li{display:flex;gap:10pt;justify-content:space-between}
+  #printout .total{display:flex;justify-content:space-between;align-items:center;margin-top:14pt;padding:10pt 14pt;border:.75pt solid #c7c7cc;border-radius:10pt;background:#f5f5f7;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-weight:600;break-inside:avoid}
+  #printout .total small{display:block;font-weight:400;font-size:8.5pt;color:#555}
+  #printout .disc{margin-top:14pt;font-size:8.5pt;color:#555}
+}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap" id="nav"></div><div class="prog"><i id="prog"></i></div></header>
+<main class="wrap" id="view"></main>
+<div class="dock"><div class="wrap" id="dock"></div></div>
+<dialog id="sheet" aria-labelledby="sh-title"></dialog>
+<div id="printout" aria-hidden="true"></div>
+
+<script>
+/* ================= DATA (from Addlife Anti-Aging Program, update 25.09.2026) + AddLife Health Check-Up Program (update 25.09.2026) ================= */
+const CONT = [
+  {r:[0,1], zone:['เสียชีวิตก่อนวัยอันควร','Premature death'], st:['โรค','Disease'], pts:[['ใช้ยาหลายขนาน','Multiple medications'],['คุณภาพชีวิตต่ำ','Poor quality of life'],['ศักยภาพถูกจำกัด','Potential becomes limited'],['ร่างกายทำงานได้จำกัด','Body has limited function']]},
+  {r:[2,3], zone:['โรคกำลังก่อตัว','Disease developing'], st:['สุขภาพไม่ดี','Poor health'], pts:[['มีอาการ','Symptoms'],['รักษาด้วยยา','Drug therapy'],['ผ่าตัด','Surgery'],['เริ่มสูญเสียการทำงานปกติ','Losing normal function']]},
+  {r:[4,5], zone:['คอมฟอร์ตโซน (สุขภาพดีลวง)','Comfort zone (false wellness)'], st:['กลาง ๆ','Neutral'], pts:[['ไม่มีอาการ','No symptoms'],['โภชนาการไม่สม่ำเสมอ','Nutrition inconsistent'],['ออกกำลังกายนาน ๆ ครั้ง','Exercise sporadic'],['สุขภาพยังไม่ใช่เรื่องสำคัญ','Health not a high priority']]},
+  {r:[6,7], zone:['สุขภาวะกำลังพัฒนา','Wellness developing'], st:['สุขภาพดี','Good health'], pts:[['ออกกำลังกายสม่ำเสมอ','Regular exercise'],['โภชนาการดี','Good nutrition'],['เรียนรู้เรื่องสุขภาวะ','Wellness education'],['ระบบประสาทถูกรบกวนน้อย','Minimal nerve interference']]},
+  {r:[8,10], zone:['สุขภาวะระดับสูง','High-level wellness'], st:['ดีที่สุด','Optimal'], pts:[['ร่างกายทำงาน 100%','100% function'],['พัฒนาอย่างต่อเนื่อง','Continuous development'],['มีส่วนร่วมดูแลตัวเอง','Active participation'],['ไลฟ์สไตล์เพื่อสุขภาวะ','Wellness lifestyle']]}
+];
+const RANGE = [
+  {k:'a', n:['ต่ำผิดปกติ','Abnormal Low'], v:['ผลตรวจผิดปกติชัดเจน ต้องพบแพทย์เพื่อวินิจฉัยและรักษา','Clearly abnormal — needs medical diagnosis and treatment.']},
+  {k:'f', n:['ต่ำเชิงการทำงาน','Functionally Low'], v:['ห้องแล็บรายงานว่า “ปกติ” แต่ค่าอยู่ปลายล่างของช่วง ร่างกายอาจเริ่มทำงานได้ไม่เต็มที่','The lab says “normal”, yet the value sits at the low edge — function may already be slipping.']},
+  {k:'o', n:['ช่วงการทำงานที่เหมาะสม','Functional Physiological Range'], v:['นี่คือเป้าหมายของ Optimal Longevity — ไม่ใช่แค่ไม่ป่วย แต่ร่างกายทำงานได้ดีที่สุด','The Optimal Longevity target — not just “not sick”, but functioning at your best.']},
+  {k:'f', n:['สูงเชิงการทำงาน','Functionally High'], v:['ห้องแล็บรายงานว่า “ปกติ” แต่ค่าอยู่ปลายบนของช่วง เป็นสัญญาณที่ควรจับตา','The lab says “normal”, yet the value sits at the high edge — a signal worth watching.']},
+  {k:'a', n:['สูงผิดปกติ','Abnormal High'], v:['ผลตรวจผิดปกติชัดเจน ต้องพบแพทย์เพื่อวินิจฉัยและรักษา','Clearly abnormal — needs medical diagnosis and treatment.']}
+];
+const CAUSES = {
+  life:[['อาหาร','Diet'],['การออกกำลังกาย','Exercise'],['การนอน','Sleep'],['ความเครียด','Stress'],['แอลกอฮอล์','Alcohol'],['บุหรี่','Smoking']],
+  env:[['มลพิษทางอากาศ','Air pollution'],['สารพิษ','Toxin'],['โรคระบาด','Pandemic'],['PM 2.5','PM 2.5']],
+  decl:[['วิตามินและแร่ธาตุไม่สมดุล','Micronutrient imbalance'],['ฮอร์โมนไม่สมดุล','Hormone imbalance'],['จุลินทรีย์ในลำไส้','Gut microbiome'],['การอักเสบ','Inflammation'],['ระบบเผาผลาญผิดปกติ','Metabolic dysfunction'],['ภูมิคุ้มกัน','Immunity'],['การเปลี่ยนแปลงเหนือพันธุกรรม','Epigenetic alteration']],
+  dis:[['อัลไซเมอร์','Alzheimer'],['หลอดเลือดสมอง','Stroke'],['หัวใจและหลอดเลือด','Cardiovascular'],['มะเร็ง','Cancer'],['ภูมิคุ้มกันผิดปกติ','Immune disorder'],['โรคทางเดินอาหาร','Gut microbiome disorders'],['เบาหวาน','Diabetes'],['อาการปวด','Pains'],['ผิวและใบหน้าเสื่อมวัย','Skin & facial aging']],
+  marks:['Oxidative DNA Damage (8-OHdG)','UOA','Genetic Clock','Gut Microbiome','Telomere Length','Inflammatory Markers: Cytokines, Chemokines','IGF-1','Epigenetic Clock','Sirtuin-1','MTHFR Gene','mTOR','AMPK']
+};
+
+/* ---- test groups ---- */
+const ANTIOX=['Vitamin A','Vitamin C','Vitamin E (Alpha-Tocopherol, Gamma-Tocopherol)','Alpha-Carotene','Beta-Carotene','Lycopene','Co-Enzyme Q10'];
+const VITF=['Vitamin B9','Vitamin B12','Vitamin D','Ferritin','Calcium','Magnesium','Copper','Selenium','Zinc'];
+const FRB=['Free Radicals (d-ROMs)','Antioxidant (PAT)','Glutathione (RANSEL)'];
+const UOA=['Functional Vitamin Test','Cellular Energy Metabolism','Toxicants','Pollution','Gut Dysbiosis','Neurotransmitters'];
+const EFA=['Omega 3, 6, 9','Monounsaturated Fats','Saturated Fatty acids','Delta-6-desaturase','Trans Fatty Acid Profile'];
+const METALS=['Aluminum (Al)','Antimony (Sb)','Arsenic (As)','Barium (Ba)','Beryllium (Be)','Bismuth (Bi)','Cadmium (Cd)','Cesium (Cs)','Gadolinium (Gd)','Lead (Pb)','Mercury (Hg)','Nickel (Ni)','Palladium (Pd)','Platinum (Pt)','Tellurium (Te)','Thallium (Tl)','Thorium (Th)','Tin (Sn)','Tungsten (W)','Uranium (U)'];
+const LIVER=['AST','ALT','ALP','Albumin','Globulin','Total Protein','Direct Bilirubin','Total Bilirubin','Gamma GT'];
+const INV_C=['Arterial Stiffness and Arterial Stenosis (ABI)','Body Fat Composition (Whole Body DEXA)','Bone Density at Hip (DEXA)','Bone Density at Lumbar Spine (DEXA)'];
+const INV_F=INV_C.concat(['Bone Density at Wrist (DEXA)','Analysis of the Autonomic Nervous System (VNS Analysis)','Posture Analysis']);
+const HORM={m:{c:['Testosterone','Estradiol (E2)','DHEAs','TSH','Free T3','Free T4'],f:['Testosterone','Free Testosterone','Estradiol (E2)','LH','FSH','DHEAs','TSH','Free T3','Free T4','IGF-1','Cortisol','Insulin']},
+            f:{c:['Progesterone','Estradiol (E2)','DHEAs','TSH','Free T3','Free T4','Cortisol'],f:['Progesterone','Testosterone','Estradiol (E2)','LH','FSH','DHEAs','TSH','Free T3','Free T4','IGF-1','Cortisol','Insulin']}};
+const C2=['hs-CRP','Homocysteine','Apolipoprotein B'];
+const AAP={m:[[27995,18000],[61753,41900],[78293,51900],[168013,134000],[184453,144000],[296418,264000],[357908,318000]],
+           f:[[27945,18000],[61818,41900],[78358,51900],[168078,134000],[184518,144000],[298373,264000],[359863,318000]]};
+
+const GROUPS = {
+  horm:{n:'Hormones',cl:'b'}, hema:{n:'Hematology',cl:'b'}, sugar:{n:'Blood Sugar Test',cl:'b'}, kidney:{n:'Kidney Test',cl:'b'},
+  uric:{n:'Uric Acid Test',cl:'b'}, liver:{n:'Liver Function Test',cl:'b'}, cardiac:{n:'Cardiac Risk',cl:'b'}, misc:{n:'Miscellaneous',cl:'b'},
+  vit:{n:'Vitamins & Minerals',cl:'g'}, antiox:{n:'Antioxidants',cl:'g'}, frb:{n:'Free Radical and Antioxidant Balance',cl:'g'},
+  tumor:{n:'Tumor Markers',cl:'b'}, lady:{n:'Lady',cl:'b'},
+  uoa:{n:'Mitochondria / Energy — Urinary Organic Acids (UOA)',cl:'s'}, longevity:{n:'Longevity',cl:'s'}, brain:{n:'Brain',cl:'s'},
+  gutlab:{n:'GUT',cl:'s'}, immune:{n:'Immune',cl:'s'}, toxin:{n:'Toxin — Challenge Test (Urine Toxic Metals + IV Chelation)',cl:'s'},
+  efa:{n:'Essential Fatty Acids (EFA)',cl:'s'}, cancer:{n:'Cancer Screening',cl:'s'}, genetic:{n:'Genetic',cl:'s'},
+  inv:{n:'Investigations',cl:'t'}
+};
+const T4=['horm','hema','sugar','cardiac','vit','antiox','frb','tumor','uoa','longevity','brain','gutlab','immune','inv'];
+const T6=['horm','hema','sugar','kidney','uric','liver','cardiac','misc','vit','antiox','frb','tumor','lady','uoa','longevity','brain','gutlab','immune','toxin','efa','cancer','inv'];
+const TIERS = [
+  {n:'Compact', g:['horm','hema','cardiac','vit','antiox','tumor','inv'], d:['จุดเริ่มต้น: ฮอร์โมนหลัก วิตามิน สารต้านอนุมูลอิสระ หลอดเลือด และมวลกระดูก','The starting point: key hormones, vitamins, antioxidants, arteries and bone density.']},
+  {n:'Optimal', g:['horm','hema','sugar','cardiac','vit','antiox','frb','tumor','inv'], d:['ภาพรวมที่ครบขึ้น: ฮอร์โมนเต็มชุด น้ำตาล ความเสี่ยงหัวใจ สมดุลอนุมูลอิสระ และสารบ่งชี้มะเร็ง','A fuller picture: complete hormones, blood sugar, cardiac risk, free-radical balance and tumor markers.']},
+  {n:'Optimal Prime', g:['horm','hema','sugar','kidney','liver','cardiac','vit','antiox','frb','tumor','toxin','inv'], d:['Optimal + การทำงานของตับ ไต และการตรวจโลหะหนักสะสม','Optimal + liver, kidney and toxic-metal challenge test.']},
+  {n:'Premium', g:T4, d:['Optimal + แล็บเชิงลึก: พลังงานระดับเซลล์ เทโลเมียร์ NAD+ สมอง ภูมิแพ้อาหารแฝง และภูมิคุ้มกัน','Optimal + deep labs: cellular energy, telomeres, NAD+, brain, food IgG and immune activity.']},
+  {n:'Premium Prime', g:['horm','hema','sugar','kidney','liver','cardiac','vit','antiox','frb','tumor','uoa','longevity','brain','gutlab','immune','toxin','inv'], d:['Premium + การทำงานของตับ ไต และโลหะหนักสะสม','Premium + liver, kidney and toxic metals.']},
+  {n:'Ultimate', g:T6, d:['ครบทุกระบบ: เพิ่ม Pace of Aging, จุลินทรีย์ลำไส้, กรดไขมันจำเป็น, คัดกรองมะเร็ง และคัดกรองอัลไซเมอร์','Every system: adds Pace of Aging, gut microbiome DNA, essential fatty acids, cancer and Alzheimer’s screening.']},
+  {n:'Ultimate DNA', g:T6.concat(['genetic']), d:['Ultimate + ถอดรหัสพันธุกรรม (Health, Life, APO E, MTHFR)','Ultimate + genetic decoding (Health, Life, APO E, MTHFR).']}
+];
+function groupItems(key, t, g){ // t = 1..7, g = 'm' | 'f'
+  switch(key){
+    case 'horm': return HORM[g][t===1?'c':'f'];
+    case 'hema': return ['CBC'];
+    case 'sugar': return ['FPG','HbA1c'];
+    case 'kidney': return ['BUN','Creatinine'];
+    case 'uric': return ['Uric Acid'];
+    case 'liver': return LIVER;
+    case 'cardiac': return t===1?['hs-CRP']: t<=3?C2: t<=5?C2.concat(['Trimethylamine N-Oxide (TMAO)']): ['hs-CRP','Homocysteine','Lipoprotein (a)','Apolipoprotein B','Trimethylamine N-Oxide (TMAO)','Cholesterol','HDL','LDL','Triglycerides'];
+    case 'misc': return ['Urine Analysis','Stool Examination'];
+    case 'vit': return t===1?['Vitamin D','Ferritin','Zinc']:VITF;
+    case 'antiox': return ANTIOX;
+    case 'frb': return FRB;
+    case 'tumor': return g==='m' ? (t===1?['PSA']:['CEA','AFP','PSA','Free PSA','CA19-9']) : (t===1?null:['CEA','AFP','CA 125','CA 15-3','CA19-9']);
+    case 'lady': return g==='f'?['Thin Preparation']:null;
+    case 'uoa': return UOA;
+    case 'longevity': return t<=5?['Telomere','Intra NAD+ Profile']:['Pace of Aging','Intra NAD+ Profile'];
+    case 'brain': return t<=5?['P-tau 217']:["Alzheimer's Disease Screening"];
+    case 'gutlab': return t<=5?['Food Allergy IgG (222 Foods)']:['Food Allergy IgG (222 Foods)','Gut Microbiome DNA test'];
+    case 'immune': return ['Natural Cytotoxic Activity'];
+    case 'toxin': return METALS;
+    case 'efa': return EFA;
+    case 'cancer': return ['M2 Pyruvate Kinase','GAAD Score Profile'];
+    case 'genetic': return ['Gene Testing (Health)','Gene Testing (Life)','APO E Gene','MTHFR Gene'];
+    case 'inv': return t===1?INV_C:INV_F;
+  }
+}
+
+/* ---- Health Check-Up Program (update 25 Sep 2026) ----
+   columns: Basic, Standard, Executive, Comprehensive, Premium, Ultimate, Ultimate Plus, Vitality Executive, Vitality Comprehensive, Vitality Premium, Vitality Ultimate
+   row: [group, name, Thai gloss, female columns, male columns ('=' same as female, null = not applicable)] */
+const HCL=[
+ {n:'Basic',age:['อายุน้อยกว่า 30 ปี','Under 30 yrs.'],d:['ตรวจพื้นฐาน: เลือด ปัสสาวะ อุจจาระ เอกซเรย์ปอด และคลื่นไฟฟ้าหัวใจ','The essentials: blood, urine, stool, chest X-ray and EKG.']},
+ {n:'Standard',age:['อายุ 30–40 ปี','30–40 yrs.'],d:['Basic + ความยืดหยุ่นหลอดเลือด และอัลตราซาวด์ช่องท้อง','Basic + arterial stiffness and whole-abdomen ultrasound.']},
+ {n:'Executive',age:['อายุ 40–50 ปี','40–50 yrs.'],d:['Standard + ไทรอยด์ สารบ่งชี้มะเร็ง ตา หู และเดินสายพาน (EST)','Standard + thyroid, tumor markers, eye, ear and exercise stress test.']},
+ {n:'Comprehensive',age:['อายุมากกว่า 50 ปี','Over 50 yrs.'],d:['Executive + ฮอร์โมนเพศ หลอดเลือดที่คอ และนักกายภาพบำบัด นักกำหนดอาหาร','Executive + sex hormone, carotid ultrasound, physical therapist and dietitian.']},
+ {n:'Premium',d:['เจาะลึกหัวใจ ปอด ตับ: Low Dose CT, Echo, Fibroscan, DEXA และความเสี่ยงหลอดเลือด','Deeper on heart, lung and liver: low-dose CT, echo, Fibroscan, DEXA and vascular risk markers.']},
+ {n:'Ultimate',d:['Premium + MRI/MRA สมอง, CT Calcium Score, ไขมันช่องท้อง และไวรัสตับอักเสบ','Premium + brain MRI/MRA, CT calcium score, intra-abdominal fat and hepatitis.']},
+ {n:'Ultimate Plus',d:['Ultimate + TMAO และคัดกรองความเสี่ยงอัลไซเมอร์','Ultimate + TMAO and Alzheimer’s disease screening.']},
+ {n:'Executive Vitality',v:1,d:['ตรวจสุขภาพระดับ Executive + ฮอร์โมนหลัก สารต้านอนุมูลอิสระ วิตามินดี และสังกะสี','Executive check-up + key hormones, antioxidants, vitamin D and zinc.']},
+ {n:'Comprehensive Vitality',v:1,d:['ตรวจสุขภาพ + ฮอร์โมนเต็มชุด วิตามิน แร่ธาตุ สมดุลอนุมูลอิสระ และ DEXA','Check-up + full hormones, vitamins, minerals, free-radical balance and DEXA.']},
+ {n:'Premium Vitality',v:1,d:['ระดับ Premium + แล็บเชิงลึก: UOA, Food IgG 222, NAD+, P-tau 217, Telomere','Premium level + deep labs: UOA, food IgG 222, NAD+, P-tau 217, telomere.']},
+ {n:'Ultimate Vitality',v:1,d:['ครบที่สุด: MRI สมอง, Pace of Aging, จุลินทรีย์ลำไส้, โลหะหนัก และคัดกรองมะเร็ง','The most complete: brain MRI, Pace of Aging, gut microbiome, toxic metals and cancer screening.']}
+];
+const HCP={f:[[5120,2990],[10350,5990],[24750,14900],[31120,17900],[60005,31900],[94635,52900],[125035,69300],[41580,27000],[87513,58300],[209663,162900],[364643,311900]],
+           m:[[5120,2990],[10350,5990],[20035,11500],[23860,14900],[55145,28900],[85995,49900],[116395,66300],[35750,23200],[81658,55300],[203808,159900],[353118,308900]]};
+const HCT={f:[1,1.5,2.5,3,3,4.5,4.5,1.5,2.5,3.5,4.5],m:[1,1.5,2,2.5,2.5,4,4,1.5,2.5,3.5,4.5]};
+const HCG={consult:['พบแพทย์และผู้เชี่ยวชาญ','Consult'],exam:['ตรวจร่างกาย ตา หู','Physical, eye & ear'],brain:['สมอง','Brain'],neck:['คอ','Neck'],chest:['หน้าอก','Chest'],heart:['หัวใจ','Heart'],abd:['ช่องท้อง','Abdomen'],dexa:['ความหนาแน่นมวลกระดูก (DEXA)','DEXA scan'],lady:['ตรวจสุขภาพเฉพาะทางผู้หญิง','Lady'],
+  bio:['ตรวจเลือด ปัสสาวะ อุจจาระ','Biochemistry'],tumor:['สารบ่งชี้มะเร็ง','Tumor markers'],hormone:['ฮอร์โมน','Hormones'],frb:['สมดุลอนุมูลอิสระและสารต้านอนุมูลอิสระ','Free radical & antioxidant balance'],vit:['วิตามินและแร่ธาตุ','Vitamins & minerals'],special:['แล็บพิเศษ','Special labs'],aai:['การตรวจเชิง Anti-Aging','Anti-aging investigation'],meal:['อาหารว่าง','Refreshment']};
+const A11='11111111111';
+const HCROWS=[
+ ['consult','Medical Doctor','ตรวจร่างกายโดยแพทย์',A11,'='],
+ ['consult','Physical Therapist, Dietitian','นักกายภาพบำบัด และนักกำหนดอาหาร','00011110111','='],
+ ['exam','Vital sign, PE, BMI','วัดความดัน ชีพจร ชั่งน้ำหนัก วัดส่วนสูง คำนวณดัชนีมวลกาย',A11,'='],
+ ['exam','Eye Examination','ตรวจการมองเห็น วัดสายตา และความดันลูกตา','00111111111','='],
+ ['exam','Ear Examination','ตรวจการได้ยิน','00111111111','='],
+ ['brain','MRI Brain and MRA Brain (Brain Blood Vessels) plus Carotid without Contrast','คลื่นแม่เหล็กไฟฟ้าสมอง หลอดเลือดสมอง และหลอดเลือดแดงใหญ่ที่คอไปเลี้ยงสมอง','00000110001','='],
+ ['brain','Ultrasound Carotid Intimal Thickness with Doppler','ตรวจคุณภาพและผนังหลอดเลือดที่ไปเลี้ยงสมอง','00000110001','='],
+ ['neck','Ultrasound Carotid Intimal Thickness','ตรวจคุณภาพหลอดเลือดที่ไปเลี้ยงสมอง','00011000110','='],
+ ['neck','Ultrasound Thyroid Gland','ตรวจอัลตราซาวด์ต่อมไทรอยด์','00001110011','='],
+ ['chest','Chest X-Ray (CXR)','เอกซเรย์ปอด','11110001100','='],
+ ['chest','CT Lung (Low Dose)','ตรวจเนื้อปอดอย่างละเอียด','00001110011','='],
+ ['heart','Arterial Stiffness and Arterial Stenosis','ตรวจวัดความยืดหยุ่นของหลอดเลือด','01111111111','='],
+ ['heart','Electrocardiogram (EKG)','ตรวจคลื่นไฟฟ้าหัวใจ',A11,'='],
+ ['heart','Exercise Stress Test (EST)','ตรวจวัดสมรรถภาพการทำงานของหัวใจ','00111111111','='],
+ ['heart','Echocardiogram','ตรวจการเคลื่อนไหวของกล้ามเนื้อหัวใจและลิ้นหัวใจ','00001110011','='],
+ ['heart','CT Coronary Calcium Score','ตรวจปริมาณแคลเซียมเกาะหลอดเลือดหัวใจ','00000110001','='],
+ ['abd','Ultrasound Whole Abdomen','ตรวจอัลตราซาวด์ช่องท้องทั้งหมด','01111111111','='],
+ ['abd','CT Intra-Abdominal Fat','ตรวจวัดปริมาณไขมันกลางช่องท้อง','00000110001','='],
+ ['abd','Fibroscan','ตรวจหาภาวะพังผืดในเนื้อตับ และปริมาณไขมันสะสมในตับ','00001110011','='],
+ ['dexa','Dexa Whole Body','ตรวจวัดมวลไขมัน ความหนาแน่นมวลกระดูกและกล้ามเนื้อ','00001110111','='],
+ ['dexa','Dexa Hip and Lumbar Spine','ความหนาแน่นมวลกระดูกสะโพกและกระดูกสันหลังส่วนเอว','00011110111','00001110111'],
+ ['dexa','Dexa Wrist','ความหนาแน่นมวลกระดูกตำแหน่งข้อมือ','00000110111','='],
+ ['lady','Pelvic Exam and Pap (Thin Prep)','ตรวจคัดกรองมะเร็งปากมดลูก','00111111111',null],
+ ['lady','Human Papilloma Virus (HPV)','ตรวจเชื้อไวรัสเอชพีวี สาเหตุมะเร็งปากมดลูก','00000110001',null],
+ ['lady','Mammogram','ตรวจเอกซเรย์เต้านมด้วยเครื่องดิจิตอล','00111111111',null],
+ ['lady','Ultrasound of the Breast','ตรวจอัลตราซาวด์เต้านม','00111111111',null],
+ ['bio','Complete Blood Count (CBC)','ตรวจความสมบูรณ์ของเม็ดเลือด',A11,'='],
+ ['bio','Fasting Plasma Glucose (FPG)','ตรวจระดับน้ำตาลในเลือด',A11,'='],
+ ['bio','HbA1C','ตรวจระดับน้ำตาลสะสมในเลือด',A11,'='],
+ ['bio','Cholesterol, Triglycerides, LDL, HDL','ตรวจระดับไขมันในเลือด',A11,'='],
+ ['bio','Apolipoprotein B','ประเมินความเสี่ยงต่อการเป็นโรคหัวใจและหลอดเลือด','00001110111','='],
+ ['bio','Uric Acid','ตรวจหากรดยูริกในเลือด',A11,'='],
+ ['bio','Cr, BUN, GFR','ตรวจการทำงานของไต',A11,'='],
+ ['bio','AST, ALT','ตรวจการทำงานของตับ',A11,'='],
+ ['bio','ALP','ตรวจการทำงานของตับ','01111111111','='],
+ ['bio','Total Protein, Direct Bilirubin, Total Bilirubin, Gamma GT','ตรวจการทำงานของตับ','00001110011','='],
+ ['bio','hs-CRP','ตรวจการอักเสบในร่างกาย บอกความเสี่ยงหัวใจขาดเลือดและอัมพาต','00001110111','='],
+ ['bio','Homocysteine','ตรวจหาสารโฮโมซิสเตอีน สารก่อโรคหัวใจขาดเลือดและอัมพาต','00001110111','='],
+ ['bio','Lipoprotein (a)','สารบ่งชี้ความสัมพันธ์การเกิดโรคหัวใจขาดเลือดและอัมพาต','00000000001','='],
+ ['bio','Hepatitis: HBsAg, Anti-HBs','ตรวจเชื้อไวรัสตับอักเสบ','00000110001','='],
+ ['bio','Urine Analysis','ตรวจปัสสาวะ',A11,'='],
+ ['bio','Stool Exam','ตรวจอุจจาระ',A11,'='],
+ ['tumor','AFP for Liver, CEA for Colon','คัดกรองมะเร็งตับ และมะเร็งลำไส้','00111111111','='],
+ ['tumor','CA125','มะเร็งรังไข่','00000000111',null],
+ ['tumor','CA15-3','มะเร็งเต้านม','00000000111',null],
+ ['tumor','PSA','คัดกรองมะเร็งต่อมลูกหมาก',null,'00111111111'],
+ ['tumor','Free PSA','มะเร็งต่อมลูกหมาก',null,'00000000111'],
+ ['tumor','CA19-9','มะเร็งตับอ่อน','00001110111','='],
+ ['hormone','TSH, Free T3, Free T4','ตรวจการทำงานของต่อมไทรอยด์','00111111111','='],
+ ['hormone','FSH','ฮอร์โมนที่บ่งบอกภาวะวัยทองเบื้องต้น','00011111111','00000001111'],
+ ['hormone','Testosterone','ฮอร์โมนเพศชาย','00000001111','00011111111'],
+ ['hormone','Free Testosterone','ฮอร์โมนเพศชาย',null,'00000000111'],
+ ['hormone','Progesterone','ฮอร์โมนเพศหญิง','00000001111',null],
+ ['hormone','DHEA-S','ฮอร์โมนที่ผลิตจากต่อมหมวกไต (Happy Hormone)','00000001111','='],
+ ['hormone','Estradiol (E2)','ฮอร์โมนเพศหญิง','00000001111','='],
+ ['hormone','LH','ฮอร์โมนที่บ่งบอกภาวะวัยทองเบื้องต้น','00000000111','='],
+ ['hormone','Cortisol','ฮอร์โมนตอบสนองต่อความเครียด','00000000111','='],
+ ['hormone','IGF-1','โกรทฮอร์โมน','00000000111','='],
+ ['hormone','Insulin','','00000000111','='],
+ ['frb','Free Radicals (d-ROMs)','ตรวจระดับสารอนุมูลอิสระ','00000000111','='],
+ ['frb','Antioxidants (PAT)','ตรวจระดับสารต้านอนุมูลอิสระ','00000000111','='],
+ ['frb','Glutathione (RANSEL)','ตรวจระดับสารกลูต้าไธโอน','00000000111','='],
+ ['frb','Vitamin A, C, E, Alpha-Carotene, Beta-Carotene, Lycopene, Co Q-10','ตรวจระดับสารต้านอนุมูลอิสระในเลือด','00000001111','='],
+ ['vit','Vitamin B9 (Folate)','','00000000111','='],
+ ['vit','Vitamin B12','','00000000111','='],
+ ['vit','Vitamin D','','00001111111','='],
+ ['vit','Ferritin','','00000000111','='],
+ ['vit','Calcium, Magnesium, Copper, Selenium','','00000000111','='],
+ ['vit','Zinc','','00000001111','='],
+ ['special','Urine Organic Acid (UOA)','','00000000011','='],
+ ['special','Food IgG 222 Tests','','00000000011','='],
+ ['special','Natural Cytotoxic Activity','','00000000011','='],
+ ['special','Trimethylamine N-Oxide (TMAO)','','00000010011','='],
+ ['special','Intra NAD+ Profile','','00000000011','='],
+ ['special','P-tau 217','','00000000010','='],
+ ['special','Telomere','','00000000010','='],
+ ['special','Essential Fatty Acids (EFA)','','00000000001','='],
+ ['special','Urine Toxic Metals','','00000000001','='],
+ ['special','Gut Microbiome DNA Test','','00000000001','='],
+ ['special','M2 Pyruvate Kinase (M2PK)','','00000000001','='],
+ ['special','GAAD Score Profile','','00000000001','='],
+ ['special','Pace of Aging','','00000000001','='],
+ ['special','Alzheimer Disease Screening','','00000010001','='],
+ ['aai','Posture Analysis','','00000000111','='],
+ ['aai','VNS Analysis','','00000000111','='],
+ ['meal','Snack Box / Light Meal','',A11,'=']
+];
+const hcCol=(r,g)=>g==='f'?r[3]:(r[4]==='='?r[3]:r[4]);
+const hcHas=(r,i,g)=>{const c=hcCol(r,g);return !!c&&c[i]==='1';};
+
+/* ---- check-up add-ons ---- */
+const BR_LAB='hs-CRP, Homocysteine, Apolipoprotein B, Lipoprotein (a), Trimethylamine N-Oxide (TMAO), Alzheimer Disease Screening';
+const BR_INV='Ultrasound Carotid Intimal Thickness with Doppler, MRI Brain and MRA Brain (Brain Blood Vessels) plus Carotid without Contrast';
+const HT_LAB='hs-CRP, Homocysteine, Lipoprotein (a), Apolipoprotein B, Trimethylamine N-Oxide (TMAO)';
+const HT_INV='Ultrasound Carotid Intimal Thickness, Echocardiogram, Exercise Stress Test (EST), CT Intra-Abdominal Fat, CT Calcium Score';
+const ADDON=[
+ {n:'Add-On Brain — Lab + Investigation',pr:[58450,46800],c:['brain'],p:[['Lab',BR_LAB],['Investigation',BR_INV]]},
+ {n:'Add-On Brain — Lab',pr:[37050,28900],c:['brain'],p:[['Lab',BR_LAB]]},
+ {n:'Add-On Brain — Investigation',pr:[21400,17900],c:['brain'],p:[['Investigation',BR_INV]]},
+ {n:'Add-On Heart — Lab + Investigation',pr:[38350,30900],c:['heart'],p:[['Lab',HT_LAB],['Investigation',HT_INV]]},
+ {n:'Add-On Heart — Lab',pr:[17650,14900],c:['heart'],p:[['Lab',HT_LAB]]},
+ {n:'Add-On Heart — Investigation',pr:[20700,17900],c:['heart'],p:[['Investigation',HT_INV]]},
+ {n:'Add-On Cancer',pr:[42800,35900],c:['cancer'],p:[['',['Colotect (คัดกรองมะเร็งลำไส้ใหญ่และไส้ตรง), CYFRA 21-1 (สารบ่งชี้มะเร็งปอด), CT Lung Low Dose (ตรวจเนื้อปอดอย่างละเอียด), MRI Whole Body (MRI ทั้งร่างกาย)','Colotect (colorectal cancer screening), CYFRA 21-1 (lung cancer marker), CT Lung (Low Dose), MRI Whole Body']]]}
+];
+const ADV_LAB='Complete Blood Count (CBC), HbA1c, Lipid Profile (Cholesterol, Triglycerides, HDL, LDL), Kidney (Cr, BUN, GFR), hs-CRP, Homocysteine, Lipoprotein (a), Apolipoprotein B, Trimethylamine N-Oxide (TMAO)';
+const ADV=[
+ {n:'Advance Check-Up Program — Heart',pr:[43920,37900],c:['heart'],p:[['Laboratory Test',ADV_LAB],['Examination Test','Chest X-Ray (CXR), Electrocardiogram (EKG), Arterial Stiffness and Arterial Stenosis, Echocardiogram, Exercise Stress Test (EST), Ultrasound Carotid Intimal Thickness, CT Coronary Calcium Score, CT Intra-Abdominal Fat']]},
+ {n:'Advance Check-Up Program — Brain',pr:[62820,48900],c:['brain'],p:[['Laboratory Test',ADV_LAB+', Alzheimer Disease Screening'],['Examination Test','Arterial Stiffness and Arterial Stenosis, Ultrasound Carotid Intimal Thickness with Doppler, MRI Brain and MRA Brain (Brain Blood Vessels) plus Carotid without Contrast']]}
+];
+const AOH={f:{n:'Add-On Hormone (Female)',pr:[5925,3900],p:[['Hormones','DHEA-S, Estradiol (E2), Progesterone, Testosterone, FSH']]},
+           m:{n:'Add-On Hormone (Male)',pr:[4855,3500],p:[['Hormones','DHEA-S, Estradiol (E2), Testosterone, FSH']]}};
+const PREM={f:{n:'Pre-Marriage Check-Up Program (Female)',pr:[4770,3600],p:[['','Physical Examination, Hemoglobin Typing, Complete Blood Count (CBC), Blood Group ABO, Blood Group Rh, VDRL Test, HBsAg, Anti-HBs, Anti-HIV, Rubella IgG Antibody Test']]},
+            m:{n:'Pre-Marriage Check-Up Program (Male)',pr:[3995,2800],p:[['','Physical Examination, Hemoglobin Typing, Complete Blood Count (CBC), Blood Group ABO, VDRL Test, HBsAg, Anti-HBs, Anti-HIV']]}};
+const AGES=[['น้อยกว่า 30 ปี','Under 30'],['30–40 ปี','30–40'],['40–50 ปี','40–50'],['มากกว่า 50 ปี','Over 50']];
+
+/* ---- focused programs ---- */
+const HSYM = {
+  m:[['อ่อนเพลีย เหนื่อยล้า หมดพลัง','Fatigue, tiredness, loss of energy'],['ความจำหรือสมาธิลดลง','Loss of memory or concentration'],['ความต้องการทางเพศลดลง','Loss of sex drive or libido'],['การแข็งตัวตอนเช้าหรือสมรรถภาพทางเพศลดลง','Loss of morning erections or sexual performance'],['ปวดหลัง ปวดข้อ หรือข้อฝืด','Backache, joint pains or stiffness'],['ความฟิตของร่างกายลดลง','Loss of fitness'],['ซึมเศร้า อารมณ์หม่นหรือคิดลบ','Depression, low or negative mood'],['หงุดหงิด โกรธง่าย อารมณ์เสียง่าย','Irritability, anger or bad temper'],['วิตกกังวล กระวนกระวาย','Anxiety or nervousness'],['รู้สึกเครียดมากเกินไป','Feeling over-stressed']],
+  f:[['ร้อนวูบวาบ เหงื่อออก','Hot flashes and sweats'],['เฉื่อยชา หมดพลัง','Lethargy, loss of energy'],['ซึมเศร้า อารมณ์หม่นหรือคิดลบ','Depression, low or negative mood'],['ตึงเครียด หงุดหงิด วิตกกังวล','Tension, irritability, anxiety'],['ความจำหรือสมาธิลดลง','Loss of memory or concentration'],['ปวดศีรษะ','Headaches'],['หน้าอกหย่อนคล้อย','Droopy breasts'],['ความต้องการทางเพศลดลง','Loss of sex drive or libido'],['ช่องคลอดแห้ง มีอาการทางเดินปัสสาวะ','Vaginal dryness, urinary symptoms'],['ผมและผิวเปลี่ยนแปลง','Hair and skin changes']]
+};
+const HINV=['Body Fat Composition (Whole Body DEXA)','Bone Density at Hip and Lumbar Spine (DEXA)','Arterial Stiffness and Arterial Stenosis (ABI)'];
+const HPROG = {
+  m:[{n:"Compact Men's Hormone Program",pr:[7745,6000],p:[['Hematology','CBC'],['Hormones','Testosterone, Estradiol (E2), DHEA-S, TSH, Free T3, Free T4'],['Tumor Markers','PSA']]},
+     {n:"Optimal Lite Men's Hormone Program",pr:[14305,11900],p:[['Hematology','CBC'],['Hormones','Testosterone, Free Testosterone, Estradiol (E2), LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol']]},
+     {n:"Optimal Men's Hormone Program",pr:[20095,16900],p:[['Hematology','CBC'],['Hormones','Testosterone, Free Testosterone, Estradiol (E2), LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol'],['Tumor Markers','PSA, Free PSA, CEA, AFP, CA19-9']]},
+     {n:"Premium Men's Hormone Program",pr:[27885,18900],p:[['Hematology','CBC'],['Hormones','Testosterone, Free Testosterone, Estradiol (E2), LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol'],['Liver Function Test','AST, ALT, ALP'],['Tumor Markers','PSA, Free PSA, CEA, AFP, CA19-9'],['Investigations',HINV.join(', ')]]}],
+  f:[{n:"Compact Lady's Hormone Program",pr:[7695,6000],p:[['Hematology','CBC'],['Hormones','Estradiol (E2), Progesterone, DHEA-S, TSH, Free T3, Free T4, Cortisol']]},
+     {n:"Optimal Lite Lady's Hormone Program",pr:[13935,11900],p:[['Hematology','CBC'],['Hormones','Estradiol (E2), Progesterone, Testosterone, LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol']]},
+     {n:"Optimal Lady's Hormone Program",pr:[20160,16900],p:[['Hematology','CBC'],['Hormones','Estradiol (E2), Progesterone, Testosterone, LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol'],['Tumor Markers','CA 125, CA 15-3, CEA, AFP, CA19-9']]},
+     {n:"Premium Lady's Hormone Program",pr:[28915,18900],p:[['Hematology','CBC'],['Hormones','Estradiol (E2), Progesterone, Testosterone, LH, FSH, DHEA-S, TSH, Free T3, Free T4, IGF-1, Cortisol'],['Liver Function Test','AST, ALT, ALP'],['Tumor Markers','CA 125, CA 15-3, CEA, AFP, CA19-9'],['Lady','Thin Preparation'],['Investigations',HINV.join(', ')]]}]
+};
+const AO='Vitamin A, Vitamin C, Vitamin E (Alpha-Tocopherol, Gamma-Tocopherol), Alpha-Carotene, Beta-Carotene, Lycopene, Co-Enzyme Q10';
+const MICRO=[
+  {n:'Free Radical Status',pr:[2145],p:[['','Measures free radical levels in the blood (d-ROMs)']]},
+  {n:'Antioxidant Defense',pr:[2510],p:[['','Measures total antioxidant status in the blood (PAT)']]},
+  {n:'Mini Micronutrient Program',pr:[7180,5800],p:[['Antioxidants',AO]]},
+  {n:'Compact Micronutrient Program',pr:[11105,8200],p:[['Antioxidants',AO],['Vitamin and Mineral','Vitamin D, Zinc']]},
+  {n:'Optimal Micronutrient Program',pr:[24328,19900],p:[['Free Radical and Antioxidant Balance',FRB.join(', ')],['Antioxidants',AO],['Vitamins and Minerals','Vitamin B9, Vitamin B12, Vitamin D, Ferritin, Copper, Magnesium, Selenium, Zinc, Calcium']]},
+  {n:'Premium Micronutrient Program',pr:[48938,32000],p:[['Vitamins & Minerals',VITF.join(', ')],['Antioxidants',AO],['Free Radical and Antioxidant Balance',FRB.join(', ')],['Special Labs — Urinary Organic Acids (UOA)',UOA.join(', ')],['Investigations','Body Fat Composition (Whole Body DEXA), Bone Density at Hip and Lumbar Spine (DEXA), Arterial Stiffness and Arterial Stenosis (ABI)']]}
+];
+const BLOOD=[
+  {n:'Blood Check-Up Program (<20 Years)',pr:[4734,1790],p:[['Hematology','CBC'],['Blood Sugar Test','FPG'],['Kidney Test','BUN, Creatinine'],['Liver Function Test','AST, ALT, ALP'],['Cardiac Risk','Cholesterol, Triglycerides, HDL, LDL'],['Miscellaneous','Urine Analysis']]},
+  {n:'Blood Check-Up Program',pr:[7910,3900],p:[['Hematology','CBC'],['Blood Sugar Test','FPG, HbA1c'],['Kidney Test','BUN, Creatinine'],['Uric Acid Test','Uric Acid'],['Liver Function Test','AST, ALT, ALP'],['Cardiac Risk','Cholesterol, Triglycerides, HDL, LDL'],['Tumor Markers','CEA, AFP'],['Miscellaneous','Urine Analysis, Stool Analysis']]}
+];
+const GUTP=[{n:'Absolute Gut Microbiome Test',pr:[21900],p:[['Report','Overall Microbiome Profile, Metabolism, Nutrient Synthesis, Immunity & Anti-Inflammation, Food Intolerance, Gastrointestinal Disorder, Metabolic Syndrome, Wellness, Beneficial Bacteria, Harmful Bacteria, Degenerative Diseases (TMA-producing bacteria), Recommendation']]},{n:'Premium Gut Microbiome DNA Test',pr:[27500],p:[]},{n:'Ultimate Gut Microbiome DNA Test + 3 Months Probiotics',pr:[37500],p:[]},{n:'Ultimate Gut Microbiome DNA Test + 6 Months Probiotics',pr:[49500],p:[]}];
+const GUTRISK=[['ปัญหาการนอน','Sleep Problems'],['สารก่อมะเร็ง','Carcinogen'],['ภูมิแพ้ผิวหนัง','Skin Allergies'],['ภูมิแพ้อาหาร','Food Allergies'],['ปัญหาภูมิคุ้มกัน','Immune Problems'],['ความผิดปกติทางอารมณ์','Mood Disorders'],['หอบหืด','Asthma'],['สิว','Acne'],['เบาหวานชนิดที่ 2','Type 2 Diabetes'],['โรคหัวใจและหลอดเลือด','Cardiovascular Disease'],['ลำไส้แปรปรวน (IBS)','Irritable bowel syndrome (IBS)'],['ท้องผูก','Constipation'],['ท้องเสีย','Diarrhea'],['ไขมันพอกตับ','Fatty Liver']];
+const FOCUS=[
+  {id:'addon', q:['“ขอเจาะเฉพาะจุดเพิ่ม”','“Add a closer look at one area”'], a:'Check-Up Add-On — Brain · Heart · Cancer', c:['brain','heart','cancer'], d:['ชุดตรวจเสริมจากโปรแกรมตรวจสุขภาพ เลือกเฉพาะแล็บ เฉพาะเครื่องมือ หรือทั้งสองอย่าง','Add-ons to any check-up: choose the labs, the investigations, or both.']},
+  {id:'adv', q:['“ตรวจหัวใจหรือสมองแบบจัดเต็ม”','“A full work-up for heart or brain”'], a:'Advance Health Check-Up — Heart · Brain', c:['heart','brain'], d:['โปรแกรมเฉพาะทาง รวมแล็บความเสี่ยงหลอดเลือดและการตรวจด้วยเครื่องมือ','Specialty programs combining vascular-risk labs with imaging.']},
+  {id:'prem', q:['“กำลังจะแต่งงาน”','“We’re getting married”'], a:'Pre-Marriage Check-Up Program', c:['family'], d:['ตรวจสุขภาพก่อนแต่งงาน: กรุ๊ปเลือด ชนิดฮีโมโกลบิน และโรคติดต่อ','Before marriage: blood group, hemoglobin typing and infectious disease screening.']},
+  {id:'blood', q:['“ขอเช็กพื้นฐานก่อน”','“Just the basics first”'], a:'Blood Check-Up Programs', c:['heart','weight'], d:['ตรวจเลือดพื้นฐาน: เม็ดเลือด น้ำตาล ไต ตับ ไขมัน','Baseline bloodwork: blood count, sugar, kidney, liver, lipids.']},
+  {id:'hormone', q:['“หรือจะเป็นเพราะฮอร์โมน?”','“Could it be my hormones?”'], a:'Bio-Identical Hormone Replacement Programs', c:['hormone','energy','sleep','aging','pain'], d:['ตรวจระดับฮอร์โมนก่อนวางแผนปรับสมดุลด้วยฮอร์โมนชีวภาพ','Measure hormone levels before planning bio-identical hormone balancing.']},
+  {id:'micro', q:['“ร่างกายฉันขาดอะไรอยู่?”','“What is my body missing?”'], a:'Micronutrient Programs — Customized Vitamin Supplements', c:['energy','aging','longevity','toxin','immune'], d:['วัดวิตามิน แร่ธาตุ และสารต้านอนุมูลอิสระ เพื่อจัดวิตามินเฉพาะบุคคล','Measure vitamins, minerals and antioxidants to customize your supplements.']},
+  {id:'gutp', q:['“ลำไส้ของฉันโอเคไหม?”','“Is my gut OK?”'], a:'Gut Microbiota', c:['gut','immune','sleep','weight'], d:['วิเคราะห์จุลินทรีย์ในลำไส้ พร้อมโปรไบโอติกส์เฉพาะบุคคล','Analyze your gut microbiome, with personalized probiotics.']}
+];
+
+/* ---- special labs ---- */
+const IGG={ 'Dairy':'Alpha-lactalbumin, Beta-lactoglobulin, Buffalo milk, Casein, Cow\'s milk, Egg white, Egg yolk, Goat milk, Sheep milk',
+ 'Grain':'Barley, Buckwheat, Corn, Couscous, Durum wheat, Flax seed, Gliadin, Malt, Millet, Oat, Polenta, Quinoa, Rice, Rye, Spelt, Transglutaminase, Wheat, Wheat bran',
+ 'Nuts':'Almond, Brazil nut, Cashew, Coconut, Hazelnut, Macadamia nut, Tiger nut, Walnut, Peanut, Pine nut, Pistachio',
+ 'Fish & Seafood':'Alga espaguette, Alga spirulina, Alga wakame, Anchovy, Barnacle, Bass, Carp, Caviar, Clam, Cockle, Cod, Crab, Cuttlefish, Dorado/Sea bream, Eel, Haddock, Hake, Herring, Lobster, Mackerel, Monkfish, Mussel, Octopus, Oyster, Perch, Pike, Plaice, Razor clam, Salmon, Sardine, Scallop, Shrimp/Prawn, Sole, Squid, Swordfish, Tuna, Turbot, Winkle',
+ 'Fruit':'Apple, Apricot, Avocado, Banana, Blackberry, Blackcurrant, Blueberry, Cherry, Cranberry, Date, Fig, Grape, Grapefruit, Guava, Kiwi, Lemon, Lime, Lychee, Mango, Melon, Mulberry, Nectarine, Olive, Orange, Papaya, Peach, Pear, Pineapple, Plum, Pomegranate, Raisin, Raspberry, Redcurrant, Rhubarb, Strawberry, Tangerine, Tomato, Watermelon',
+ 'Vegetables':'Amaranth, Artichoke, Asparagus, Aubergine, Bean (broad), Bean (green), Bean (red kidney), Bean (white haricot), Beetroot, Broccoli, Brussel sprout, Cabbage, Cabbage (red), Caper, Carrot, Cauliflower, Celery, Chard, Chickpea, Chicory, Cucumber, Fennel, Gourd, Leek, Lentil, Lettuce, Marrow, Onion, Pea, Peppers, Potato, Radish, Rocket, Shallot, Soy bean, Spinach, Sweet potato, Turnip, Water cress, Yuca',
+ 'Herbs & Spices':'Aloe vera, Aniseed, Basil, Bay leaf, Camomile, Cayenne, Cinnamon, Clove, Coriander, Cumin, Curry, Dill, Garlic, Ginger, Gingko, Ginseng, Hops, Liquorice, Marjoram, Mint, Mustard, Nettle, Nutmeg, Parsley, Peppercorn, Peppermint, Red chilli, Rosemary, Saffron, Sage, Tarragon, Thyme, Vanilla',
+ 'Meat':'Beef, Billy goat, Chicken, Duck, Horse, Lamb, Ostrich, Ox, Partridge, Pork, Quail, Rabbit, Turkey, Veal, Venison, Wild boar',
+ 'Others':'Agar agar, Cane sugar, Carob, Chestnut, Cocoa bean, Coffee, Cola nut, Honey, Mushroom, Rapeseed, Sesame seed, Sunflower seed, Tapioca, Tea (black), Tea (green), Yeast (baker\'s), Yeast (brewer\'s)' };
+const LABQ=[
+ {t:['Longevity และอายุชีวภาพ','Longevity & biological age'],c:['longevity'],q:['ร่างกายของฉันแก่เร็วแค่ไหน','How fast am I really aging'], labs:[
+  {id:'telomere',pr:[11000],n:'Telomere Length',c:['longevity'],d:['วัดว่าเซลล์ของคุณแก่เร็วแค่ไหน และค้นหาอายุชีวภาพ ช่วยตรวจพบสัญญาณความเสื่อมและโรคเรื้อรังตั้งแต่ก่อนมีอาการ','Measure how fast your cells are aging and find out your biological age. Helps detect early signs of aging and chronic decline — even before symptoms appear.']},
+  {id:'pace',pr:[52000],n:'Pace of Aging (Epigenetic Test)',c:['longevity'],d:['การตรวจเหนือพันธุกรรม (Epigenetic) ที่บอกอัตราความเร็วของการแก่','An epigenetic test showing the speed at which you are aging.'],
+   k:[[['สิ่งที่ได้รับ','What is delivered'],'OMICm Age, Dunedin PACE (Pace of Aging), Telomere Length, Symphony Age, Fitness Age, Biological Age, Immune Health, Inflammation and Cognitive Aging, OMICm Fit Age'],[['ประโยชน์','Benefits'],['เข้าใจความเสี่ยงโรคได้ดีขึ้น · การแพทย์แม่นยำ · ตรวจพบโรคได้เร็วขึ้น · เลือกไลฟ์สไตล์และดูแลสุขภาพได้ดีขึ้น','A better understanding of disease risk · Precision medicine · Earlier detection of disease · Improved health and lifestyle choices']]]},
+  {id:'sirt1',pr:[12000],n:'Sirtuin-1',c:['longevity','brain'],d:['โปรตีนที่มีบทบาทสำคัญในการควบคุมสุขภาพของเซลล์ ความชรา และการเผาผลาญ เกี่ยวข้องกับสมอง / อัลไซเมอร์ / พาร์กินสัน','A protein that plays a key role in regulating cellular health, aging and metabolism. Related to brain / Alzheimer’s / Parkinson’s disease.']},
+  {id:'nad',pr:[8700],n:'Intra NAD+ Profile (NAD+ & NADH)',c:['energy','longevity'],d:['NAD เป็นโคเอนไซม์สำคัญของปฏิกิริยาในเซลล์ มีบทบาทในการสร้างพลังงานภายในเซลล์ การซ่อมแซมดีเอ็นเอ และการควบคุมการแสดงออกของยีน ระดับ NAD+ ลดลงตามอายุ','NAD is a significant coenzyme for reactions in cells: intracellular energy metabolism, DNA repair and regulation of gene expression. NAD+ levels decline as the body ages.']}]},
+ {t:['สมองและความจำ','Brain & memory'],c:['brain'],q:['สมองของฉันในอีก 20 ปีจะเป็นอย่างไร','What my brain may be like in 20 years'], labs:[
+  {id:'ptau',pr:[12900],n:'P-tau 217',c:['brain'],d:['ตัวชี้วัดทางชีวภาพสำหรับตรวจพบโรคอัลไซเมอร์ตั้งแต่ระยะแรก โดยวัดระดับโปรตีน p-tau ในเลือด','A biomarker for early detection of Alzheimer’s disease, measuring p-tau protein levels in the blood.']},
+  {id:'apoe',pr:[6500],n:'ApoE genotype',c:['brain','family'],d:['ยีน Apolipoprotein E มีบทบาทในการเผาผลาญไขมัน และสัมพันธ์อย่างมากกับความเสี่ยงโรคอัลไซเมอร์','The Apolipoprotein E gene plays a role in lipid metabolism and is strongly associated with Alzheimer’s disease risk.']},
+  {id:'alz',pr:[16900],n:"Alzheimer's Disease Screening",c:['brain'],d:['ตรวจหาสัญญาณเริ่มแรกของโรคอัลไซเมอร์ — P-tau217: ระดับที่สูงสัมพันธ์กับพยาธิสภาพของ tau และการเสื่อมของระบบประสาท · Oligomerized Amyloid Beta: กลุ่มโปรตีนพิษขนาดเล็กที่ทำลายเซลล์สมอง รบกวนความจำ และเร่งความเสื่อมของสมอง','Detects early signs of Alzheimer’s disease — P-tau217: elevated levels are associated with tau pathology and neurodegeneration · Oligomerized Amyloid Beta: tiny toxic protein clumps that damage brain cells, disrupt memory and speed up brain aging.']}]},
+ {t:['ทำนายความเสี่ยงมะเร็ง','Cancer risk prediction'],c:['cancer'],q:['ตรวจหาความเสี่ยงมะเร็งได้ก่อนมีอาการ','Predict cancer risk before symptoms appear'], labs:[
+  {id:'m2pk',pr:[6000],n:'M2-pyruvate kinase (M2PK)',c:['cancer','gut'],d:['ตรวจตัวชี้วัดในอุจจาระ เพื่อคัดกรองมะเร็งลำไส้ใหญ่และไส้ตรงระยะเริ่มต้น','Stool biomarker screening for early detection of colorectal cancer.']},
+  {id:'colotect',pr:[7900],n:'Colotect',c:['cancer','gut'],d:['ตรวจอุจจาระแบบไม่รุกล้ำ หาดีเอ็นเอผิดปกติ เพื่อช่วยระบุสัญญาณเริ่มแรกของมะเร็งลำไส้ใหญ่หรือติ่งเนื้อระยะก่อนมะเร็ง','A non-invasive stool test that detects abnormal DNA to help identify early signs of colorectal cancer or advanced precancerous polyps.']},
+  {id:'gaad',pr:[2970],n:'GAAD Score Profile (PIVKA-II + AFP)',c:['cancer'],d:['ตรวจหามะเร็งตับระยะเริ่มต้น','Early-stage detection of liver cancer.']},
+  {id:'ctdna',pr:[31000],n:'Circulating Tumor DNA Test (ctDNA)',c:['cancer'],d:['ตรวจหามะเร็ง 10 ชนิดตั้งแต่ระยะเริ่มต้น และการพยากรณ์โรค','Early detection of 10 cancers, plus tumor prognosis.'],
+   k:[[['มะเร็ง 10 ชนิด','10 cancers'],'Breast, Lung, Colorectum, Liver–Biliary Tract, Esophagus, Ovary, Endometrium, Pancreas, Head & Neck, Stomach']],
+   note:[['อาจไม่เหมาะกับผู้ที่','May not be suitable for individuals who'],[['ได้รับการวินิจฉัยว่าเป็นมะเร็งภายใน 5 ปีที่ผ่านมา','Have been diagnosed with cancer within the past 5 years'],['มีก้อนที่เต้านมระดับ BI-RADS 5 ขึ้นไป','Have breast lesions categorized as BI-RADS level 5 or higher'],['มีติ่งเนื้อขนาดใหญ่กว่า 1 ซม.','Have polyps larger than 1 cm'],['ตั้งครรภ์','Are pregnant']]]},
+  {id:'edim',pr:[16900],n:'Immune Cancer Screening (EDIM)',c:['cancer','immune'],d:['เทคโนโลยี EDIM จากเยอรมนี ใช้ตัวชี้วัดจากเซลล์ภูมิคุ้มกัน เพื่อระบุความเสี่ยงระยะแรกของภาวะที่มีการเจริญของเซลล์หรือการอักเสบเพิ่มขึ้น ใช้ทั้งการตรวจพบระยะแรก และติดตามหลังการรักษาหรือเฝ้าระวังการกลับเป็นซ้ำ','EDIM technology from Germany: a biomarker derived from immune cells to identify early risks associated with increased cell growth or inflammation. For early detection, and follow-up after treatment or monitoring for recurrence.'],
+   note:[['หากมีอาการไข้หวัดหรือท้องเสีย ควรรอ 1 สัปดาห์ก่อนตรวจ และแนะนำให้รออย่างน้อย 2 เดือนหลังการรักษา หากคุณ','If you have flu or diarrhea symptoms, wait 1 week before testing. Waiting at least 2 months after treatment is recommended if you'],[['กำลังได้รับการรักษาที่กดภูมิคุ้มกัน (เช่น เคมีบำบัด ฉายรังสี NSAIDs สเตียรอยด์ Methotrexate GM-CSF Amygdalin)','are receiving immunosuppressive treatments (e.g. chemotherapy, radiation, NSAIDs, steroids, Methotrexate, GM-CSF, Amygdalin)'],['เพิ่งรับเซลล์บำบัด ผ่าตัด ฉีดวัคซีน สักใหม่ ทำเลสิก หรือบาดเจ็บลึก','have recently undergone cell therapy, surgery, vaccination, a fresh tattoo, LASIK, or a deep injury'],['เพิ่งได้รับสารทึบรังสีเพื่อการถ่ายภาพ','have recently received contrast agents for imaging'],['มีเม็ดเลือดขาวต่ำ ติดเชื้ออยู่ หรือตั้งครรภ์','have leukopenia, an active infection, or are pregnant']]]},
+  {id:'hboc',pr:[30000],n:'Hereditary Breast and Ovarian Cancer (26 genes)',c:['cancer','family'],d:['การตรวจพันธุกรรม 26 ยีน รวมถึง BRCA1 และ BRCA2 เพื่อประเมินความเสี่ยงมะเร็งเต้านมและรังไข่ที่ถ่ายทอดทางพันธุกรรม และวางแผนเฝ้าระวังตั้งแต่เนิ่น ๆ','A genetic test screening 26 genes, including BRCA1 and BRCA2, to assess inherited risk for breast and ovarian cancers and guide early monitoring.'],
+   k:[[['ยีนที่ตรวจ','Genes tested'],'BRCA1, BRCA2, CHEK2, PALB2, BRIP1, TP53, PTEN, STK11, CDH1, ATM, BRAD1, MLH1, MRE11A, MSH2, MSH6, MUTYH, NBN, PMS1, PMS2, RAD50, RAD51C, RAD51D, NF1, EPCAM, SMARCA4, CDK12']]}]},
+ {t:['หัวใจและหลอดเลือด','Heart & vessels'],c:['heart'],q:['หลอดเลือดของฉันสะอาดแค่ไหน','How clean my arteries are'], labs:[
+  {id:'sdldl',pr:[1920],n:'Small Dense LDL (sdLDL)',c:['heart'],d:['LDL ชนิดย่อยที่มีขนาดเล็กและหนาแน่นกว่า LDL ทั่วไป มีส่วนอย่างมากต่อการเกิดหลอดเลือดแดงแข็ง','A subtype of LDL cholesterol that is smaller and denser than regular LDL particles; it can contribute greatly to atherosclerosis.']},
+  {id:'tmao',pr:[11000],n:'Trimethylamine N-Oxide (TMAO)',c:['heart','gut'],d:['เกิดขึ้นเมื่อแบคทีเรียในลำไส้ย่อยสารอาหารจากเนื้อแดง ไข่ ผลิตภัณฑ์นม และปลา ไหลเวียนในกระแสเลือด และเชื่อมโยงกับภาวะสุขภาพหลายอย่าง โดยเฉพาะโรคหัวใจและหลอดเลือด','Produced when gut bacteria break down nutrients found in red meat, eggs, dairy products and fish. It circulates in the bloodstream and is linked to several conditions, particularly cardiovascular disease.']},
+  {id:'efa',pr:[12000],n:'Essential Fatty Acids',c:['heart','brain'],d:['วิเคราะห์สัดส่วนกรดไขมันในร่างกาย','Profiles the fatty acids in your body.'],k:[[['รายการ','Includes'],EFA.join(', ')]]}]},
+ {t:['ภูมิแพ้และอาหาร','Allergy & food'],c:['immune','gut'],q:['ร่างกายแพ้หรือไม่ถูกกับอะไร','What my body is reacting to'], labs:[
+  {id:'igeinh',pr:[5600],n:'Specific IgE for Inhalation Allergen (20 Tests)',c:['immune'],d:['ตรวจภูมิแพ้ต่อสารก่อภูมิแพ้ทางการหายใจ 20 ชนิด','Allergy testing for 20 inhaled allergens.'],
+   k:[[['รายการ','Allergens'],'Tree mix, Acacia, Oil palm, Latex, Grass mix, House dust mite mix, Cockroach German, Kapok, Cat, Dog, Cage bird mix, Guinea pig, Mouse, Rabbit, Hamster, Mould mix 1, Mould mix 2, Candida albicans, Aureobasidium pullulans, Curvularia spicifera']]},
+  {id:'igefood',pr:[5600],n:'Specific IgE for Food Allergen (20 Tests)',c:['immune','gut'],d:['ตรวจภูมิแพ้อาหารชนิดเฉียบพลัน 20 ชนิด','Allergy testing for 20 food allergens.'],
+   k:[[['รายการ','Allergens'],'Egg white, Egg yolk, Cow\'s milk, Wheat flour, Rice, Sesame, Soybean, Peanut, Hazelnut, Beef (cooked), Pork (cooked), Chicken, Shellfish mix, Fish mix, Crab, Shrimp / Prawn, Lobster, Blue crab, Chocolate, Glutamate']]},
+  {id:'igg',pr:[19000],n:'Food IgG (222 Tests)',c:['gut','immune'],d:['ตรวจการตอบสนองแบบ IgG ต่ออาหาร 222 ชนิด','IgG testing against 222 foods.'],igg:true}]},
+ {t:['สารพิษและพลังงานเซลล์','Toxins & cellular energy'],c:['toxin','energy'],q:['สะสมสารพิษไว้เท่าไร และเซลล์ยังสร้างพลังงานได้ดีไหม','How much toxin I carry, and whether my cells still make energy'], labs:[
+  {id:'challenge',pr:[12500],n:'Challenge Test Program',c:['toxin'],d:['ตรวจโลหะหนักในปัสสาวะ 20 ชนิดที่อาจเป็นพิษ ร่วมกับ IV Chelation 1 ครั้ง','Urine Toxic Metals (20 potentially toxic metals) with 1 session of IV Chelation.'],k:[[['โลหะ 20 ชนิด','20 metals'],METALS.join(', ')]]},
+  {id:'uoa',pr:[16800],n:'Urinary Organic Acids',c:['energy','sleep','toxin','gut'],d:['ตรวจกรดอินทรีย์ในปัสสาวะ สะท้อนการทำงานระดับเซลล์ในหลายมิติ','Urinary organic acids reflect cellular function across several dimensions.'],k:[[['รายการ','Includes'],UOA.join(', ')]]}]},
+ {t:['พันธุกรรม','Genetics'],c:['family'],q:['ยีนของฉันเขียนอะไรไว้','What is written in my genes'], labs:[
+  {id:'legend',pr:[80000],n:'Gene Testing (Legend) — Hereditary Diseases',c:['family','cancer','heart'],d:['ตรวจหาการกลายพันธุ์ที่ถ่ายทอดในครอบครัว ซึ่งสัมพันธ์กับมะเร็งและโรคอื่น ๆ','Identify inherited mutations associated with cancer and other diseases that are passed down through the family.'],
+   k:[['Hereditary Cancer — 35 Genetic Markers, 13 Cancer Risks','Common genes: BRCA1, BRCA2, TP53, APC, MLH1 · Colorectal, Breast, Gastric, Prostate Gland, Nerve System/Brain, Pancreas, Renal/Urinary Tract, Melanin, Thyroid Gland, Blood, Soft Tissue, Uterine, Ovaries'],
+      ['Hereditary Heart Disease — 30 Genetic Markers, 4 Diseases','Common genes: LDLR, APOB, PCSK9, MYH7 · Arrhythmia, Aortopathy, Cardiomyopathy, Familial Hypercholesterolemia'],
+      ['Family Planning — 43 Genetic Markers, 42 Inherited Diseases (Carrier Screening)','Common genes: CFTR, HBB, GJB2, SMN1 · e.g. Cystic Fibrosis, Sickle Cell Anemia, Tay-Sachs, Spinal Muscular Atrophy']]},
+  {id:'life',pr:[21000],n:'Gene Testing (Life) — Lifestyle & Health Optimization',c:['family','weight','aging','sleep'],d:['เข้าใจว่าพันธุกรรมของคุณมีผลต่อการเลือกไลฟ์สไตล์และพฤติกรรมสุขภาพอย่างไร','Understand how your genetic makeup influences lifestyle choices and health behaviors.'],
+   k:[['Diet — 12 Reports','Carbohydrate sensitivity, Fat sensitivity, Salt sensitivity, Alcohol sensitivity, Caffeine sensitivity, Obesity, Lactose intolerance, Gluten intolerance, Peanut allergy, Bitter taste sensitivity, Sweet taste sensitivity, Sweet tooth'],
+      ['Nutrition — 17 Reports','Genetic impact on individual nutrient requirements, e.g. Vitamin A, B2, B6, B12, C, D'],
+      ['Love and Relationship — 7 Reports','Erectile dysfunction, Benign prostate hyperplasia (BPH), Premature menopause, Sildenafil (Viagra) response, Male infertility (azoospermia), Polycystic ovary syndrome, Endometriosis'],
+      ['Skin and Beauty — 13 Reports','Wrinkles, Sun sensitivity, Freckles (Ephelides), Sunspots (Lentigines), Stretch marks (Striae Distensae), Keloid risk, Oxidative stress response, Cellulite, Eczema (Atopic Dermatitis), Contact dermatitis, Dry skin (Xerosis and Ichthyosis), Psoriasis, Alopecia and baldness'],
+      ['Sport and Fitness — 22 Reports','Fitness capacity, Muscle strength, Sport injuries, Flexibility, Body and weight, Training capacity, Recovery capability, Blood pressure response to exercise, Insulin sensitivity response to exercise, HDL response to exercise'],
+      ['Pollution — 3 Reports','Pollution-induced cardiovascular disease, Pollution-induced asthma, Secondhand smoke susceptibility'],
+      ['Stress and Sleep — 5 Reports','Stress response, Fibromyalgia, Myopia, Insomnia, Caffeine-related insomnia']]},
+  {id:'health',pr:[21000],n:'Gene Testing (Health) — Disease Risk & Drug Response',c:['family','brain','cancer','heart','pain'],d:['ประเมินแนวโน้มทางพันธุกรรมต่อโรคต่าง ๆ และการตอบสนองต่อยา','Assess genetic predisposition to diseases and drug responses.'],
+   k:[['Common Cancer — 6 Reports','Colorectal, Breast, Prostate, Pancreatic, Lung, Ovarian cancer'],
+      ['Common Disease — 11 Reports','Non-alcoholic fatty liver, Gallstone, Inflammatory bowel disease, Gout, Osteoarthritis, SLE, Chronic kidney disease, Allergic rhinitis, COPD, Glaucoma, Age-related macular degeneration'],
+      ['Brain Disease — 5 Reports','Stroke, Alzheimer\'s disease, Parkinson\'s disease, Migraine, Depression'],
+      ['Infection — 16 Reports','Strep throat, Pneumonia, Bacterial meningitis, Tuberculosis, Urinary tract infection, Hepatitis B, C, AIDS, COVID-19 and others'],
+      ['Drug and Medicine — 4 Reports','Pharmacogenomics: Drug metabolism (high / low), Efficacy, Toxicity, Dosage'],
+      ['Cardiovascular Disease — 5 Reports','Coronary artery disease, Atrial fibrillation, DM type 2, Hypertension, Dyslipidemia']]}]}
+];
+
+/* ---- care ---- */
+const PILLARS=[['การบำบัดฟื้นฟูด้วยสเต็มเซลล์','Regenerative Stem Cell Therapies'],['ฮอร์โมนทดแทนชีวภาพ','Bio-Identical Hormone Replacement'],['วิตามินเฉพาะบุคคล','Customized Vitamin Supplements'],['เทโลเมียร์และเทโลเมอเรส','Telomeres and Telomerase'],['IV Therapy ตามภาวะสุขภาพ','IV Therapy for specific health condition'],['คีเลชันและดีท็อกซ์','Chelation and Detoxification'],['การบำบัดจุลินทรีย์ลำไส้','Gut Microbiome Therapy']];
+const IVG={energy:['พลังงาน','Energy'],immune:['ภูมิคุ้มกัน','Immunity'],anti:['ชะลอวัยและสุขภาพองค์รวม','Anti-aging & well-being'],brain:['สมอง','Brain'],detox:['ดีท็อกซ์และหลอดเลือด','Detox & vascular'],balance:['ลำไส้ การนอน น้ำหนัก','Gut, sleep, weight'],pain:['ลดปวดและฟื้นฟู','Pain & healing'],beauty:['ผิวและเส้นผม','Skin & hair'],sex:['สุขภาพทางเพศ','Sexual health'],oxy:['ออกซิเจนและเลือดบำบัด','Oxygen & blood therapies'],light:['แสงบำบัดและไฮโดรเจน','Light & hydrogen therapy']};
+const IV=[
+ {id:'myer',pr:[[1,3900]],n:'IV Myer',g:'energy',c:['energy'],a:[['ลดอาการอ่อนล้า','Reduces fatigue'],['แก้ไขภาวะขาดสารอาหาร','Improves nutrient deficiency']]},
+ {id:'nutri',pr:[[1,3900],[10,39100,35100]],n:'IV Nutrition',g:'energy',c:['energy','immune'],a:[['เสริมภูมิคุ้มกัน','Boosts immunity'],['ฟื้นฟูพลังงาน','Restores energy']]},
+ {id:'ivenergy',pr:[[1,5900],[10,59000,53100]],n:'IV Energy',g:'energy',c:['energy'],a:[['สนับสนุนการสร้างพลังงานและการเผาผลาญกรดไขมัน','Supports energy production and fatty acid metabolism']]},
+ {id:'cell',pr:[[1,9300],[10,93000,83700],[15,139000,127500]],n:'IV Cellular Energy',g:'energy',c:['energy'],a:[['เพิ่มการสร้างพลังงานระดับเซลล์','Boosts energy production at the cellular level'],['สนับสนุนการเผาผลาญ','Supports metabolism'],['ส่งเสริมความมีชีวิตชีวาและความแจ่มใสของสมอง','Promotes overall vitality and mental clarity']]},
+ {id:'amino',pr:[[1,3900],[10,39000,35100]],n:'IV Amino Acid',g:'energy',c:['energy','pain'],a:[['ช่วยการฟื้นตัวและสมรรถภาพของกล้ามเนื้อ','Enhances muscle recovery and performance'],['สนับสนุนการขับสารพิษ','Supports detoxification'],['เพิ่มพลังงานและการทำงานของสมอง','Boosts energy and cognitive function'],['ส่งเสริมการสร้างคอลลาเจน','Promotes collagen production'],['เสริมภูมิคุ้มกัน','Strengthens immunity']]},
+ {id:'laser',pr:[[1,5900],[10,59000,53100]],n:'IV Laser (Weber)',g:'energy',c:['energy','immune'],a:[['เพิ่มพลังงานและความทนทาน','Increases energy and stamina'],['ต้านการอักเสบ','Provides anti-inflammatory effects'],['เพิ่มการนำส่งออกซิเจน','Enhances oxygen delivery'],['กระตุ้นการทำงานของเซลล์ภูมิคุ้มกัน','Boosts immune cell activity']]},
+ {id:'simmune',pr:[[1,5900],[5,29500,28025],[10,59000,53100],[20,118000,100300]],n:'IV Super Immune',g:'immune',c:['immune'],a:[['เสริมระบบภูมิคุ้มกัน','Boosts the immune system'],['ช่วยต่อสู้กับการติดเชื้อ','Helps fight infections']]},
+ {id:'antiaging',pr:[[1,6900],[10,69100,62100]],n:'IV Anti-Aging',g:'anti',c:['aging','longevity'],a:[['เติมสารอาหารสำคัญเพื่อสุขภาวะโดยรวม','Adds vital nutrients to improve overall well-being']]},
+ {id:'santi',pr:[[1,8500],[10,85000,76500]],n:'IV Super Anti-Aging',g:'anti',c:['aging','longevity','immune','weight'],a:[['IV Super Immune + IV Anti-Aging','IV Super Immune + IV Anti-Aging'],['เสริมระบบภูมิคุ้มกัน','Improves the immune system'],['ลดการอักเสบ','Reduces inflammation'],['ช่วยการเผาผลาญน้ำตาลและไขมัน','Improves sugar and fat metabolism'],['ส่งเสริมการทำงานของเส้นประสาทและสุขภาวะโดยรวม','Promotes healthy nerve function and overall well-being']]},
+ {id:'neuro',pr:[[1,5900],[10,59000,53100],[20,118000,100300]],n:'IV Neuro Boost',g:'brain',c:['brain'],a:[['เพิ่มสมาธิ ความจำ และการรู้คิด','Improves focus, memory, and cognition']]},
+ {id:'memory',pr:[[1,5900],[5,29500,28025],[10,59000,53100]],n:'IV Memory Boost',g:'brain',c:['brain'],a:[['เพิ่มความจำและสมาธิ','Improves memory and concentration'],['ซ่อมแซมและฟื้นฟูเซลล์ประสาท','Repairs and regenerates nerve cells']]},
+ {id:'sbrain',pr:[[1,8500],[10,85000,76500]],n:'IV Super Brain',g:'brain',c:['brain'],a:[['สนับสนุนการทำงานของสมอง','Supports cognitive function'],['เพิ่มสมาธิ','Enhances focus'],['เพิ่มความแจ่มใสของสมอง','Boosts mental clarity'],['ซ่อมแซมและฟื้นฟูเซลล์ประสาท','Repairs and regenerates nerve cells']]},
+ {id:'chel',pr:[[1,5900],[10,59000,53100],[20,118000,100300]],n:'IV Chelation',g:'detox',c:['toxin','heart'],a:[['ขจัดโลหะหนักที่เป็นพิษออกจากร่างกาย','Removes toxic heavy metals from your body']]},
+ {id:'plaque',pr:[[1,5900],[10,59000,53100]],n:'IV Plaque Control',g:'detox',c:['heart'],a:[['ลดการสะสมของคราบในหลอดเลือดแดง','Reduces arterial plaque buildup'],['สนับสนุนสุขภาพหัวใจและหลอดเลือด','Supports cardiovascular health']]},
+ {id:'liverd',pr:[[1,5900],[5,29500,28025],[10,59000,53100]],n:'IV Liver Detox',g:'detox',c:['toxin','weight'],a:[['เพิ่มประสิทธิภาพการขับสารพิษ','Enhances detoxification'],['ส่งเสริมสุขภาพตับโดยรวม','Promotes overall liver health']]},
+ {id:'ivgut',pr:[[1,8500],[5,42500,40375],[10,85000,76500]],n:'IV GUT',g:'balance',c:['gut'],a:[['สนับสนุนสุขภาพระบบย่อยอาหาร','Supports digestive health'],['ส่งเสริมสมดุลจุลินทรีย์ในลำไส้','Promotes a balanced gut microbiome']]},
+ {id:'ivsleep',pr:[[1,6900],[10,69000,62100]],n:'IV Sleep',g:'balance',c:['sleep'],a:[['สนับสนุนการสร้างเมลาโทนิน','Supports melatonin production'],['เพิ่มคุณภาพการนอน','Enhances sleep quality']]},
+ {id:'ivweight',pr:[[1,5900],[5,29500,28025],[10,59000,53100]],n:'IV Weight Loss',g:'balance',c:['weight'],a:[['กระตุ้นการเผาผลาญไขมันและเมแทบอลิซึม','Stimulates fat and metabolism']]},
+ {id:'ivpain',pr:[[1,5900],[10,59000,53100]],n:'IV Pain',g:'pain',c:['pain'],a:[['ลดความรุนแรงของอาการปวดและปวดเรื้อรัง','Reduces pain intensity and chronic pain'],['ช่วยให้กล้ามเนื้อผ่อนคลาย','Improves muscle relaxation'],['ต้านการอักเสบ','Provides anti-inflammation effects']]},
+ {id:'heal',pr:[[1,9300],[10,93000,83700]],n:'IV Healing',g:'pain',c:['pain'],a:[['ส่งเสริมการสมานแผล','Enhances wound healing']]},
+ {id:'ivhair',pr:[[1,3900],[10,39000,35100]],n:'IV Hair Boost',g:'beauty',c:['aging'],a:[['ส่งเสริมโครงสร้างเส้นผมที่แข็งแรง','Promotes healthy hair structure']]},
+ {id:'bright',pr:[[1,6900],[10,69000,62100]],n:'IV Super Brightening',g:'beauty',c:['aging'],a:[['ปรับสีผิวให้สม่ำเสมอ','Improves skin tone'],['ผิวเปล่งปลั่งกระจ่างใส','Promotes a radiant, glowing complexion']]},
+ {id:'skinhair',pr:[[1,8500],[10,85000,76500]],n:'IV Super Skin + Hair',g:'beauty',c:['aging'],a:[['บำรุงผิวและเส้นผม','Nourishes the skin and hair'],['เพิ่มความชุ่มชื้น ความแข็งแรง และความอ่อนเยาว์','Promotes hydration, strength, and a healthy, youthful appearance']]},
+ {id:'ived',pr:[[1,5900],[10,59000,53100]],n:'IV ED',g:'sex',c:['hormone'],a:[['สนับสนุนการไหลเวียนเลือด สมดุลฮอร์โมน และสุขภาพทางเพศโดยรวม','Supports blood flow, hormone balance, and overall sexual health']]},
+ {id:'mah',pr:[[1,3900],[10,39000,35100]],n:'Ozone Therapy (MAH)',g:'oxy',c:['immune','energy'],a:[['เพิ่มออกซิเจนและการไหลเวียนเลือด','Increases oxygen and blood flow'],['เสริมระบบภูมิคุ้มกัน','Strengthens the immune system'],['เพิ่มการสร้างพลังงาน','Boosts energy production']]},
+ {id:'mmah',pr:[[1,9900],[10,99000,89100]],n:'Multi Pass Ozone Therapy (Multi-MAH)',g:'oxy',c:['immune','toxin'],a:[['เพิ่มการนำส่งออกซิเจน','Boosts oxygen delivery'],['เพิ่มการขับสารพิษ','Enhances detoxification'],['เสริมระบบภูมิคุ้มกัน','Strengthens the immune system'],['เพิ่มการสร้างพลังงาน','Boosts energy production']]},
+ {id:'ubi',pr:[[1,3200],[10,32000,28800]],n:'Ultraviolet Blood Treatments (UBI)',g:'oxy',c:['immune'],a:[['เพิ่มประสิทธิภาพระบบภูมิคุ้มกัน','Enhances immune system function']]},
+ {id:'oxyven',pr:[[1,3900],[10,39000,35100]],n:'Oxyven',g:'oxy',c:['heart','energy'],a:[['ดูแลภาวะเสื่อมเรื้อรัง','Treats chronic degenerative conditions'],['เพิ่มการไหลเวียนเลือด','Improves blood circulation'],['เพิ่มการสร้างพลังงาน','Boosts energy production']]},
+ {id:'o2box',pr:[[1,3600],[5,18000,14400],[10,0,28800]],n:'Hyperbaric Oxygen Therapy (O2 Box)',g:'oxy',c:['energy','immune','heart'],a:[['เพิ่มการไหลเวียนเลือด','Improves blood circulation'],['เพิ่มการสร้างพลังงาน','Boosts energy production'],['เสริมระบบภูมิคุ้มกัน','Strengthens the immune system']]},
+ {id:'redlight',pr:[[1,2500],[10,25000,22500]],n:'Red Light Therapy (Bio Light)',g:'light',c:['pain','aging','energy'],a:[['สนับสนุนการสร้างพลังงานระดับเซลล์ (ATP)','Supports cellular energy (ATP) production'],['ส่งเสริมการไหลเวียนที่ดี','Promotes healthy circulation'],['สนับสนุนการสร้างคอลลาเจนและการสมานแผล','Supports collagen production and wound healing'],['ช่วยการฟื้นตัวของกล้ามเนื้อและข้อ','Supports muscle & joint recovery'],['ส่งเสริมการฟื้นฟูตามธรรมชาติ','Promotes natural healing'],['สนับสนุนการทำงานของสมอง','Supports healthy brain function']]},
+ {id:'h2',pr:[[1,2500],[10,25000,22500]],n:'Hydrogen Therapy (Inhaled molecular hydrogen, H₂)',g:'light',c:['aging','brain','weight','immune'],a:[['ต้านอนุมูลอิสระ','Antioxidants'],['ปกป้องเซลล์ประสาท','Neuroprotective'],['เพิ่มความไวต่ออินซูลิน','Improving insulin sensitivity'],['เพิ่มประสิทธิภาพระบบภูมิคุ้มกัน','Enhances immune system function']]}
+];
+const HAIRX=(a,b,c,m)=>[['Treatment: PRP injection',a],['Treatment: LED (Red 30 min)',b],['Treatment: IV Hair',c],['Supplement: Add-Hair Supplements',m],['Topical for Scalp: Add-Hair Shampoo, Hair Growth Tonic',m],['Hair Analysis','1 Session']];
+const SP=[
+ {n:'Energy Program',pr:[63600,48000],c:['energy'],p:[['MAH','4 Sessions'],['IV Energy','4 Sessions'],['Nology','4 Sessions'],['External Laser (RJ)','4 Sessions']]},
+ {n:'Vascular Program',pr:[49200,41000],c:['heart'],p:[['Oxyven','4 Sessions'],['IV Chelation (CaEDTA)','4 Sessions'],['MagStim','4 Sessions']]},
+ {n:'Vascular Program (for Plaque)',pr:[107200,78000],c:['heart'],p:[['Oxyven','8 Sessions'],['IV Plaque Control','8 Sessions'],['Nology','8 Sessions']]},
+ {n:'Immune Boost Program',pr:[49200,41000],c:['immune'],p:[['MAH','4 Sessions'],['IV Super Immune','4 Sessions'],['Theralase','4 Sessions']]},
+ {n:'NK Activation Program',pr:[124000,103000],c:['immune'],p:[['MAH + UBI','8 Sessions'],['IV Super Immune','8 Sessions'],['Theralase','8 Sessions']]},
+ {n:'Metabolism Booster for Weight Loss Program',pr:[59200,51000],c:['weight'],p:[['MAH','4 Sessions'],['IV Weight Loss','4 Sessions'],['TECAR','4 Sessions']]},
+ {n:'Sleep Program',pr:[63200,50000],c:['sleep'],p:[['Oxyven','4 Sessions'],['IV Sleep','4 Sessions'],['Magstim','4 Sessions'],['External Laser (Weber)','4 Sessions']]},
+ {n:'ED Program',pr:[87200,77000],c:['hormone'],p:[['Oxyven','4 Sessions'],['IV ED','4 Sessions'],['Theralase','4 Sessions'],['Renova','4 Sessions']]},
+ {n:'Fatty Liver Program',pr:[108400,92000],c:['weight','toxin'],p:[['Oxyven','8 Sessions'],['IV Liver Detox','8 Sessions'],['Theralase','4 Sessions'],['TECAR','4 Sessions']]},
+ {n:'Brain Enhancement Program',pr:[63600,48000],c:['brain'],p:[['tDCS','10 Sessions'],['Laser Therapy','8 Sessions'],['IV Brain','4 Sessions']]},
+ {n:'Five days Memory Boost Program (5 days)',pr:[32100,29900],c:['brain'],p:[['IV Super Brain','1 Session'],['IV Memory Boost','4 Sessions']]},
+ {n:'Hair Boost Program (1 Month)',pr:[21653,18000],c:['aging'],p:HAIRX('1 Session','1 Session','1 Session','1 Month')},
+ {n:'Hair Boost Program (6 Months)',pr:[122418,99000],c:['aging'],p:HAIRX('6 Sessions','6 Sessions','6 Sessions','6 Months')},
+ {n:'Hair Boost Program — No PRP (6 Months)',pr:[72618,59000],c:['aging'],p:HAIRX('6 Sessions','6 Sessions','6 Sessions','6 Months').slice(1).map((x,i)=>i===0?[x[0],'24 Sessions']:x)}
+];
+const ENDO=[{n:'Gastroscope',pr:[10900]},{n:'Colonoscope',pr:[15900],x:1},{n:'Gastroscope + Colonoscope',pr:[24900],x:1}];
+const COLON=[[1,3900],[5,19500,18525],[10,39000,35100]];
+
+/* ---- concerns (the storyline) & body zones ---- */
+const CONCERNS=[
+ {id:'energy',n:['เหนื่อยง่าย หมดแรง','Tired, low energy'],need:['horm','vit','antiox'],
+  say:['“นอนก็พอ แต่ตื่นมาไม่สดชื่น บ่าย ๆ ก็หมดแรงแล้ว”','“I sleep enough, but wake up flat — and I’m drained by mid-afternoon.”'],
+  roots:[0,1,4], g:['horm','vit','antiox','uoa','longevity','hema']},
+ {id:'sleep',n:['นอนไม่หลับ เครียด','Poor sleep, stress'],need:['horm','inv2'],
+  say:['“หัวถึงหมอนแต่สมองไม่ยอมหยุด ตื่นกลางดึกแทบทุกคืน”','“My head hits the pillow but my mind won’t stop. I wake most nights.”'],
+  roots:[1,2,3], g:['horm','uoa','inv']},
+ {id:'brain',n:['ขี้ลืม กังวลสมองเสื่อม','Memory & brain worries'],need:['brain'],
+  say:['“ช่วงนี้ลืมบ่อย โฟกัสไม่ได้ และที่บ้านก็มีคนเป็นอัลไซเมอร์”','“I keep forgetting things, can’t focus — and Alzheimer’s runs in my family.”'],
+  roots:[3,4,6], g:['brain','efa','longevity','genetic','cardiac']},
+ {id:'heart',n:['หัวใจ ไขมัน หลอดเลือด','Heart, lipids, vessels'],need:['cardiac2','sugar'],
+  say:['“ไขมันเริ่มสูง พ่อเป็นโรคหัวใจ ไม่อยากเดินตามรอยนั้นเลย”','“My lipids are creeping up and my father had heart disease. I don’t want to follow.”'],
+  roots:[3,4], g:['cardiac','sugar','efa','inv','genetic']},
+ {id:'weight',n:['น้ำหนักขึ้น ลงพุง น้ำตาล','Weight, belly fat, sugar'],need:['sugar','inv'],
+  say:['“กินเท่าเดิมแต่น้ำหนักขึ้นเรื่อย ๆ ลดเท่าไรก็ไม่ลง”','“I eat the same but keep gaining. Nothing I try brings it down.”'],
+  roots:[4,1,2], g:['sugar','horm','inv','liver','uric']},
+ {id:'gut',n:['ท้องอืด ขับถ่าย แพ้อาหาร','Bloating, bowel, food reactions'],need:['gutlab'],
+  say:['“กินอะไรก็ท้องอืด ขับถ่ายไม่เป็นเวลา ไม่รู้ว่าแพ้อะไร”','“Everything bloats me, my bowels are unpredictable, and I can’t tell what I react to.”'],
+  roots:[2,3,5], g:['gutlab','uoa','misc']},
+ {id:'immune',n:['ป่วยบ่อย ภูมิแพ้','Often sick, allergies'],need:['immune'],
+  say:['“เป็นหวัดทุกเดือน ภูมิแพ้ก็ไม่เคยหาย”','“I catch something every month and my allergies never let up.”'],
+  roots:[5,0,2], g:['immune','hema','vit','gutlab']},
+ {id:'cancer',n:['กังวลเรื่องมะเร็ง','Cancer worries'],need:['tumor2'],
+  say:['“คนในครอบครัวเป็นมะเร็ง ฉันอยากรู้ก่อนที่จะสายเกินไป”','“Cancer runs in my family. I want to know before it is too late.”'],
+  roots:[6,5,3], g:['tumor','cancer','genetic','lady','immune']},
+ {id:'toxin',n:['สารพิษ มลพิษ PM 2.5','Toxins, pollution, PM 2.5'],need:['toxin'],
+  say:['“อยู่ในเมืองฝุ่นเยอะ ทำงานใกล้สารเคมี ไม่รู้ว่าสะสมไปเท่าไรแล้ว”','“City smog, chemicals at work — I have no idea how much has built up.”'],
+  roots:[3,0,6], g:['toxin','uoa','frb','antiox','liver','kidney']},
+ {id:'aging',n:['ผิว ผม ริ้วรอย','Skin, hair, wrinkles'],need:['antiox'],
+  say:['“หน้าดูโทรมกว่าอายุ ผมบางลง”','“I look older than I am and my hair is thinning.”'],
+  roots:[0,1,3], g:['frb','antiox','horm','vit']},
+ {id:'longevity',n:['อายุชีวภาพ ชะลอวัย','Biological age, longevity'],need:['longevity'],
+  say:['“อยากรู้ว่าข้างในร่างกายแก่ไปแค่ไหน และจะชะลอได้อย่างไร”','“How old am I on the inside, and how do I slow it down?”'],
+  roots:[6,3,4], g:['longevity','frb','antiox','genetic']},
+ {id:'hormone',n:['วัยทอง ฮอร์โมน สมรรถภาพ','Menopause / andropause, libido'],need:['horm'],
+  say:['“อารมณ์แปรปรวน ร้อนวูบวาบ ความต้องการทางเพศหายไป”','“Mood swings, hot flashes, and my drive has gone.”'],
+  roots:[1], g:['horm','tumor','lady','inv']},
+ {id:'pain',n:['ปวดเรื้อรัง กระดูก ข้อ','Chronic pain, bones, joints'],need:['inv'],
+  say:['“ปวดหลังปวดข้อมาเป็นปี กลัวกระดูกพรุนเหมือนแม่”','“Back and joint pain for a year — and I fear osteoporosis like my mother.”'],
+  roots:[3,0,1], g:['inv','vit','horm']},
+ {id:'family',n:['วางแผนครอบครัว อยากรู้ยีน','Family planning, my genes'],need:['genetic'],
+  say:['“กำลังวางแผนมีลูก อยากรู้ว่าเราเป็นพาหะอะไรไหม”','“We’re planning a baby and want to know what we might carry.”'],
+  roots:[6], g:['genetic']}
+];
+const ZONES=[
+ {id:'brain',c:'brain',side:'R',dot:[270,42],ly:40,n:['สมองและความจำ','Brain & memory']},
+ {id:'thy',c:'energy',side:'L',dot:[270,92],ly:78,n:['ฮอร์โมนและพลังงาน','Hormones & energy']},
+ {id:'heart',c:'heart',side:'R',dot:[285,148],ly:138,n:['หัวใจและหลอดเลือด','Heart & vessels']},
+ {id:'imm',c:'immune',side:'L',dot:{f:[210,188],m:[201,188]},ly:170,n:['ภูมิคุ้มกัน','Immunity']},
+ {id:'liver',c:'toxin',side:'L',dot:[252,196],ly:240,n:['ตับและการขับสารพิษ','Liver & detox']},
+ {id:'gut',c:'gut',side:'R',dot:[274,236],ly:228,n:['ลำไส้และการย่อย','Gut & digestion']},
+ {id:'pelvis',c:'hormone',side:'R',dot:[270,276],ly:306,n:{f:['สุขภาพสตรี','Women’s health'],m:['สุขภาพบุรุษ','Men’s health']}},
+ {id:'cell',c:'aging',side:'L',dot:{f:[194,300],m:[190,300]},ly:326,n:['ผิวและเส้นผม','Skin & hair']},
+ {id:'shape',c:'weight',side:'R',dot:[293,372],ly:390,n:['รูปร่างและเผาผลาญ','Shape & metabolism']},
+ {id:'bone',c:'pain',side:'L',dot:[246,430],ly:430,n:['กระดูกและข้อ','Bones & joints']}
+];
+const FIG={
+ f:`<circle class="hair" cx="270" cy="12" r="12"/><path class="hair" d="M240,56 Q234,14 270,14 Q306,14 300,56 Q298,30 270,28 Q242,30 240,56Z"/>
+    <polyline class="limb" stroke-width="22" points="224,124 205,215 194,300"/><polyline class="limb" stroke-width="22" points="316,124 335,215 346,300"/>
+    <polyline class="limb" stroke-width="36" points="250,290 246,430 244,585"/><polyline class="limb" stroke-width="36" points="290,290 294,430 296,585"/>
+    <rect class="fig" x="260" y="76" width="20" height="34"/><ellipse class="fig" cx="270" cy="50" rx="27" ry="32"/>
+    <path class="fig" d="M226,113 Q270,98 314,113 L302,200 Q296,238 312,288 Q270,306 228,288 Q244,238 238,200 Z"/>`,
+ m:`<path class="hair" d="M242,44 Q240,15 270,15 Q300,15 298,44 Q292,28 270,27 Q248,28 242,44Z"/>
+    <polyline class="limb" stroke-width="25" points="214,126 197,215 190,300"/><polyline class="limb" stroke-width="25" points="326,126 343,215 350,300"/>
+    <polyline class="limb" stroke-width="38" points="250,290 247,430 245,585"/><polyline class="limb" stroke-width="38" points="290,290 293,430 295,585"/>
+    <rect class="fig" x="258" y="76" width="24" height="34"/><ellipse class="fig" cx="270" cy="50" rx="28" ry="32"/>
+    <path class="fig" d="M214,114 Q270,98 326,114 L308,205 Q304,250 308,290 Q270,302 232,290 Q236,250 232,205 Z"/>`
+};
+
+/* ================= STATE ================= */
+const KEY='addlife-journey-2026';
+const S={lang:'th',g:'f',age:null,cont:5,rng:1,cs:new Set(),fam:'hc',hc:0,hcSet:false,tier:0,tierSet:false,adds:new Set(),f4:null,f5:null,sym:new Set()};
+try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');
+  if(o.lang)S.lang=o.lang;if(o.g)S.g=o.g;if(typeof o.cont==='number')S.cont=o.cont;
+  if(typeof o.age==='number'&&o.age>=0&&o.age<4)S.age=o.age;if(o.fam==='aa'||o.fam==='hc')S.fam=o.fam;
+  if(typeof o.hc==='number'&&o.hc>=0&&o.hc<HCL.length){S.hc=o.hc;S.hcSet=!!o.hcSet;}
+  if(Array.isArray(o.cs))S.cs=new Set(o.cs.filter(x=>CONCERNS.some(c=>c.id===x)));
+  if(Array.isArray(o.adds))S.adds=new Set(o.adds);if(typeof o.tier==='number'){S.tier=o.tier;S.tierSet=!!o.tierSet;}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({lang:S.lang,g:S.g,age:S.age,cont:S.cont,cs:[...S.cs],adds:[...S.adds],fam:S.fam,hc:S.hc,hcSet:S.hcSet,tier:S.tier,tierSet:S.tierSet}))}catch(e){}};
+const $=s=>document.querySelector(s);
+const L=x=>Array.isArray(x)?x[S.lang==='th'?0:1]:x;
+const T=(th,en)=>S.lang==='th'?th:en;
+const step=()=>{const n=parseInt(location.hash.slice(1),10);return n>=1&&n<=5?n:1;};
+const hit=cs=>cs.some(c=>S.cs.has(c));
+const tierName=i=>`${TIERS[i].n} ${S.g==='m'?"Men's":"Lady's"} Anti-Aging Program`;
+function covers(i,need){const t=i+1;return need.every(k=>['inv2','cardiac2','tumor2'].includes(k)?t>=2:TIERS[i].g.includes(k)&&groupItems(k,t,S.g));}
+function recTier(){if(!S.cs.size)return -1;const need=[...new Set(CONCERNS.filter(c=>S.cs.has(c.id)).flatMap(c=>c.need))];
+  for(let i=0;i<7;i++)if(covers(i,need))return i;return 6;}
+const hiGroups=()=>new Set(CONCERNS.filter(c=>S.cs.has(c.id)).flatMap(c=>c.g));
+const kv=p=>p.map(([k,v])=>`<p class="kv">${k?`<b>${L(k)}:</b> `:''}${L(v)}</p>`).join('');
+const I={plus:'<svg class="i i-plus" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11"/></svg>',
+  check:'<svg class="i i-check" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg>',
+  x:'<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg>',
+  left:'<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>',
+  right:'<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>'};
+const STEPS=[['ตัวคุณ','You'],['เรื่องที่กังวล','Concerns'],['ตรวจ','Test'],['เจาะลึก','Go deeper'],['ดูแล','Care']];
+const allLabs=()=>LABQ.flatMap(q=>q.labs);
+const fmt=n=>n.toLocaleString('en-US');
+const now=pr=>pr?pr[pr.length-1]:0;
+const price=pr=>!pr?'':`<span class="pr">${pr.length>1&&pr[0]?`<s>${fmt(pr[0])}</s> `:''}<b>${fmt(now(pr))} ฿</b></span>`;
+const gName=()=>T(S.g==='m'?'ผู้ชาย':'ผู้หญิง',S.g==='m'?'Male':'Female');
+const hcName=i=>`${HCL[i].n} ${HCL[i].v?'':'Health '}Check-Up Program (${S.g==='m'?'Male':'Female'})`;
+const sess=n=>T(`${n} ครั้ง`,n===1?'1 session':`${n} sessions`);
+/* sub-programs behind each focused card (gender-aware) */
+function packs(id){
+  if(id==='addon')return ADDON.map((p,k)=>({id:'ao:'+k,...p}));
+  if(id==='adv')return ADV.map((p,k)=>({id:'adv:'+k,...p}));
+  if(id==='prem')return [{id:'pm',...PREM[S.g]}];
+  if(id==='blood')return BLOOD.map((p,k)=>({id:'bl:'+k,...p}));
+  if(id==='micro')return MICRO.map((p,k)=>({id:'mi:'+k,...p}));
+  if(id==='gutp')return GUTP.map((p,k)=>({id:'gp:'+k,...p}));
+  if(id==='hormone')return [{id:'aoh',...AOH[S.g]}].concat(HPROG[S.g].map((p,k)=>({id:'hp:'+k,...p})));
+  return [];}
+const allPacks=()=>FOCUS.flatMap(f=>packs(f.id).map(p=>({...p,f})));
+const ITEM=id=>{const [k,v]=id.split(':');
+  if(id==='hc')return {n:hcName(S.hc),s:3,d:L(HCL[S.hc].d),pr:HCP[S.g][S.hc]};
+  if(id==='aa')return {n:tierName(S.tier),s:3,d:L(TIERS[S.tier].d),pr:AAP[S.g][S.tier]};
+  if(k==='lab'){const l=allLabs().find(x=>x.id===v);return l&&{n:l.n,s:4,pr:l.pr};}
+  if(k==='iv'){const x=IV.find(y=>y.id===v);return x&&{n:x.n,s:5,d:L(IVG[x.g])+' · '+sess(1),pr:[x.pr[0][1]]};}
+  if(k==='sp'){const p=SP[+v];return p&&{n:p.n,s:5,d:'Special Treatment Program',pr:p.pr};}
+  if(k==='endo'){const e=ENDO[+v];return e&&{n:e.n,s:5,d:T('ส่องกล้องทางเดินอาหาร','Endoscopy')+(e.x?T(' · ไม่รวมค่าวิสัญญี 12,000 ฿',' · excludes anesthesia fee 12,000 ฿'):''),pr:e.pr};}
+  if(id==='colon')return {n:'Colon Hydrotherapy',s:5,d:sess(1),pr:[COLON[0][1]]};
+  const p=allPacks().find(x=>x.id===id);return p&&{n:p.n,s:3,d:p.f.a,pr:p.pr};};
+const planBtn=(id,name)=>{const on=S.adds.has(id);return `<button class="btn ${on?'soft':''}" data-act="add" data-v="${id}" aria-pressed="${on}" aria-label="${on?T('นำออกจากแผน','Remove from plan'):T('เพิ่มในแผน','Add to plan')}: ${name}">${on?I.check+T('อยู่ในแผนแล้ว','In your plan'):I.plus+T('เพิ่มในแผน','Add to plan')}</button>`;};
+const addBtn=(id,name)=>`<button class="add" data-act="add" data-v="${id}" aria-pressed="${S.adds.has(id)}" aria-label="${S.adds.has(id)?T('นำออกจากแผน','Remove from plan'):T('เพิ่มในแผน','Add to plan')}: ${name}">${I.plus}${I.check}</button>`;
+const recB=()=>`<span class="pillb">${T('แนะนำสำหรับคุณ','Suggested for you')}</span>`;
+const head=(a,b,p)=>`<h1>${a} <span>${b}</span></h1><p class="intro">${p}</p>`;
+
+/* ================= CHROME ================= */
+function rNav(){const s=step(),n=[...S.adds].filter(ITEM).length;
+  $('#nav').innerHTML=`<a class="logo" href="#1"><span class="sq"><i></i><i></i><i></i><i></i></span>ADDLIFE</a>
+   <ol class="crumbs">${STEPS.map((x,i)=>`<li><a href="#${i+1}" class="${i+1<s?'done':''}" ${i+1===s?'aria-current="step"':''}>${i+1}. ${L(x)}</a></li>`).join('')}</ol>
+   <button class="lang" data-act="lang" aria-label="Language">${S.lang==='th'?'EN':'ไทย'}</button>
+   <button class="bag" data-act="sheet" id="bag">${T('แผนของฉัน','My plan')}<b>${n}</b></button>`;
+  $('#prog').style.width=(s/5*100)+'%';
+}
+function rDock(){const s=step();
+  $('#dock').innerHTML=`<button class="back" data-act="go" data-v="${s-1}" ${s===1?'disabled':''}>${I.left}${T('ย้อนกลับ','Back')}</button>
+   <p><b>${T(`ขั้นที่ ${s} จาก 5`,`Step ${s} of 5`)}</b><span>${L(STEPS[s-1])}</span></p>
+   ${s<5?`<button class="btn" data-act="go" data-v="${s+1}">${T('ถัดไป','Next')}${I.right}</button>`:`<button class="btn" data-act="sheet">${T('ดูแผนของฉัน','See my plan')}</button>`}`;
+}
+
+/* ================= STEP 1 ================= */
+const stage=()=>CONT.find(s=>S.cont>=s.r[0]&&S.cont<=s.r[1]);
+function contHTML(){const st=stage();return `<h3 id="cst">${L(st.zone)}<small>${L(st.st)}</small></h3>`;}
+function contExtra(){const st=stage();return `<ul class="pts">${st.pts.map(p=>`<li>${L(p)}</li>`).join('')}</ul>${S.cont>=4&&S.cont<=5?`<p class="callout">${T('คนส่วนใหญ่อยู่ตรงนี้ ไม่มีอาการจึงคิดว่าสุขภาพดี แต่โรคอาจกำลังก่อตัวอย่างเงียบ ๆ','Most people sit here: no symptoms, so they assume they are well, while disease may be quietly developing.')}</p>`:''}`;}
+function r1(){
+  const mini=g=>`<svg viewBox="170 0 200 610" aria-hidden="true">${FIG[g]}</svg>`;
+  return head(T('ตัวคุณ','You.'),T('เริ่มจากจุดที่คุณยืนอยู่วันนี้','Start from where you stand today.'),T('คำถามสั้น ๆ ไม่กี่ข้อ เพื่อให้แผนตรงกับคุณ','A few quick questions so the plan fits you.'))+
+  `<section class="block"><h2>${T('โปรแกรมสำหรับ','A program for')}</h2>
+    <div class="who"><button class="sel" data-act="g" data-v="f" aria-pressed="${S.g==='f'}">${mini('f')}${T('ผู้หญิง',"Lady")}<small>Lady's Programs</small><span class="tick">${I.check}</span></button>
+    <button class="sel" data-act="g" data-v="m" aria-pressed="${S.g==='m'}">${mini('m')}${T('ผู้ชาย',"Men")}<small>Men's Programs</small><span class="tick">${I.check}</span></button></div></section>
+  <section class="block"><h2>${T('ช่วงอายุของคุณ','Your age range')}</h2>
+    <p class="hint">${T('โปรแกรมตรวจสุขภาพพื้นฐานแบ่งตามช่วงอายุ เราจะใช้ข้อนี้แนะนำระดับที่เหมาะกับคุณ','The core check-up programs are organised by age. We use this to suggest a level.')}</p>
+    <div class="ages" role="group" aria-label="${T('ช่วงอายุ','Age range')}">${AGES.map((a,k)=>`<button class="sel" data-act="age" data-v="${k}" aria-pressed="${S.age===k}">${L(a)}<span class="tick">${I.check}</span></button>`).join('')}</div></section>
+  <section class="block"><h2>${T('วันนี้ คุณให้คะแนนสุขภาพตัวเองเท่าไร','How would you score your health today?')}</h2>
+    <p class="hint">${T('สุขภาพเป็นเส้นต่อเนื่อง 0 ถึง 10 ไม่ใช่แค่ป่วยหรือไม่ป่วย ลองเลื่อนดู','Health is a continuum from 0 to 10, not just sick or well. Drag to explore.')}</p>
+    <div class="tile"><div class="score"><output id="cnum" for="crange">${S.cont}</output><div id="cstw">${contHTML()}</div></div>
+      <input type="range" id="crange" min="0" max="10" step="1" value="${S.cont}" data-act="cont" aria-label="${T('คะแนนสุขภาพ 0 ถึง 10','Health score 0 to 10')}">
+      <div class="ticks">${[0,1,2,3,4,5,6,7,8,9,10].map(i=>`<span>${i}</span>`).join('')}</div>
+      <div id="cex">${contExtra()}</div>
+      <p class="ref">Illness–Wellness Concept. Ref: Seals, Douglas &amp; Melov, Simon. (2014). Translational Geroscience: Emphasizing function to achieve optimal longevity. Aging.</p></div></section>
+  <section class="block"><h2>${T('ผลเลือด “ปกติ”','“Normal” bloodwork')} <span>${T('ยังไม่ใช่ดีที่สุด','is not optimal.')}</span></h2>
+    <p class="hint">${T('แตะแต่ละช่วงเพื่อดูว่าค่าเดียวกันบอกอะไรได้ต่างกัน','Tap each band to see what the same number can really mean.')}</p>
+    <div class="tile"><div class="bands" role="group">${RANGE.map((x,i)=>`<button data-act="rng" data-v="${i}" aria-pressed="${i===S.rng}">${L(x.n)}</button>`).join('')}</div>
+      <div class="brace">${T('ช่วงที่ห้องแล็บรายงานว่า “ปกติ”','What the lab reports as “normal”')}</div>
+      <p class="callout" id="rtxt"><b>${L(RANGE[S.rng].n)}.</b> ${L(RANGE[S.rng].v)}</p></div></section>`;
+}
+
+/* ================= STEP 2 ================= */
+const CAT={energy:'s',sleep:'s',gut:'s',immune:'s',weight:'s',pain:'s',hormone:'s',aging:'s',brain:'r',heart:'r',cancer:'r',toxin:'r',family:'r',longevity:'l'};
+const CATS=[['s',['อาการที่รู้สึกได้','What you feel']],['r',['ความเสี่ยงที่กังวล','Risks on your mind']],['l',['Longevity','Longevity']]];
+function r2(){
+  const zs=ZONES.map(z=>{const d=Array.isArray(z.dot)?z.dot:z.dot[S.g],[dx,dy]=d,W=150,H=32,px=z.side==='L'?2:540-2-W,edge=z.side==='L'?px+W:px,mid=z.side==='L'?edge+20:edge-20;
+    const nm=L(Array.isArray(z.n)?z.n:z.n[S.g]),on=S.cs.has(z.c);
+    return `<g class="zone ${on?'on':''}" data-act="c" data-v="${z.c}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${nm}">
+     <path class="lead-l" d="M${dx},${dy} L${mid},${z.ly} L${edge},${z.ly}"/><rect class="hitz" x="${px-4}" y="${z.ly-30}" width="${W+8}" height="60"/><circle class="hitz" cx="${dx}" cy="${dy}" r="22"/><circle class="ring" cx="${dx}" cy="${dy}" r="6"/><circle class="dot" cx="${dx}" cy="${dy}" r="6"/>
+     <rect class="pill" x="${px}" y="${z.ly-H/2}" width="${W}" height="${H}" rx="${H/2}"/><text x="${px+W/2}" y="${z.ly}">${nm}</text></g>`;}).join('');
+  const hot=new Set(CONCERNS.filter(c=>S.cs.has(c.id)).flatMap(c=>c.roots));
+  const ul=(a,h)=>`<ul>${a.map((x,i)=>`<li class="${h&&hot.has(i)?'hot':''}">${L(x)}</li>`).join('')}</ul>`;
+  return head(T('เรื่องที่กังวล','Your concerns.'),T('อะไรรบกวนคุณอยู่','What is bothering you?'),T('เลือกได้หลายข้อ จากรายการหรือแตะบนร่างกาย ขั้นถัดไปจะแนะนำตามสิ่งที่คุณเลือก','Choose as many as apply, from the list or on the body. The next steps adapt to your choices.'))+
+  `<section class="block"><div class="pick">
+     <div class="tile map"><svg viewBox="0 0 540 610" role="group" aria-label="${T('แผนที่ร่างกาย','Body map')}">${FIG[S.g]}${zs}</svg></div>
+     <div class="opts">${CATS.map(([k,t])=>`<h3>${L(t)}</h3>${CONCERNS.filter(c=>CAT[c.id]===k).map(c=>`<button class="sel" data-act="c" data-v="${c.id}" aria-pressed="${S.cs.has(c.id)}">${L(c.n)}<span class="tick">${I.check}</span></button>`).join('')}`).join('')}</div></div></section>
+   <section class="block"><h2>${T('ต้นตอที่อาจซ่อนอยู่','What may be hiding underneath.')} <span>${S.cs.size?T('แถบสีเข้มคือสิ่งที่เกี่ยวกับเรื่องที่คุณเลือก','Dark pills relate to what you chose.'):T('เลือกเรื่องที่กังวลเพื่อดูความเชื่อมโยง','Choose a concern to see the links.')}</span></h2>
+    <div class="tile"><div class="flow" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <div><h3>${T('เหตุปัจจัย','Causes')}</h3><h4>${T('ไลฟ์สไตล์','Lifestyle')}</h4>${ul(CAUSES.life)}<h4>${T('สิ่งแวดล้อม','Environment')}</h4>${ul(CAUSES.env)}<h4>${T('พันธุกรรม','Genetic predisposition')}</h4></div>
+      <div><h3>${T('การทำงานที่ถดถอย','Functional declines')}</h3>${ul(CAUSES.decl,true)}</div></div></div></section>`;
+}
+
+/* ================= STEP 3 ================= */
+function packRows(id){
+  return `<div class="sub">${packs(id).map(p=>{const has=p.p&&p.p.length;
+    return `<div class="row">${has?`<details id="pk-${p.id.replace(':','-')}"><summary><span>${p.n}</span>${price(p.pr)}</summary><div class="body">${kv(p.p)}</div></details>`:`<div class="rw"><span>${p.n}</span>${price(p.pr)}</div>`}${addBtn(p.id,p.n)}</div>`;}).join('')}</div>`;}
+function focusBody(id){
+  if(id==='gutp')return packRows(id)+`<p style="margin-top:12px"><b>${T('ช่วยลดความเสี่ยงของ','To reduce risk of')}:</b> ${GUTRISK.map(x=>L(x)).join(' · ')}</p>`;
+  if(id==='addon')return packRows(id)+`<p class="note">${T('เลือกเพิ่มได้กับทุกโปรแกรมตรวจสุขภาพ','Can be added to any check-up program.')}</p>`;
+  if(id!=='hormone')return packRows(id);
+  return `<p><b>${T(S.g==='m'?'สัญญาณฮอร์โมนเพศชายพร่อง':'สัญญาณฮอร์โมนเพศหญิงพร่อง',S.g==='m'?'Signs of male hormone deficiency':'Signs of female hormone deficiency')}</b></p>
+    <ul class="symp">${HSYM[S.g].map((s,k)=>`<li><label><input type="checkbox" data-act="sym" data-v="${k}" ${S.sym.has(k)?'checked':''}>${L(s)}</label></li>`).join('')}</ul>
+    <p class="note" id="symnote"></p>${packRows(id)}
+    <p class="note">${T('รับส่วนลด 1,500 บาท เมื่อซื้อ Optimal Hormone คู่กับโปรแกรมตรวจสุขภาพ Premium หรือ Ultimate','Receive a 1,500 Baht discount when you purchase the Optimal Hormone with either the Premium or Ultimate Check-Up.')}</p>`;}
+function rSym(){const el=$('#symnote');if(!el)return;const n=S.sym.size;
+  el.textContent=n===0?T('ติ๊กข้อที่ตรงกับคุณ','Tick the signs that match you.'):n<3?T(`ตรง ${n} ข้อ อาการเหล่านี้เกิดได้จากหลายสาเหตุ`,`${n} matched. These signs can have many causes.`):T(`ตรง ${n} ข้อ การตรวจระดับฮอร์โมนอาจช่วยให้คำตอบชัดขึ้น ควรปรึกษาแพทย์`,`${n} matched. A hormone panel may give a clearer answer; consider discussing it with a doctor.`);}
+const lvHead=(name,desc,pr,extra,id)=>`<div class="lvh"><div><h3>${name}</h3><p>${desc}</p><p class="prl">${price(pr)}<span>${T('ราคาโปรโมชัน','Promotion price')}${extra?' · '+extra:''}</span></p></div>${planBtn(id,name)}</div>`;
+const swipe=n=>`<p class="swipe" aria-hidden="true">${T(`ปัดไปทางซ้ายเพื่อดูครบทั้ง ${n} ระดับ`,`Swipe left to see all ${n} levels`)}${I.right}</p>`;
+const sug=()=>`<em>${T('แนะนำ','Suggested')}</em>`;
+function hcView(){
+  const i=S.hc,g=S.g,rec=S.age,prev=i>0&&i!==7?i-1:null,th=S.lang==='th';
+  const rows=HCROWS.filter(r=>hcHas(r,i,g));
+  const groups=Object.keys(HCG).map(k=>({k,rows:rows.filter(r=>r[0]===k)})).filter(o=>o.rows.length);
+  const grp=o=>{const its=o.rows.map(r=>({nm:prev!==null&&!hcHas(r,prev,g)?`<ins>${r[1]}</ins>`:r[1],gl:th?r[2]:''})),block=its.some(x=>x.gl);
+    return `<div class="g"><h4>${L(HCG[o.k])}</h4><p>${block?its.map(x=>`<span class="it">${x.nm}${x.gl?` <i>${x.gl}</i>`:''}</span>`).join(''):its.map(x=>x.nm).join(' · ')}</p></div>`;};
+  const btn=(x,k,num)=>`<button class="sel" data-act="hcl" data-v="${k}" aria-pressed="${k===i}"><b>${num}</b>${x.n.replace(' Vitality','')}<small>${x.age?L(x.age)+' · ':''}${fmt(now(HCP[g][k]))} ฿</small>${k===rec?sug():''}</button>`;
+  return `<p class="hint">${rec!==null?T('ระดับที่แนะนำ อิงจากช่วงอายุที่คุณเลือกในขั้นที่ 1','The suggested level follows the age range you chose in step 1.'):T('4 ระดับแรกแบ่งตามช่วงอายุ บอกช่วงอายุในขั้นที่ 1 เพื่อดูระดับที่แนะนำ','The first four levels follow age. Tell us your age range in step 1 to see a suggestion.')}</p>
+    ${swipe(7)}<div class="levels" role="group" aria-label="Health Check-Up">${HCL.map((x,k)=>x.v?'':btn(x,k,k+1)).join('')}</div>
+    <h3 class="lvt">Vitality <span>${T('ตรวจสุขภาพ + ฮอร์โมน + วิตามิน ในโปรแกรมเดียว','Check-up + hormones + vitamins in one program.')}</span></h3>
+    ${swipe(4)}<div class="levels v4" role="group" aria-label="Vitality">${HCL.map((x,k)=>x.v?btn(x,k,k-6):'').join('')}</div>
+    <div class="tile lv">${lvHead(hcName(i),L(HCL[i].d),HCP[g][i],T(`ใช้เวลาประมาณ ${HCT[g][i]} ชม.`,`about ${HCT[g][i]} hrs.`),'hc')}
+     ${groups.map(grp).join('')}
+     ${prev!==null?`<p class="ref">${T('ตัวหนาสีเขียว คือรายการที่เพิ่มจากระดับก่อนหน้า','Green bold items are added compared with the previous level.')}</p>`:''}</div>
+    <div class="note prep"><b>${T('ข้อแนะนำก่อนตรวจ','Before your check-up')}</b><ul>
+      <li>${T('งดอาหารและเครื่องดื่มอย่างน้อย 8 ชั่วโมงก่อนตรวจ ดื่มน้ำเปล่าได้','Refrain from eating and drinking, except plain water, for at least 8 hours before the check-up.')}</li>
+      <li>${T('นัดหมายล่วงหน้า และนำยาที่ใช้ประจำมาด้วย','Make an appointment in advance and bring all daily medications.')}</li>
+      <li>${T('หากน้ำหนักเกิน 100 กก. กรุณาแจ้งเจ้าหน้าที่ขณะนัดหมาย เพราะบางรายการมีข้อจำกัดด้านน้ำหนัก','If your weight exceeds 100 kg, tell our staff when booking; some examinations have weight limits.')}</li></ul></div>`;}
+function aaView(){
+  const has=S.cs.size>0,rec=recTier(),hi=hiGroups(),i=S.tier,t=i+1,prev=i>0?TIERS[i-1].g:null;
+  const grp=k=>{const it=groupItems(k,t,S.g),pi=prev&&prev.includes(k)?(groupItems(k,t-1,S.g)||[]):null,isNew=prev&&!pi;
+    return `<div class="g"><h4>${GROUPS[k].n}</h4><p>${it.map(x=>isNew||(pi&&!pi.includes(x))?`<ins>${x}</ins>`:x).join(' · ')}</p></div>`;};
+  const gs=TIERS[i].g.filter(k=>groupItems(k,t,S.g)),rel=has?gs.filter(k=>hi.has(k)):gs,rest=has?gs.filter(k=>!hi.has(k)):[];
+  return `<p class="hint">${rec>=0?T('ระดับที่แนะนำ คือระดับแรกที่มีการตรวจหลักของเรื่องที่คุณเลือกครบ','The suggested level is the first that includes the key tests for your concerns.'):T('มีทั้งหมด 7 ระดับ เลือกเรื่องที่กังวลในขั้นที่ 2 เพื่อดูระดับที่แนะนำ','There are 7 levels. Choose concerns in step 2 to see a suggestion.')}</p>
+    ${swipe(7)}<div class="levels" role="group" aria-label="${T('ระดับโปรแกรม','Program level')}">${TIERS.map((x,k)=>`<button class="sel" data-act="tier" data-v="${k}" aria-pressed="${k===i}"><b>${k+1}</b>${x.n}<small>${fmt(now(AAP[S.g][k]))} ฿</small>${k===rec?sug():''}</button>`).join('')}</div>
+    <div class="tile lv">${lvHead(tierName(i),L(TIERS[i].d),AAP[S.g][i],'','aa')}
+     ${has?`<p style="margin-top:18px;color:var(--ink);font-weight:600">${T('การตรวจที่เกี่ยวกับเรื่องที่คุณเลือก','Tests related to your concerns')}</p>`:''}
+     ${rel.map(grp).join('')||`<p style="margin-top:14px">${T('ระดับนี้ยังไม่มีการตรวจเฉพาะสำหรับเรื่องที่คุณเลือก','This level has no tests specific to your concerns yet.')}</p>`}
+     ${rest.length?`<details class="more" id="rest"><summary>${T(`ดูการตรวจอื่นในระดับนี้อีก ${rest.length} กลุ่ม`,`See ${rest.length} more groups in this level`)}</summary><div class="body" style="padding:0">${rest.map(grp).join('')}</div></details>`:''}
+     ${i>0?`<p class="ref">${T('ตัวหนาสีเขียว คือรายการที่เพิ่มจากระดับก่อนหน้า','Green bold items are added compared with the previous level.')}</p>`:''}</div>`;}
+function r3(){
+  const foc=FOCUS.slice().sort((a,b)=>hit(b.c)-hit(a.c));
+  const fam=(v,n,th,en,from)=>`<button class="sel" data-act="fam" data-v="${v}" aria-pressed="${S.fam===v}"><span>${n}<small>${T(th,en)} · ${T('เริ่มต้น','from')} ${fmt(from)} ฿</small></span><span class="tick">${I.check}</span></button>`;
+  return head(T('ตรวจ','Test.'),T('อยากมองลึกแค่ไหน','How deep do you want to look?'),T('เลือกโปรแกรมหลัก แล้วดูว่าแต่ละระดับเพิ่มอะไรเข้ามา ราคาที่แสดงเป็นราคาสำหรับ'+gName(),'Pick a core program and see what each level adds. Prices shown are for: '+gName()+'.'))+
+  `<section class="block"><h2>${T('เลือกโปรแกรมหลัก','Choose a core program.')} <span>${T('ตรวจสุขภาพประจำปี หรือ Anti-Aging เชิงลึก','An annual check-up, or deeper anti-aging.')}</span></h2>
+    <div class="grid2 fam" role="group" aria-label="${T('ประเภทโปรแกรม','Program family')}">${fam('hc','Health Check-Up Program','ตรวจสุขภาพประจำปี 11 ระดับ','Annual check-up, 11 levels',HCP[S.g][0][1])}${fam('aa','Anti-Aging Program','ฮอร์โมน วิตามิน และแล็บเชิงลึก 7 ระดับ','Hormones, vitamins and deep labs, 7 levels',AAP[S.g][0][1])}</div>
+    ${S.fam==='hc'?hcView():aaView()}</section>
+   <section class="block"><h2>${T('หรือเริ่มจากคำถามเดียว','Or start with one question.')} <span>${T('ชุดตรวจเสริมและชุดตรวจเฉพาะเรื่อง เพิ่มเข้าแผนได้','Add-ons and focused sets you can add to your plan.')}</span></h2>
+    <div class="cards">${foc.map(f=>{const ps=packs(f.id),lo=Math.min(...ps.map(p=>now(p.pr)));
+     return `<article class="card ${ps.some(p=>S.adds.has(p.id))?'added':''}"><header><h3>${L(f.q)}<small>${f.a}</small></h3></header>
+      <p>${L(f.d)}</p><p class="prl"><span>${ps.length>1?T('เริ่มต้น ','From '):''}</span><span class="pr"><b>${fmt(lo)} ฿</b></span></p>${hit(f.c)?recB():''}<details id="fo-${f.id}"><summary>${T('ดูรายการและราคา','See options and prices')}</summary><div class="body">${focusBody(f.id)}</div></details></article>`;}).join('')}</div></section>`;
+}
+
+/* ================= STEP 4 ================= */
+function labCard(l,q){let ex='';
+  if(l.k)ex+=kv(l.k);
+  if(l.igg)ex+=`<div class="cols">${Object.entries(IGG).map(([k,v])=>`<div><b>${k}:</b> ${v}</div>`).join('')}</div>`;
+  if(l.note)ex+=`<div class="note">${L(l.note[0])}:<ul>${l.note[1].map(x=>`<li>${L(x)}</li>`).join('')}</ul></div>`;
+  const id='lab:'+l.id;
+  return `<article class="card ${S.adds.has(id)?'added':''}"><header><h3>${l.n}<small>${price(l.pr)}</small></h3>${addBtn(id,l.n)}</header><p>${L(l.d)}</p>${hit(l.c)?recB():''}
+   ${ex?`<details id="lab-${l.id}"><summary>${T('ดูรายละเอียด','See details')}</summary><div class="body">${ex}</div></details>`:''}</article>`;}
+function r4(){
+  const has=S.cs.size>0,f=S.f4??'all';
+  const keep=l=>f==='rec'?hit(l.c):true;
+  let groups=LABQ.map((q,qi)=>({q,qi,rel:hit(q.c)||q.labs.some(l=>hit(l.c)),labs:q.labs.filter(keep)})).filter(o=>o.labs.length&&(f==='all'||f==='rec'||o.qi===+f));
+  if(has)groups=groups.filter(o=>o.rel).concat(groups.filter(o=>!o.rel));
+  const recIds=allLabs().filter(l=>hit(l.c)).map(l=>'lab:'+l.id),allIn=recIds.length&&recIds.every(x=>S.adds.has(x));
+  const chip=(v,t)=>`<button data-act="f4" data-v="${v}" aria-pressed="${String(f)===String(v)}">${t}</button>`;
+  return head(T('เจาะลึก','Go deeper.'),T('การตรวจพิเศษ จัดตามเรื่องที่กังวล','Special labs, grouped by concern.'),T('เลือกหมวดที่สนใจ แล้วกดปุ่มบวกเพื่อเพิ่มเข้าแผน หมวดที่เกี่ยวกับเรื่องที่คุณเลือกจะขึ้นก่อน','Pick a group, then tap plus to add a test to your plan. Groups related to your concerns come first.'))+
+  `<section class="block"><div class="chips" role="group" aria-label="${T('หมวด','Group')}">${chip('all',T('ทุกหมวด','All groups'))}${has?chip('rec',T('แนะนำสำหรับคุณ','Suggested for you')):''}${LABQ.map((q,i)=>chip(i,L(q.t))).join('')}</div>
+   ${has&&recIds.length?`<div class="rowbtn"><button class="btn soft" data-act="addall" data-v="lab">${allIn?T('นำรายการที่แนะนำออกทั้งหมด','Remove all suggested'):T(`เพิ่มที่แนะนำทั้ง ${recIds.length} รายการ`,`Add all ${recIds.length} suggested`)}</button></div>`:''}
+   ${groups.length?'':`<p class="empty">${T('ไม่มีรายการในหมวดนี้','Nothing in this group.')}</p>`}</section>
+  ${groups.map(o=>`<section class="block grp"><h2>${L(o.q.t)}${has&&o.rel?recB():''}</h2><p class="hint">${L(o.q.q)}</p>
+     <div class="cards">${o.labs.map(l=>labCard(l,o.q.q)).join('')}</div></section>`).join('')}`;
+}
+
+/* ================= STEP 5 ================= */
+function r5(){
+  const has=S.cs.size>0,f=S.f5??(has?'rec':'all');
+  const ivs=IV.filter(v=>f==='all'?true:f==='rec'?hit(v.c):v.g===f);
+  const sps=SP.map((p,k)=>({p,k})).filter(o=>f==='all'||f==='sp'?true:f==='rec'?hit(o.p.c):false);
+  const recDL=hit(['gut','cancer'])||S.age===3,endo=f==='all'||f==='dl'||(f==='rec'&&recDL);
+  const recIds=IV.filter(v=>hit(v.c)).map(v=>'iv:'+v.id),allIn=recIds.length&&recIds.every(x=>S.adds.has(x));
+  const chip=(v,t)=>`<button data-act="f5" data-v="${v}" aria-pressed="${f===v}">${t}</button>`;
+  return head(T('ดูแล','Care.'),T('จากคำตอบ สู่การฟื้นฟู','From answers to restoration.'),T('เลือกแนวทางดูแลที่สนใจ แล้วเปิดดูแผนของคุณได้ทันที','Choose the care that interests you, then open your plan.'))+
+  `<section class="block"><h2>${T('7 แนวทางของ Anti-Aging Program','The 7 approaches of the Anti-Aging Program')}</h2>
+    <div class="tile"><ol style="margin:0;padding-left:22px;columns:2 280px;column-gap:32px">${PILLARS.map(p=>`<li style="padding:3px 0">${L(p)}</li>`).join('')}</ol></div></section>
+   <section class="block"><h2>IV Therapy <span>${T('และโปรแกรมฟื้นฟู','and treatment programs.')}</span></h2>
+    <div class="chips" role="group" aria-label="${T('กรอง','Filter')}">${has?chip('rec',T('แนะนำสำหรับคุณ','Suggested for you')):''}${chip('all',T('ทั้งหมด','All'))}${Object.keys(IVG).map(g=>chip(g,L(IVG[g]))).join('')}${chip('sp','Special Treatment')}${chip('dl','Digestive & Liver Center')}</div>
+    ${has&&f==='rec'&&recIds.length?`<div class="rowbtn"><button class="btn soft" data-act="addall" data-v="iv">${allIn?T('นำ IV ที่แนะนำออกทั้งหมด','Remove all suggested IV'):T(`เพิ่ม IV ที่แนะนำทั้ง ${recIds.length} รายการ`,`Add all ${recIds.length} suggested IV`)}</button></div>`:''}
+    <div class="cards c3">${ivs.map(v=>{const id='iv:'+v.id;return `<article class="card ${S.adds.has(id)?'added':''}"><header><h3>${v.n}<small>${L(IVG[v.g])}</small></h3>${addBtn(id,v.n)}</header><ul>${v.a.map(x=>`<li>${L(x)}</li>`).join('')}</ul><p class="ivp">${v.pr.map(([n,a,b])=>`<span>${sess(n)} ${price(b?[a,b]:[a])}</span>`).join('')}</p>${f!=='rec'&&hit(v.c)?recB():''}</article>`;}).join('')}</div>
+    ${ivs.length||sps.length||endo?'':`<p class="empty">${T('ไม่มีรายการในตัวกรองนี้','Nothing in this filter.')}</p>`}</section>
+   ${sps.length?`<section class="block"><h2>Special Treatment Programs <span>${T('โปรแกรมแบบชุด','Bundled programs.')}</span></h2>
+    <div class="cards">${sps.map(({p,k})=>{const id='sp:'+k;return `<article class="card ${S.adds.has(id)?'added':''}"><header><h3>${p.n}<small>${price(p.pr)}</small></h3>${addBtn(id,p.n)}</header>${f!=='rec'&&hit(p.c)?recB():''}
+      <details id="sp${k}"><summary>${T('ดูสิ่งที่รวมอยู่','See what is included')}</summary><div class="body">${p.p.map(([a,b])=>`<p class="kv"><b>${a}</b> — ${b}</p>`).join('')}</div></details></article>`;}).join('')}</div></section>`:''}
+   ${endo?`<section class="block"><h2>ADDLIFE Digestive &amp; Liver Center <span>${T('','When you need to see it directly.')}</span>${recDL?recB():''}</h2>
+    <div class="cards"><article class="card ${ENDO.some((e,k)=>S.adds.has('endo:'+k))?'added':''}"><header><h3>${T('ส่องกล้องทางเดินอาหาร','Endoscopy')}</h3></header>
+      <div class="sub">${ENDO.map((e,k)=>`<div class="row"><div class="rw"><span>${e.n}${e.x?' **':''}</span>${price(e.pr)}</div>${addBtn('endo:'+k,e.n)}</div>`).join('')}</div>
+      <p style="font-size:.85rem;color:var(--mut)">** ${T('ไม่รวมค่าวิสัญญี 12,000 ฿','Excluding anesthesia fee 12,000 ฿')}</p></article>
+     <article class="card ${S.adds.has('colon')?'added':''}"><header><h3>Colon Hydrotherapy<small>${T('สวนล้างลำไส้ใหญ่ด้วยน้ำ','Colon cleansing with water')}</small></h3>${addBtn('colon','Colon Hydrotherapy')}</header>
+      <p class="ivp">${COLON.map(([n,a,b])=>`<span>${sess(n)} ${price(b?[a,b]:[a])}</span>`).join('')}</p></article></div></section>`:''}`;
+}
+
+/* ================= SHEET ================= */
+function rSheet(){
+  const sel=CONCERNS.filter(c=>S.cs.has(c.id)),items=[...S.adds].map(id=>({id,it:ITEM(id)})).filter(o=>o.it);
+  const rm=(act,v,name)=>`<button class="x" data-act="${act}" data-v="${v}" aria-label="${T('นำออก','Remove')}: ${name}">${I.x}</button>`;
+  const sec=(t,rows)=>rows.length?`<h3>${t}</h3><ul>${rows.join('')}</ul>`:'';
+  const by=s=>items.filter(o=>o.it.s===s).map(o=>`<li><span>${o.it.n}${o.it.d?`<small>${o.it.d}</small>`:''}</span><span class="lp">${price(o.it.pr)}</span>${rm('add',o.id,o.it.n)}</li>`);
+  const total=items.reduce((a,o)=>a+now(o.it.pr),0);
+  const st=stage();
+  $('#sheet').innerHTML=`<div class="sh-head"><h2 id="sh-title">${T('แผนของคุณ','Your plan')}</h2><button class="x" data-act="close" aria-label="${T('ปิด','Close')}">${I.x}</button></div>
+   <div class="sh-body">
+    ${sec(T('ตัวคุณ','You'),[`<li><span>${T(S.g==='m'?'ผู้ชาย':'ผู้หญิง',S.g==='m'?'Men':'Lady')}${S.age!==null?' · '+T('อายุ ','Age ')+L(AGES[S.age]):''}<small>${T('คะแนนสุขภาพที่ให้ตัวเอง','Self-rated health')} ${S.cont}/10 · ${L(st.zone)}</small></span></li>`])}
+    ${sec(T('เรื่องที่กังวล','Your concerns'),sel.map(c=>`<li><span>${L(c.n)}<small>${c.roots.map(r=>L(CAUSES.decl[r])).join(' · ')}</small></span>${rm('c',c.id,L(c.n))}</li>`))}
+    ${sel.length?'':`<p class="disc" style="margin-top:14px">${T('ยังไม่ได้เลือกเรื่องที่กังวล','No concerns selected yet.')} <a href="#2" data-act="close">${T('ไปขั้นที่ 2','Go to step 2')}</a></p>`}
+    ${sec(T('ตรวจ','Test'),by(3))}
+    ${sec(T('เจาะลึก','Go deeper'),by(4))}
+    ${sec(T('ดูแล','Care'),by(5))}
+    ${items.length?`<p class="total"><span>${T('ยอดรวมโดยประมาณ','Estimated total')}<small>${T('คิดจากราคาโปรโมชัน · IV และหัตถการคิดที่ 1 ครั้ง','Based on promotion prices · IV and treatments counted as 1 session')}</small></span><b>${fmt(total)} ฿</b></p>`:`<p class="disc" style="margin-top:14px">${T('ยังไม่มีรายการในแผน','Nothing in your plan yet.')} <a href="#3" data-act="close">${T('ไปเลือกโปรแกรมในขั้นที่ 3','Choose a program in step 3')}</a></p>`}
+    <p class="disc">${T('หน้านี้เป็นข้อมูลเบื้องต้นเพื่อประกอบการตัดสินใจ ไม่ใช่การวินิจฉัยโรค การจับคู่เรื่องที่กังวลกับรายการตรวจเป็นเพียงแนวทาง การเลือกโปรแกรม การแปลผล และการรักษาต้องทำร่วมกับแพทย์ · ราคาอาจเปลี่ยนแปลงได้โดยไม่ต้องแจ้งให้ทราบล่วงหน้า · อ้างอิงเนื้อหาจาก Addlife Anti-Aging Program และ AddLife Health Check-Up Program (อัปเดต 25 ก.ย. 2026)','This is introductory information, not a diagnosis. Links between concerns and tests are a guide only; program choice, interpretation and treatment must be decided with a physician. · Prices may change without prior notice. · Content based on Addlife Anti-Aging Program and AddLife Health Check-Up Program (update 25 Sep 2026).')}</p></div>
+   <div class="sh-foot"><p class="sh-msg" id="sh-msg" role="status"></p><button class="btn" data-act="print">${T('พิมพ์ / บันทึกเป็น PDF','Print / save as PDF')}</button><button class="btn soft" data-act="share">${navigator.share?T('แชร์แผน','Share plan'):T('คัดลอกแผน','Copy plan')}</button><button class="btn soft" data-act="reset">${T('เริ่มใหม่','Start over')}</button></div>`;
+}
+
+/* ================= PRINT / SHARE ================= */
+const msg=t=>{const m=$('#sh-msg');if(m)m.textContent=t;};
+function openSheet(){const d=$('#sheet');rSheet();if(d.open)return;
+  if(typeof d.showModal==='function'){try{d.showModal();return;}catch(e){}}
+  d.classList.add('nomodal');d.setAttribute('open','');}
+function closeSheet(){const d=$('#sheet');if(typeof d.close==='function'&&d.open){try{d.close();return;}catch(e){}}d.removeAttribute('open');}
+function planText(){
+  const sel=CONCERNS.filter(c=>S.cs.has(c.id)),items=[...S.adds].map(ITEM).filter(Boolean),st=stage(),by=s=>items.filter(i=>i.s===s).map(i=>'- '+i.n+(i.pr?' — '+fmt(now(i.pr))+' ฿':'')),total=items.reduce((a,i)=>a+now(i.pr),0);
+  const sec=(t,rows)=>rows.length?['',t].concat(rows):[];
+  return [T('แผนสุขภาพของฉัน (ADDLIFE)','My health plan (ADDLIFE)'),
+    T(S.g==='m'?'ผู้ชาย':'ผู้หญิง',S.g==='m'?'Men':'Lady')+(S.age!==null?' · '+T('อายุ ','Age ')+L(AGES[S.age]):'')+' · '+T('คะแนนสุขภาพ','Self-rated health')+' '+S.cont+'/10 ('+L(st.zone)+')']
+    .concat(sec(T('เรื่องที่กังวล','Concerns'),sel.map(c=>'- '+L(c.n))))
+    .concat(sec(T('ตรวจ','Test'),by(3)))
+    .concat(sec(T('เจาะลึก','Go deeper'),by(4)))
+    .concat(sec(T('ดูแล','Care'),by(5)))
+    .concat(items.length?['',T('ยอดรวมโดยประมาณ','Estimated total')+': '+fmt(total)+' ฿']:[])
+    .concat(['',T('ข้อมูลเบื้องต้น ไม่ใช่การวินิจฉัยโรค ควรปรึกษาแพทย์','Introductory information, not a diagnosis. Please consult a physician.')]).join('\n');
+}
+function doPrint(){
+  rSheet();
+  $('#printout').innerHTML='<h1>'+T('แผนสุขภาพของคุณ','Your health plan')+'</h1>'+$('#sheet .sh-body').innerHTML;
+  let fired=false;const on=()=>{fired=true;};
+  window.addEventListener('beforeprint',on,{once:true});
+  try{window.print();}catch(e){}
+  setTimeout(()=>{window.removeEventListener('beforeprint',on);
+    if(!fired)msg(T('ถ้าหน้าพิมพ์ไม่เปิดขึ้น แสดงว่าแอปนี้ไม่รองรับการพิมพ์ ให้เปิดหน้านี้ใน Safari หรือ Chrome โดยตรง หรือกด “'+(navigator.share?'แชร์แผน':'คัดลอกแผน')+'” เพื่อส่งแผนเป็นข้อความ','If the print screen did not open, this app does not support printing. Open this page in Safari or Chrome directly, or use “'+(navigator.share?'Share plan':'Copy plan')+'” to send the plan as text.'));},1500);
+}
+async function doShare(){
+  const text=planText();
+  if(navigator.share){try{await navigator.share({title:'ADDLIFE',text});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true;}catch(e){
+    const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;left:0;top:0;opacity:0';
+    $('#sheet').appendChild(ta);ta.select();ta.setSelectionRange(0,text.length);try{ok=document.execCommand('copy');}catch(e2){}ta.remove();}
+  msg(ok?T('คัดลอกแผนแล้ว วางในแชตหรือโน้ตได้เลย','Plan copied. Paste it into a chat or note.'):T('คัดลอกไม่สำเร็จ ลองเปิดหน้านี้ใน Safari หรือ Chrome','Could not copy. Try opening this page in Safari or Chrome.'));
+}
+
+/* ================= RENDER ================= */
+let lastStep=0;
+function render(keep){
+  const s=step(),open=keep?[...document.querySelectorAll('#view details[open]')].map(d=>d.id):[];
+  const sl=keep?[...document.querySelectorAll('#view .levels')].map(e=>e.scrollLeft):[];
+  document.documentElement.lang=S.lang;
+  document.title=T('ADDLIFE — ออกแบบแผนสุขภาพของคุณ','ADDLIFE — Design your health plan');
+  rNav();rDock();
+  const v=$('#view');
+  v.innerHTML=`<div class="${keep?'':'stepin'+(s<lastStep?' back':'')}">${[r1,r2,r3,r4,r5][s-1]()}</div>`;
+  open.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});
+  const lv=[...document.querySelectorAll('#view .levels')];
+  lv.forEach((e,i)=>{if(e.scrollWidth<=e.clientWidth)return;
+    if(sl.length===lv.length){e.scrollLeft=sl[i];return;}
+    const p=e.querySelector('[aria-pressed=true]');if(p)e.scrollLeft=Math.max(0,p.getBoundingClientRect().left-e.getBoundingClientRect().left+e.scrollLeft-22);});
+  if(s===3)rSym();
+  if($('#sheet').open)rSheet();
+  lastStep=s;
+}
+function bump(){const b=$('#bag');if(!b)return;b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+
+/* ================= EVENTS ================= */
+function act(el){
+  const a=el.dataset.act,v=el.dataset.v;let b=false;
+  if(a==='lang')S.lang=S.lang==='th'?'en':'th';
+  else if(a==='g'){S.g=v;S.sym.clear();}
+  else if(a==='age'){S.age=S.age===+v?null:+v;if(!S.hcSet)S.hc=S.age??0;}
+  else if(a==='fam')S.fam=v;
+  else if(a==='hcl'){S.hc=+v;S.hcSet=true;}
+  else if(a==='c'){S.cs.has(v)?S.cs.delete(v):S.cs.add(v);if(!S.tierSet){const r=recTier();S.tier=r>=0?r:0;}S.f4=S.f5=null;}
+  else if(a==='tier'){S.tier=+v;S.tierSet=true;}
+  else if(a==='rng'){S.rng=+v;}
+  else if(a==='f4')S.f4=v;
+  else if(a==='f5')S.f5=v;
+  else if(a==='add'){S.adds.has(v)?S.adds.delete(v):(S.adds.add(v),b=true);}
+  else if(a==='addall'){const ids=(v==='lab'?allLabs().filter(l=>hit(l.c)).map(l=>'lab:'+l.id):IV.filter(x=>hit(x.c)).map(x=>'iv:'+x.id));
+    const all=ids.every(x=>S.adds.has(x));ids.forEach(x=>all?S.adds.delete(x):S.adds.add(x));b=!all;}
+  else if(a==='go'){location.hash='#'+v;return;}
+  else if(a==='sheet'){openSheet();return;}
+  else if(a==='close'){closeSheet();return;}
+  else if(a==='print'){doPrint();return;}
+  else if(a==='share'){doShare();return;}
+  else if(a==='reset'){S.cs.clear();S.adds.clear();S.sym.clear();S.tier=0;S.tierSet=false;S.hc=0;S.hcSet=false;S.age=null;S.fam='hc';S.cont=5;S.f4=S.f5=null;save();closeSheet();if(step()===1)render(false);else location.hash='#1';return;}
+  else return;
+  save();render(true);if(b)bump();
+  if(['add','c','tier','hcl','fam','age'].includes(a)){const again=document.querySelector(`[data-act="${a}"][data-v="${v}"]`);if(again&&!$('#sheet').open)again.focus({preventScroll:true});}
+}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(el&&el.tagName!=='INPUT')act(el);
+  if(e.target===$('#sheet'))closeSheet();});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const el=e.target.closest('.zone');if(el){e.preventDefault();act(el);}});
+document.addEventListener('input',e=>{const el=e.target;if(el.dataset.act!=='cont')return;S.cont=+el.value;$('#cnum').textContent=S.cont;$('#cstw').innerHTML=contHTML();$('#cex').innerHTML=contExtra();save();});
+document.addEventListener('change',e=>{const el=e.target;if(el.dataset.act==='sym'){const k=+el.dataset.v;el.checked?S.sym.add(k):S.sym.delete(k);rSym();}});
+window.addEventListener('hashchange',()=>{closeSheet();render(false);window.scrollTo(0,0);});
+if(!S.tierSet){const r=recTier();if(r>=0)S.tier=r;}
+if(!S.hcSet&&S.age!==null)S.hc=S.age;
+render(false);
+</script>
+</body>
+</html>

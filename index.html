@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ADDLIFE — สุขภาพที่ดีที่สุด ไม่ใช่แค่ไม่ป่วย</title>
+<meta name="description" content="ADDLIFE ช่วยคุณออกแบบแผนตรวจสุขภาพและดูแลตัวเองแบบเฉพาะบุคคล ตั้งแต่ตรวจสุขภาพตามวัย ไปจนถึงโปรแกรม Anti-Aging และ Longevity">
+<meta property="og:title" content="ADDLIFE — ออกแบบแผนสุขภาพของคุณ">
+<meta property="og:description" content="ตอบไม่กี่คำถาม แล้วรับแผนตรวจสุขภาพที่ออกแบบมาสำหรับคุณโดยเฉพาะ">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'%3E%3Crect width='9' height='9' rx='2' fill='%23e0b28b'/%3E%3Crect x='12' width='9' height='9' rx='2' fill='%239acaed'/%3E%3Crect y='12' width='9' height='9' rx='2' fill='%23cdea9a'/%3E%3Crect x='12' y='12' width='9' height='9' rx='2' fill='%23f59185'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff; --tile:#f5f5f7; --ink:#1d1d1f; --mut:#6e6e73; --line:#d2d2d7; --hair:#e8e8ed;
+  --blue:#0071e3; --blue-h:#0058b0; --link:#0066cc;
+  --tan:#e0b28b; --sky:#9acaed; --green:#cdea9a; --salmon:#f59185;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Sukhumvit Set",Inter,"Noto Sans Thai",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font:400 17px/1.65 var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+::selection{background:#b4d5fe}
+:focus-visible{outline:3px solid rgba(0,113,227,.6);outline-offset:3px;border-radius:10px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-weight:600;text-wrap:balance;line-height:1.2}
+a{color:var(--link);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+section{padding:110px 0}
+.eyebrow{font-size:.85rem;font-weight:600;color:var(--mut);letter-spacing:.02em;margin-bottom:12px}
+.h2{font-size:clamp(1.9rem,4.2vw,3rem);letter-spacing:-.01em}
+.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--mut);margin-top:18px;max-width:640px}
+.center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 24px;font-weight:500;font-size:1rem;transition:background .2s,transform .2s var(--ease)}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-h)}
+.btn-g{color:var(--link)}.btn-g:hover{text-decoration:underline;text-underline-offset:3px}
+.btn svg{width:1em;height:1em;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hair)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.04em;color:var(--ink);font-size:.95rem}
+.sq{display:grid;grid-template-columns:9px 9px;gap:3px}
+.sq i{width:9px;height:9px;border-radius:2px}
+.sq i:nth-child(1){background:var(--tan)}.sq i:nth-child(2){background:var(--sky)}.sq i:nth-child(3){background:var(--green)}.sq i:nth-child(4){background:var(--salmon)}
+.links{display:flex;gap:4px;margin:0 auto;font-size:.82rem}
+.links a{color:var(--mut);padding:6px 11px;border-radius:999px}
+.links a:hover{color:var(--ink)}
+.nav .btn{padding:7px 15px;font-size:.82rem}
+@media(max-width:760px){.links{display:none}.nav .btn{margin-left:auto}}
+
+/* hero */
+.hero{padding:96px 0 80px;text-align:center;overflow:hidden}
+.hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);letter-spacing:-.02em;line-height:1.12}
+.hero h1 span{background:linear-gradient(90deg,#c98a5a,#4a9fd8 45%,#7fb83e 70%,#e8675a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin:22px auto 0;font-size:clamp(1.1rem,1.9vw,1.35rem)}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:720px;margin:70px auto 0}
+.tiles div{aspect-ratio:1;border-radius:28px;display:flex;align-items:flex-end;padding:18px;font-weight:600;font-size:.95rem;color:rgba(0,0,0,.72);text-align:left;opacity:0;transform:translateY(24px);animation:rise .9s var(--ease) forwards}
+.tiles div:nth-child(1){background:var(--tan)}
+.tiles div:nth-child(2){background:var(--sky);animation-delay:.08s}
+.tiles div:nth-child(3){background:var(--green);animation-delay:.16s}
+.tiles div:nth-child(4){background:var(--salmon);animation-delay:.24s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+/* continuum */
+.gray{background:var(--tile)}
+.cont{margin-top:56px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.zone{background:#fff;border-radius:22px;padding:22px 18px;position:relative;overflow:hidden}
+.zone::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--c)}
+.zone .sc{font-size:.75rem;color:var(--mut);font-weight:600}
+.zone h3{font-size:1.02rem;margin:6px 0 4px}
+.zone .st{font-size:.85rem;color:var(--mut)}
+.zone ul{margin:14px 0 0;padding:0;list-style:none;font-size:.85rem;display:grid;gap:6px}
+.zone li::before{content:"·";margin-right:6px;color:var(--mut)}
+.zone.you{outline:2px solid var(--blue)}
+.zone.you .tag{position:absolute;top:16px;right:14px;font-size:.68rem;background:var(--blue);color:#fff;border-radius:999px;padding:2px 8px}
+.arrow{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:.85rem;color:var(--mut)}
+.arrow i{flex:1;height:2px;background:linear-gradient(90deg,#e8675a,#e0b28b,#c7c7cc,#9acaed,#7fb83e);border-radius:2px}
+@media(max-width:900px){.cont{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.cont{grid-template-columns:1fr}}
+
+/* range */
+.range{margin-top:56px;display:grid;grid-template-columns:1fr 1.4fr 2fr 1.4fr 1fr;border-radius:20px;overflow:hidden;font-size:.82rem;font-weight:600;text-align:center}
+.range div{padding:18px 8px}
+.r-a{background:#fbd5cf}.r-f{background:#fbe6c8}.r-o{background:var(--green)}
+.range-note{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.range-note div{background:var(--tile);border-radius:20px;padding:22px}
+.range-note b{display:block;margin-bottom:6px}
+.range-note p{font-size:.92rem;color:var(--mut)}
+@media(max-width:760px){.range{grid-template-columns:1fr;text-align:left}.range div{padding:12px 16px}.range-note{grid-template-columns:1fr}}
+
+/* steps */
+.steps{margin-top:56px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:s}
+.step{background:#fff;border-radius:22px;padding:26px 20px}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;font-weight:600;font-size:.9rem;margin-bottom:16px}
+.step h3{font-size:1.05rem}
+.step p{font-size:.9rem;color:var(--mut);margin-top:6px}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* programs */
+.tabs{display:inline-flex;background:var(--tile);border-radius:999px;padding:4px;margin-top:40px}
+.tabs button{border:0;background:none;font:inherit;font-size:.9rem;padding:9px 20px;border-radius:999px;color:var(--mut);cursor:pointer}
+.tabs button[aria-selected=true]{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:32px;text-align:left}
+.card{border:1px solid var(--hair);border-radius:22px;padding:24px;transition:border-color .2s,transform .3s var(--ease)}
+.card:hover{border-color:var(--line);transform:translateY(-2px)}
+.card .k{font-size:.78rem;color:var(--mut);font-weight:600}
+.card h3{font-size:1.15rem;margin:4px 0 8px}
+.card p{font-size:.9rem;color:var(--mut)}
+.card .dot{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--c);margin-right:8px}
+[hidden]{display:none!important}
+
+/* pillars */
+.pillars{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:44px}
+.pillars span{background:#fff;border-radius:999px;padding:12px 20px;font-size:.95rem;font-weight:500}
+
+/* final cta */
+.final{text-align:center;padding:120px 0}
+.final .box{background:var(--ink);color:#fff;border-radius:36px;padding:72px 28px;position:relative;overflow:hidden}
+.final .box::after{content:"";position:absolute;inset:auto -10% -60% -10%;height:120%;background:radial-gradient(closest-side,rgba(154,202,237,.35),transparent);pointer-events:none}
+.final .h2{color:#fff}
+.final .lead{color:#a1a1a6;margin-left:auto;margin-right:auto}
+.final .btn-p{position:relative;z-index:1}
+
+footer{border-top:1px solid var(--hair);padding:36px 0 48px;font-size:.78rem;color:var(--mut)}
+footer .wrap{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
+footer p{max-width:620px}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.tiles div{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="ADDLIFE หน้าแรก"><span class="sq"><i></i><i></i><i></i><i></i></span>ADDLIFE</a>
+    <nav class="links" aria-label="เมนู">
+      <a href="#why">แนวคิด</a>
+      <a href="#how">ขั้นตอน</a>
+      <a href="#programs">โปรแกรม</a>
+      <a href="#care">การดูแล</a>
+    </nav>
+    <a class="btn btn-p" href="plan.html">ออกแบบแผนของคุณ</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Optimal Longevity · ออกแบบแผนสุขภาพเฉพาะบุคคล</p>
+      <h1>สุขภาพที่ดีที่สุด<br><span>ไม่ใช่แค่ไม่ป่วย</span></h1>
+      <p class="lead">ตอบไม่กี่คำถามเกี่ยวกับตัวคุณและเรื่องที่กังวล แล้วรับแผนตรวจสุขภาพและการดูแลที่ออกแบบมาให้คุณโดยเฉพาะ</p>
+      <div class="cta">
+        <a class="btn btn-p" href="plan.html">เริ่มออกแบบแผน
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-g" href="#how">ดูว่าทำงานอย่างไร ›</a>
+      </div>
+      <div class="tiles" aria-hidden="true">
+        <div>ตรวจ</div><div>เข้าใจ</div><div>ดูแล</div><div>ติดตาม</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gray" id="why">
+    <div class="wrap">
+      <div class="center reveal">
+        <p class="eyebrow">สุขภาพเป็นเส้นต่อเนื่อง ไม่ใช่แค่ "ป่วย" หรือ "ไม่ป่วย"</p>
+        <h2 class="h2">คนส่วนใหญ่อยู่ในคอมฟอร์ตโซน<br>ที่ดูเหมือนสุขภาพดี</h2>
+        <p class="lead">ไม่มีอาการไม่ได้แปลว่าร่างกายทำงานได้เต็มที่ เป้าหมายของ ADDLIFE คือพาคุณขยับไปทางขวา สู่สุขภาวะระดับสูง</p>
+      </div>
+      <div class="cont reveal">
+        <div class="zone" style="--c:#e8675a"><p class="sc">0–1</p><h3>เสียชีวิตก่อนวัยอันควร</h3><p class="st">โรค</p>
+          <ul><li>ใช้ยาหลายขนาน</li><li>คุณภาพชีวิตต่ำ</li><li>ร่างกายทำงานได้จำกัด</li></ul></div>
+        <div class="zone" style="--c:var(--tan)"><p class="sc">2–3</p><h3>โรคกำลังก่อตัว</h3><p class="st">สุขภาพไม่ดี</p>
+          <ul><li>มีอาการ</li><li>รักษาด้วยยา</li><li>เริ่มสูญเสียการทำงานปกติ</li></ul></div>
+        <div class="zone you" style="--c:#c7c7cc"><span class="tag">คนส่วนใหญ่</span><p class="sc">4–5</p><h3>คอมฟอร์ตโซน</h3><p class="st">สุขภาพดีลวง</p>
+          <ul><li>ไม่มีอาการ</li><li>โภชนาการไม่สม่ำเสมอ</li><li>ออกกำลังกายนาน ๆ ครั้ง</li></ul></div>
+        <div class="zone" style="--c:var(--sky)"><p class="sc">6–7</p><h3>สุขภาวะกำลังพัฒนา</h3><p class="st">สุขภาพดี</p>
+          <ul><li>ออกกำลังกายสม่ำเสมอ</li><li>โภชนาการดี</li><li>เรียนรู้เรื่องสุขภาวะ</li></ul></div>
+        <div class="zone" style="--c:#7fb83e"><p class="sc">8–10</p><h3>สุขภาวะระดับสูง</h3><p class="st">ดีที่สุด</p>
+          <ul><li>ร่างกายทำงาน 100%</li><li>พัฒนาอย่างต่อเนื่อง</li><li>ไลฟ์สไตล์เพื่อสุขภาวะ</li></ul></div>
+      </div>
+      <div class="arrow reveal"><span>โรค</span><i></i><span>สุขภาวะสูงสุด</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="center reveal">
+        <p class="eyebrow">อ่านผลแล็บแบบ Functional</p>
+        <h2 class="h2">"ปกติ" กับ "ดีที่สุด"<br>ไม่ใช่เรื่องเดียวกัน</h2>
+        <p class="lead">ค่าที่อยู่ปลายขอบของช่วงปกติอาจเป็นสัญญาณแรกว่าร่างกายเริ่มทำงานได้ไม่เต็มที่ เรามองหาช่วงที่เหมาะสมที่สุดสำหรับคุณ</p>
+      </div>
+      <div class="range reveal" role="img" aria-label="ช่วงค่าผลตรวจ 5 ระดับ จากต่ำผิดปกติถึงสูงผิดปกติ โดยมีช่วงการทำงานที่เหมาะสมอยู่ตรงกลาง">
+        <div class="r-a">ต่ำผิดปกติ</div><div class="r-f">ต่ำเชิงการทำงาน</div><div class="r-o">ช่วงการทำงานที่เหมาะสม</div><div class="r-f">สูงเชิงการทำงาน</div><div class="r-a">สูงผิดปกติ</div>
+      </div>
+      <div class="range-note reveal">
+        <div><b>ผิดปกติ</b><p>ผลตรวจผิดปกติชัดเจน ต้องพบแพทย์เพื่อวินิจฉัยและรักษา</p></div>
+        <div><b>เชิงการทำงาน</b><p>แล็บรายงานว่า "ปกติ" แต่ค่าอยู่ปลายขอบของช่วง เป็นสัญญาณที่ควรจับตา</p></div>
+        <div><b>เหมาะสม</b><p>เป้าหมายของ Optimal Longevity คือร่างกายทำงานได้ดีที่สุด ไม่ใช่แค่ไม่ป่วย</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gray" id="how">
+    <div class="wrap">
+      <div class="center reveal">
+        <p class="eyebrow">5 ขั้นตอน ใช้เวลาไม่กี่นาที</p>
+        <h2 class="h2">ออกแบบแผนที่เป็นของคุณ</h2>
+      </div>
+      <div class="steps reveal">
+        <div class="step"><h3>ตัวคุณ</h3><p>บอกเพศและช่วงอายุ เพื่อเลือกการตรวจที่เหมาะกับวัย</p></div>
+        <div class="step"><h3>เรื่องที่กังวล</h3><p>เลือกอาการที่รู้สึกได้ หรือความเสี่ยงที่อยู่ในใจ เช่น หัวใจ สมอง มะเร็ง</p></div>
+        <div class="step"><h3>ตรวจ</h3><p>รับโปรแกรมตรวจสุขภาพที่แนะนำตามวัยและเรื่องที่คุณเลือก</p></div>
+        <div class="step"><h3>เจาะลึก</h3><p>เพิ่มแล็บเชิงลึกด้าน Anti-Aging เฉพาะจุดที่อยากรู้</p></div>
+        <div class="step"><h3>ดูแล</h3><p>เลือกแนวทางดูแลต่อเนื่อง และดูสรุปแผนทั้งหมดในที่เดียว</p></div>
+      </div>
+      <div class="cta reveal"><a class="btn btn-p" href="plan.html">ลองออกแบบแผนเลย</a></div>
+    </div>
+  </section>
+
+  <section id="programs">
+    <div class="wrap center">
+      <div class="reveal">
+        <p class="eyebrow">โปรแกรม</p>
+        <h2 class="h2">ตั้งแต่ตรวจพื้นฐาน<br>จนถึงครบทุกระบบ</h2>
+        <p class="lead">เริ่มจากตรวจสุขภาพตามวัย แล้วต่อยอดด้วยการตรวจเชิง Anti-Aging ได้ตามต้องการ</p>
+      </div>
+      <div class="tabs reveal" role="tablist" aria-label="ประเภทโปรแกรม">
+        <button role="tab" aria-selected="true" aria-controls="p-hc" id="t-hc">ตรวจสุขภาพตามวัย</button>
+        <button role="tab" aria-selected="false" aria-controls="p-aa" id="t-aa" tabindex="-1">Anti-Aging</button>
+      </div>
+      <div class="grid" id="p-hc" role="tabpanel" aria-labelledby="t-hc">
+        <div class="card"><p class="k">อายุน้อยกว่า 30 ปี</p><h3><span class="dot" style="--c:var(--green)"></span>Basic</h3><p>ตรวจพื้นฐาน: เลือด ปัสสาวะ อุจจาระ เอกซเรย์ปอด และคลื่นไฟฟ้าหัวใจ</p></div>
+        <div class="card"><p class="k">อายุ 30–40 ปี</p><h3><span class="dot" style="--c:var(--sky)"></span>Standard</h3><p>Basic + ความยืดหยุ่นหลอดเลือด และอัลตราซาวด์ช่องท้อง</p></div>
+        <div class="card"><p class="k">อายุ 40–50 ปี</p><h3><span class="dot" style="--c:var(--tan)"></span>Executive</h3><p>Standard + ไทรอยด์ สารบ่งชี้มะเร็ง ตา หู และเดินสายพาน (EST)</p></div>
+        <div class="card"><p class="k">อายุมากกว่า 50 ปี</p><h3><span class="dot" style="--c:var(--salmon)"></span>Comprehensive</h3><p>Executive + ฮอร์โมนเพศ หลอดเลือดที่คอ นักกายภาพบำบัด และนักกำหนดอาหาร</p></div>
+        <div class="card"><p class="k">เจาะลึก</p><h3>Premium</h3><p>เจาะลึกหัวใจ ปอด ตับ: Low Dose CT, Echo, Fibroscan, DEXA และความเสี่ยงหลอดเลือด</p></div>
+        <div class="card"><p class="k">ครบที่สุด</p><h3>Ultimate</h3><p>Premium + MRI/MRA สมอง, CT Calcium Score, ไขมันช่องท้อง และไวรัสตับอักเสบ</p></div>
+      </div>
+      <div class="grid" id="p-aa" role="tabpanel" aria-labelledby="t-aa" hidden>
+        <div class="card"><p class="k">จุดเริ่มต้น</p><h3>Compact</h3><p>ฮอร์โมนหลัก วิตามิน สารต้านอนุมูลอิสระ หลอดเลือด และมวลกระดูก</p></div>
+        <div class="card"><p class="k">ภาพรวมที่ครบขึ้น</p><h3>Optimal</h3><p>ฮอร์โมนเต็มชุด น้ำตาล ความเสี่ยงหัวใจ สมดุลอนุมูลอิสระ และสารบ่งชี้มะเร็ง</p></div>
+        <div class="card"><p class="k">Optimal +</p><h3>Optimal Prime</h3><p>เพิ่มการทำงานของตับ ไต และการตรวจโลหะหนักสะสม</p></div>
+        <div class="card"><p class="k">แล็บเชิงลึก</p><h3>Premium</h3><p>พลังงานระดับเซลล์ เทโลเมียร์ NAD+ สมอง ภูมิแพ้อาหารแฝง และภูมิคุ้มกัน</p></div>
+        <div class="card"><p class="k">Premium +</p><h3>Premium Prime</h3><p>เพิ่มการทำงานของตับ ไต และโลหะหนักสะสม</p></div>
+        <div class="card"><p class="k">ครบทุกระบบ</p><h3>Ultimate</h3><p>เพิ่ม Pace of Aging, จุลินทรีย์ลำไส้, กรดไขมันจำเป็น, คัดกรองมะเร็ง และคัดกรองอัลไซเมอร์</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gray" id="care">
+    <div class="wrap center">
+      <div class="reveal">
+        <p class="eyebrow">หลังผลตรวจ</p>
+        <h2 class="h2">ดูแลต่อเนื่องตามผลของคุณ</h2>
+        <p class="lead">เมื่อรู้ว่าร่างกายต้องการอะไร แพทย์และผู้เชี่ยวชาญจะช่วยเลือกแนวทางดูแลที่เหมาะกับคุณ</p>
+      </div>
+      <div class="pillars reveal">
+        <span>วิตามินเฉพาะบุคคล</span>
+        <span>ฮอร์โมนทดแทนชีวภาพ</span>
+        <span>IV Therapy ตามภาวะสุขภาพ</span>
+        <span>การบำบัดจุลินทรีย์ลำไส้</span>
+        <span>คีเลชันและดีท็อกซ์</span>
+        <span>เทโลเมียร์และเทโลเมอเรส</span>
+        <span>การบำบัดฟื้นฟูด้วยสเต็มเซลล์</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="box reveal">
+        <h2 class="h2">เริ่มจากรู้จักร่างกายตัวเอง</h2>
+        <p class="lead">ออกแบบแผนสุขภาพของคุณได้ฟรี ใช้เวลาไม่กี่นาที</p>
+        <div class="cta"><a class="btn btn-p" href="plan.html">ออกแบบแผนของคุณ
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="sq"><i></i><i></i><i></i><i></i></span>ADDLIFE</a>
+    <p>ข้อมูลบนเว็บไซต์นี้มีไว้เพื่อให้ความรู้และช่วยวางแผนการตรวจสุขภาพเท่านั้น ไม่ใช่การวินิจฉัยหรือการรักษา โปรดปรึกษาแพทย์ก่อนตัดสินใจเรื่องสุขภาพ</p>
+    <p>© <span id="yr">2026</span> ADDLIFE</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+// tabs
+const tabs=[...document.querySelectorAll('[role=tab]')];
+function sel(t){tabs.forEach(b=>{const on=b===t;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById(b.getAttribute('aria-controls')).hidden=!on;});}
+tabs.forEach((t,i)=>{t.addEventListener('click',()=>sel(t));
+  t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];sel(n);n.focus();}});});
+// reveal on scroll
+const els=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});els.forEach(el=>io.observe(el));}
+else els.forEach(el=>el.classList.add('in'));
+</script>
+</body>
+</html>
